@@ -4,7 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { MedioComponent } from './medio/medio.component';
 
 const routes: Routes = [
-  { path: 'medio', component: MedioComponent }
+  { path: 'medio', component: MedioComponent },
+  { path: '', redirectTo: 'medio', pathMatch: 'full' },
 ];
 
 

@@ -37,9 +37,67 @@ export class NavMenuComponent implements OnInit {
     };
 
     var arregloMenu: any[] = [];
-    var menuRowsResponse: any = await this.service.postAsync(url, 'Permisos/MenuXRolId', parameters) ?? [];
-    var menuRows: MenuModel[] = menuRowsResponse;
+    //var menuRowsResponse: any = await this.service.postAsync(url, 'Permisos/MenuXRolId', parameters) ?? [];
+    //var menuRows: MenuModel[] = menuRowsResponse;
     //console.log(menuRows);
+
+    var menuRows: MenuModel[] = [
+      {
+        menuNombre: 'Paginas',
+        menuPath: 'pagina',
+        menuIcon: 'pi pi-book',
+        permisoId: 1,
+        roleId: '',
+        roleNombre: '',
+        funcionalidadNombre: '',
+        menuId: 1,
+        menuOrden: 1,
+        menuIdPadre:1,
+        tieneSubMenu: 1,
+        subMenus: [
+          {
+            menuNombre: 'Medio',
+            menuPath: 'medio',
+            menuIcon: 'pi pi-plus',
+            permisoId: 1,
+            roleId: '',
+            roleNombre: '',
+            funcionalidadNombre: '',
+            menuId: 1,
+            menuOrden: 1,
+            menuIdPadre:1,
+            tieneSubMenu: 1
+          },
+          {
+            menuNombre: 'Buscar',
+            menuPath: 'buscar',
+            menuIcon: 'pi pi-search',
+            permisoId: 1,
+            roleId: '',
+            roleNombre: '',
+            funcionalidadNombre: '',
+            menuId: 1,
+            menuOrden: 1,
+            menuIdPadre:1,
+            tieneSubMenu: 1
+          }
+        ]
+      },
+      {
+        menuNombre: 'Perfil',
+        menuPath: 'perfil',
+        menuIcon: 'pi pi-user',
+        permisoId: 1,
+        roleId: '',
+        roleNombre: '',
+        funcionalidadNombre: '',
+        menuId: 1,
+        menuOrden: 1,
+        menuIdPadre:1,
+        tieneSubMenu: 0,
+        subMenus: []
+      }
+    ];
 
     // Crear un mapa para agrupar los menús por nombre
     const menuMap = new Map<string, any>();
@@ -91,10 +149,10 @@ export class NavMenuComponent implements OnInit {
     // Convertir el mapa a un array
     arregloMenu = Array.from(menuMap.values());
 
-    //this.items = arregloMenu;
+    this.items = arregloMenu;
     //console.log("Items :: ", this.items);
 
-        this.items = [
+        /*this.items = [
           {
             label: 'Paginas',
             items: [
@@ -114,26 +172,26 @@ export class NavMenuComponent implements OnInit {
               }
             ]
           },
-          // {
-          //   label: 'Profile',
-          //   items: [
-          //     {
-          //       label: 'Settings',
-          //       icon: 'pi pi-cog',
-          //       shortcut: '⌘+O'
-          //     },
-          //     {
-          //       label: 'Messages',
-          //       icon: 'pi pi-inbox',
-          //       badge: '2'
-          //     },
-          //     {
-          //       label: 'Logout',
-          //       icon: 'pi pi-sign-out',
-          //       shortcut: '⌘+Q'
-          //     }
-          //   ]
-          // }
-        ];
+          {
+            label: 'Profile',
+            items: [
+              {
+                label: 'Settings',
+                icon: 'pi pi-cog',
+                shortcut: '⌘+O'
+              },
+              {
+                label: 'Messages',
+                icon: 'pi pi-inbox',
+                badge: '2'
+              },
+              {
+                label: 'Logout',
+                icon: 'pi pi-sign-out',
+                shortcut: '⌘+Q'
+              }
+            ]
+          }
+        ];*/
   }
 }
