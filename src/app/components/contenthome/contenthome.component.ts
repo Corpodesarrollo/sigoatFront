@@ -13,7 +13,7 @@ export class ContenthomeComponent implements OnInit {
 
   ngOnInit() {
     if(this.rol == 1) {
-      this.router.navigate(['dashboard-agente-seguimiento']);
+      this.router.navigate(['home']);
     }
     else
     if(this.rol == 2) {

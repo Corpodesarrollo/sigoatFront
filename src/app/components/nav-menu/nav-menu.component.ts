@@ -91,18 +91,21 @@ export class NavMenuComponent implements OnInit {
     // Convertir el mapa a un array
     arregloMenu = Array.from(menuMap.values());
 
-    this.items = arregloMenu;
-
+    //this.items = arregloMenu;
     //console.log("Items :: ", this.items);
-    /*
+
         this.items = [
           {
-            label: 'Documents',
+            label: 'Paginas',
             items: [
               {
-                label: 'New',
+                label: 'pagina',
                 icon: 'pi pi-plus',
-                shortcut: '⌘+N'
+                shortcut: '⌘+N',
+                command: () => {
+                  this.router.navigate(['/pagina/medio']);
+                  this.menuService.toggleMenu();
+                }
               },
               {
                 label: 'Search',
@@ -111,26 +114,26 @@ export class NavMenuComponent implements OnInit {
               }
             ]
           },
-          {
-            label: 'Profile',
-            items: [
-              {
-                label: 'Settings',
-                icon: 'pi pi-cog',
-                shortcut: '⌘+O'
-              },
-              {
-                label: 'Messages',
-                icon: 'pi pi-inbox',
-                badge: '2'
-              },
-              {
-                label: 'Logout',
-                icon: 'pi pi-sign-out',
-                shortcut: '⌘+Q'
-              }
-            ]
-          }
-        ];*/
+          // {
+          //   label: 'Profile',
+          //   items: [
+          //     {
+          //       label: 'Settings',
+          //       icon: 'pi pi-cog',
+          //       shortcut: '⌘+O'
+          //     },
+          //     {
+          //       label: 'Messages',
+          //       icon: 'pi pi-inbox',
+          //       badge: '2'
+          //     },
+          //     {
+          //       label: 'Logout',
+          //       icon: 'pi pi-sign-out',
+          //       shortcut: '⌘+Q'
+          //     }
+          //   ]
+          // }
+        ];
   }
 }

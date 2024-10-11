@@ -19,12 +19,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
-import { UsuariosModule } from './components/modules/usuarios/usuarios.module';
-import { TablasParametricas } from './core/services/tablasParametricas';
 import { ListboxModule } from 'primeng/listbox';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
-import { DialogNnaMsgSeguimientoComponent } from './components/modules/dialog-nna-msg-seguimiento/dialog-nna-msg-seguimiento.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
@@ -43,8 +40,6 @@ import { InputIconModule } from 'primeng/inputicon';
 
   ],
   imports: [
-    UsuariosModule,
-
     RouterModule.forRoot(routes),
     BrowserModule,
     BrowserAnimationsModule,
@@ -69,7 +64,7 @@ import { InputIconModule } from 'primeng/inputicon';
 
 
 ],
-  providers: [TablasParametricas],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
