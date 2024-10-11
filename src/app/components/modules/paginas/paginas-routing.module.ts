@@ -5,7 +5,7 @@ import { MedioComponent } from './medio/medio.component';
 
 const routes: Routes = [
   { path: 'medio', component: MedioComponent },
-  { path: '', redirectTo: 'medio', pathMatch: 'full' },
+  
 ];
 
 

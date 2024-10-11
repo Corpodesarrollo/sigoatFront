@@ -11,7 +11,7 @@ import { MedioComponent } from './medio/medio.component';
 
 
 @NgModule({
-  declarations: [MedioComponent],
+  declarations: [],
   imports: [
     CommonModule,
     PaginasRoutingModule,
