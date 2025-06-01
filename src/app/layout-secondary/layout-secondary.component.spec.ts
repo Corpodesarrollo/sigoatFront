@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ContentComponent } from './content.component';
+import { LayoutSecondaryComponent } from './layout-secondary.component';
 
-describe('ContentComponent', () => {
-  let component: ContentComponent;
-  let fixture: ComponentFixture<ContentComponent>;
+describe('LayoutSecondaryComponent', () => {
+  let component: LayoutSecondaryComponent;
+  let fixture: ComponentFixture<LayoutSecondaryComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ContentComponent]
+      imports: [LayoutSecondaryComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ContentComponent);
+    fixture = TestBed.createComponent(LayoutSecondaryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

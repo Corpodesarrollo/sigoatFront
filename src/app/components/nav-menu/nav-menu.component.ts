@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { CabecerasGenericas } from '../../services/cabecerasGenericas';
 import { GenericService } from '../../services/generic.services';
 import { environment } from '../../../environments/environment';
 import { MenuModel } from '../../models/MenuModel';
@@ -14,95 +13,40 @@ import { MenuService } from '../../services/menu.service';
 })
 export class NavMenuComponent implements OnInit {
   items: MenuItem[] | undefined;
+  menuRows: MenuModel[] = [];
+  arregloMenu: any[] = [];
 
-  constructor(private service: GenericService, private router: Router, private menuService: MenuService) {
+  constructor(private service: GenericService, private router: Router, private menuService: MenuService, private cd: ChangeDetectorRef) {
 
   }
 
-  async ngOnInit() {
-    var url = environment.url_MsAuthention;
+  ngOnInit() {
+    var url = environment.urlMSSeguridad;
 
     //Cordinador
     sessionStorage.setItem('roleId','311882D4-EAD0-4B0B-9C5D-4A434D49D16D');
     //Agente seguimiento
     //sessionStorage.setItem('roleId','14CDDEA5-FA06-4331-8359-036E101C5046');
     //Es requerido para crear un nna es el usuario createdByUserId
-    sessionStorage.setItem('userId','12413');
-
-
+    //  sessionStorage.setItem('userId','12413');
 
     //Parametro ejemplo agente de seguimiento
     var parameters = {
       'roleId': sessionStorage.getItem('roleId')
     };
 
-    var arregloMenu: any[] = [];
-    //var menuRowsResponse: any = await this.service.postAsync(url, 'Permisos/MenuXRolId', parameters) ?? [];
-    //var menuRows: MenuModel[] = menuRowsResponse;
-    //console.log(menuRows);
-
-    var menuRows: MenuModel[] = [
-      {
-        menuNombre: 'Paginas',
-        menuPath: 'pagina',
-        menuIcon: 'pi pi-book',
-        permisoId: 1,
-        roleId: '',
-        roleNombre: '',
-        funcionalidadNombre: '',
-        menuId: 1,
-        menuOrden: 1,
-        menuIdPadre:1,
-        tieneSubMenu: 1,
-        subMenus: [
-          {
-            menuNombre: 'Medio',
-            menuPath: 'medio',
-            menuIcon: 'pi pi-plus',
-            permisoId: 1,
-            roleId: '',
-            roleNombre: '',
-            funcionalidadNombre: '',
-            menuId: 1,
-            menuOrden: 1,
-            menuIdPadre:1,
-            tieneSubMenu: 1
-          },
-          {
-            menuNombre: 'Buscar',
-            menuPath: 'buscar',
-            menuIcon: 'pi pi-search',
-            permisoId: 1,
-            roleId: '',
-            roleNombre: '',
-            funcionalidadNombre: '',
-            menuId: 1,
-            menuOrden: 1,
-            menuIdPadre:1,
-            tieneSubMenu: 1
-          }
-        ]
-      },
-      {
-        menuNombre: 'Perfil',
-        menuPath: 'perfil',
-        menuIcon: 'pi pi-user',
-        permisoId: 1,
-        roleId: '',
-        roleNombre: '',
-        funcionalidadNombre: '',
-        menuId: 1,
-        menuOrden: 1,
-        menuIdPadre:1,
-        tieneSubMenu: 0,
-        subMenus: []
+    this.service.post('Permisos/MenuXRolId', parameters, 'Authentication').subscribe({
+      next: (data: any) => {
+        this.menuRows = data;
+        this.cargarMenus();
       }
-    ];
+    });
+  }
 
-    // Crear un mapa para agrupar los menús por nombre
+  cargarMenus() {
     const menuMap = new Map<string, any>();
 
-    menuRows.forEach((menu: MenuModel) => { //Lista de Menus
+    this.menuRows.forEach((menu: MenuModel) => { //Lista de Menus
       if (menu?.tieneSubMenu > 0) {
         menuMap.set(menu.menuNombre, {
           label: menu.menuNombre,
@@ -125,7 +69,7 @@ export class NavMenuComponent implements OnInit {
             menuMap.get(menu.menuNombre)?.items.push(subI);
           });
         }
-      } else { //Sin SubMenus
+      } else { //Sin subMenus
         menuMap.set(menu.menuNombre, {
           items: []
         });
@@ -142,56 +86,12 @@ export class NavMenuComponent implements OnInit {
         };
         menuMap.get(menu.menuNombre)?.items.push(subI);
       }
-
-
     });
 
     // Convertir el mapa a un array
-    arregloMenu = Array.from(menuMap.values());
+    this.arregloMenu = Array.from(menuMap.values());
+    this.items = this.arregloMenu;
+    this.cd.detectChanges();
 
-    this.items = arregloMenu;
-    //console.log("Items :: ", this.items);
-
-        /*this.items = [
-          {
-            label: 'Paginas',
-            items: [
-              {
-                label: 'pagina',
-                icon: 'pi pi-plus',
-                shortcut: '⌘+N',
-                command: () => {
-                  this.router.navigate(['/pagina/medio']);
-                  this.menuService.toggleMenu();
-                }
-              },
-              {
-                label: 'Search',
-                icon: 'pi pi-search',
-                shortcut: '⌘+S'
-              }
-            ]
-          },
-          {
-            label: 'Profile',
-            items: [
-              {
-                label: 'Settings',
-                icon: 'pi pi-cog',
-                shortcut: '⌘+O'
-              },
-              {
-                label: 'Messages',
-                icon: 'pi pi-inbox',
-                badge: '2'
-              },
-              {
-                label: 'Logout',
-                icon: 'pi pi-sign-out',
-                shortcut: '⌘+Q'
-              }
-            ]
-          }
-        ];*/
   }
 }

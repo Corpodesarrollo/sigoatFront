@@ -10,6 +10,8 @@
 
 @import "bootstrap/dist/css/bootstrap.min.css";
 
+@import "@ng-select/ng-select/themes/default.theme.css";
+
 :root {
     --color-base: #73b7ad; /* Reemplaza este valor por tu color */
 }
@@ -26,18 +28,28 @@ button {
     cursor: pointer;
 }
 
+.p-button-success {
+  background-color: var(--color-base);
+  border-color: var(--color-base);
+  border-radius: 0.3rem;
+  color: white;
+}
+
+.p-button-secondary:not(.p-button-text):not(.p-button-rounded) {
+  background-color: #4D4D4D80;
+  border-color: #4D4D4D80;
+  border-radius: 0.3rem;
+  color: white;
+}
+
 h1, h3 {
     font-size: 24px;
     font-weight: 700;
     line-height: 29.26px;
-    text-align: left;
 }
 
 .formato-fondo {
     background-color: rgba(115, 183, 173, 0.05);
-    /* Color 73B7AD con opacidad del 5% */
-    height: 100%;
-    width: 100%;
     padding: 15px;
 }
 
@@ -89,7 +101,7 @@ SECÁNI-RQ00-HU00- Menú y Perfiles
 }
 
 .sinSubMenus .p-menuitem-icon {
-    margin-left: -20px !important;
+    margin-left: -17px !important;
 }
 
 .sinSubMenus span {
@@ -118,4 +130,8 @@ SECÁNI-RQ00-HU00- Menú y Perfiles
 
 .text-right{
   text-align: right;
+}
+
+.card {
+  overflow: visible !important;
 }

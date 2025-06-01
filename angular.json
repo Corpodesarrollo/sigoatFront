@@ -13,17 +13,18 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/sigoats-front",
+            "outputPath": "dist/secani-front",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "aot": true,
             "polyfills": [
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -83,13 +84,17 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
-              "aot": false
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
         },
         "serve": {
+          "options":{
+            "ssl": false,
+            "sslKey": "certificados/localhost.key",
+            "sslCert": "certificados/localhost.crt"
+          },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
@@ -113,8 +118,10 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.css"
