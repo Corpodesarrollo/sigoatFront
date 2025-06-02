@@ -7,9 +7,10 @@ import { PermisosRol } from '../../models/permisosRol.model';
 import { User } from '../../services/user.service';
 
 @Component({
-  selector: 'app-nav-menu',
-  templateUrl: './nav-menu.component.html',
-  styleUrl: './nav-menu.component.css'
+    selector: 'app-nav-menu',
+    templateUrl: './nav-menu.component.html',
+    styleUrl: './nav-menu.component.css',
+    standalone: false
 })
 export class NavMenuComponent implements OnInit {
   items: MenuItem[] | undefined;

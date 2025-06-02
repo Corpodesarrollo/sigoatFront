@@ -5,9 +5,10 @@ import { GenericService } from '../services/generic.services';
 import { MenuService } from '../services/menu.service';
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrl: './layout.component.css'
+    selector: 'app-layout',
+    templateUrl: './layout.component.html',
+    styleUrl: './layout.component.css',
+    standalone: false
 })
 export class LayoutComponent {
   title = 'SecaniFront';

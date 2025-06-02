@@ -11,12 +11,11 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 
 
 @Component({
-  selector: 'app-menus-consultar',
-  standalone: true,
-  imports: [TableModule, ButtonModule, TooltipModule, CommonModule, ConfirmDialog, ToastModule],
-  templateUrl: './menus-consultar.component.html',
-  styleUrl: './menus-consultar.component.css',
-  providers: [ConfirmationService, MessageService]
+    selector: 'app-menus-consultar',
+    imports: [TableModule, ButtonModule, TooltipModule, CommonModule, ConfirmDialog, ToastModule],
+    templateUrl: './menus-consultar.component.html',
+    styleUrl: './menus-consultar.component.css',
+    providers: [ConfirmationService, MessageService]
 })
 export class MenusConsultarComponent {
   pages: Menus[] = [];
