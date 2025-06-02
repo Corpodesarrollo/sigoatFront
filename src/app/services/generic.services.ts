@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
+import { apis } from '../models/apis.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +13,11 @@ export class GenericService {
 
   private getApiUrl(api: string): string {
     switch (api) {
-      case 'Seguridad':
+      case apis.Seguridad:
         return environment.urlMSSeguridad;
-      case 'Portal':
+      case apis.Portal:
         return environment.urlMSPortal;
-      case 'Administrador':
+      case apis.Administrador:
         return environment.urlMSAdministracion;
       default:
         return environment.urlBase;

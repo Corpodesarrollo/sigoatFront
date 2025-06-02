@@ -294,6 +294,10 @@ body {
     padding-left: 0px;
 }
 
+::ng-deep footer{
+    padding: 0 !important;
+}
+
 p {
     padding: 0;
     margin: 0;

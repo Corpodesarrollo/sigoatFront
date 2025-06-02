@@ -1,0 +1,39 @@
+
+.home-wrapper {
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+}
+
+
+.home-image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.home-image {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+    border-radius: 20px;
+}
+
+.welcome-text {
+  margin-top: 2rem;
+  background-color: #dff1f1;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  text-align: center;
+  width: 800px;
+  font-size: 2rem;
+  font-weight: 500;
+  color: #222;
+}
+
+::ng-deep .container-fluid {
+  padding: 0 !important;
+}

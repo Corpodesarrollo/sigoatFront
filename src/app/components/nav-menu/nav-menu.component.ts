@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { GenericService } from '../../services/generic.services';
-import { environment } from '../../../environments/environment';
-import { MenuModel } from '../../models/MenuModel';
 import { Router } from '@angular/router';
-import { MenuService } from '../../services/menu.service';
+import { PermisosService } from '../../services/permisos.service';
+import { PermisosRol } from '../../models/permisosRol.model';
+import { User } from '../../services/user.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -13,78 +13,51 @@ import { MenuService } from '../../services/menu.service';
 })
 export class NavMenuComponent implements OnInit {
   items: MenuItem[] | undefined;
-  menuRows: MenuModel[] = [];
   arregloMenu: any[] = [];
+  user = new User();
 
-  constructor(private service: GenericService, private router: Router, private menuService: MenuService, private cd: ChangeDetectorRef) {
+  constructor(private service: GenericService, private router: Router, private permisosService: PermisosService, private cd: ChangeDetectorRef) {
 
   }
 
-  ngOnInit() {
-    var url = environment.urlMSSeguridad;
-
+  async ngOnInit() {
     //Cordinador
-    sessionStorage.setItem('roleId','311882D4-EAD0-4B0B-9C5D-4A434D49D16D');
-    //Agente seguimiento
-    //sessionStorage.setItem('roleId','14CDDEA5-FA06-4331-8359-036E101C5046');
-    //Es requerido para crear un nna es el usuario createdByUserId
-    //  sessionStorage.setItem('userId','12413');
+    this.user.rolId = 1;
 
-    //Parametro ejemplo agente de seguimiento
-    var parameters = {
-      'roleId': sessionStorage.getItem('roleId')
-    };
-
-    this.service.post('Permisos/MenuXRolId', parameters, 'Authentication').subscribe({
-      next: (data: any) => {
-        this.menuRows = data;
-        this.cargarMenus();
-      }
-    });
+    let permisos = await this.permisosService.getByRol(1);
+    if (permisos) {
+      this.cargarMenus(permisos);
+    }
   }
 
-  cargarMenus() {
+  cargarMenus(permisos: PermisosRol[]) {
     const menuMap = new Map<string, any>();
-
-    this.menuRows.forEach((menu: MenuModel) => { //Lista de Menus
-      if (menu?.tieneSubMenu > 0) {
-        menuMap.set(menu.menuNombre, {
-          label: menu.menuNombre,
-
-          items: []
-        });
-
-        // Agregar submenús si existen
-        if (menu.subMenus && menu.subMenus.length > 0) {
-          menu.subMenus.forEach(subMenu => {
-            var subI =
-            {
-              label: subMenu.menuNombre,
-              icon: subMenu.menuIcon,
+    // Iterar sobre los permisos para construir el menú
+    permisos.forEach((permiso: PermisosRol) => {
+      // Verificar si el permiso tiene un menú asociado
+      if (permiso.nombreMenu) {
+        // Si el menú ya existe, agregar el permiso como submenú
+        if (menuMap.has(permiso.nombreMenu)) {
+          menuMap.get(permiso.nombreMenu).items.push({
+            label: permiso.nombreMenu,
+            icon: 'pi pi-fw pi-plus', // Puedes cambiar el icono según sea necesario
+            command: () => {
+              this.router.navigate(['/' + permiso.nombreMenu]);
+            }
+          });
+        } else {
+          // Si el menú no existe, crear una nueva entrada
+          menuMap.set(permiso.nombreMenu, {
+            label: permiso.nombreMenu,
+            items: [{
+              label: permiso.nombreMenu,
+              icon: 'pi pi-fw pi-plus', // Puedes cambiar el icono según sea necesario
               command: () => {
-                this.router.navigate(['/' + menu.menuPath + '/' + subMenu.menuPath]);
-                this.menuService.toggleMenu();
+                this.router.navigate(['/' + permiso.nombreMenu]);
               }
-            };
-            menuMap.get(menu.menuNombre)?.items.push(subI);
+            }]
           });
         }
-      } else { //Sin subMenus
-        menuMap.set(menu.menuNombre, {
-          items: []
-        });
-
-        var subI = {
-          label: menu.menuNombre,
-          icon: menu.menuIcon,
-          route: '/' + menu.menuPath,
-          command: () => {
-            this.router.navigate(['/' + menu.menuPath]);
-            this.menuService.toggleMenu();
-          },
-          styleClass:"sinSubMenus"
-        };
-        menuMap.get(menu.menuNombre)?.items.push(subI);
       }
     });
 
@@ -92,6 +65,5 @@ export class NavMenuComponent implements OnInit {
     this.arregloMenu = Array.from(menuMap.values());
     this.items = this.arregloMenu;
     this.cd.detectChanges();
-
   }
 }

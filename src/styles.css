@@ -31,7 +31,7 @@ button {
 .p-button-success {
   background-color: var(--color-base);
   border-color: var(--color-base);
-  border-radius: 0.3rem;
+  border-radius: 10px;
   color: white;
 }
 
@@ -50,7 +50,7 @@ h1, h3 {
 
 .formato-fondo {
     background-color: rgba(115, 183, 173, 0.05);
-    padding: 15px;
+    padding: 10px;
 }
 
 .formato-menu {
@@ -114,7 +114,7 @@ SECÁNI-RQ00-HU00- Menú y Perfiles
 */
 
 .main-fondo {
-    background: #73B7AD0D;
+    background: #ffffff;
     margin-top: 0px;
     margin-left: 0px !important;
     font-family: 'Montserrat', sans-serif;

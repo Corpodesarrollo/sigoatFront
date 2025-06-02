@@ -9,6 +9,7 @@ export class User {
     email?: string;
     name?: string;
     state?: boolean = false;
+    rolId?: number;
     rolCode?: string[];
     enterpriseCode?: string;
     enterpriseDeptoCode?: string;
@@ -31,6 +32,7 @@ export class User {
             this.email = usuarioData.Email;
             this.name = usuarioData.Name;
             this.state = usuarioData.State;
+            this.rolId = usuarioData.RolId;
             this.rolCode = usuarioData.RolCode;
             this.enterpriseCode = usuarioData.EnterpriseCode;
             this.enterpriseDeptoCode = usuarioData.EnterpriseDeptoCode;

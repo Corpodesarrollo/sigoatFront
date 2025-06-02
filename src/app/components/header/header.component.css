@@ -1,13 +1,10 @@
-/* Fuente iconografica */
-@font-face {
-    font-family: "govco-font";
-    src: url("govco-font-icons.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-}
 
 html {
     font-size: 100%;
+}
+
+::ng-deep header{
+    padding: 0 !important;
 }
 
 .barra-superior-govco {
@@ -75,30 +72,53 @@ html {
     position: relative;
 }
 
-.center {
+/* .center {
     content: url(secaniGris.png);
     max-width: 380px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    /* Centra el texto dentro del div */
     display: flex;
     align-items: center;
+} */
+
+.secani-banner {
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  align-items: center;       /* Centrado vertical */
+  justify-content: center;   /* Centrado horizontal */
+  height: 40px;             /* Altura del banner */
+}
+
+.secani-logo {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 48px;
+  font-weight: bold;
+  color: #444;
+  margin-right: 20px;
+  padding-right: 20px;
+  border-right: 2px solid #ccc;
+}
+
+.secani-texto {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;  
+  color: #444;
+  line-height: 1.4;
+  font-family:  sans-serif;
 }
 
 .left {
-  content: url(MinSaludVertical.png);
-  max-width: 50px;
-  max-height: 50px;
+  content: url(colombiaPotenciaVida.png);
+  max-width: 150px;
   text-align: left;
 }
 
 .right {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
+  content: url(minSalud.png);
+  max-width: 150px;
+  text-align: left;
 }
 
 .right-logo {

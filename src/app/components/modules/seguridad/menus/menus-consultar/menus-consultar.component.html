@@ -1,0 +1,64 @@
+<div class="p-5">
+    <div class="header-container mb-5 align-items-center">
+        <h1>Administración de Menús</h1>
+        <button pButton 
+                icon="pi pi-plus" 
+                label="Agregar" 
+                class="p-button-success add-button"></button>
+    </div>
+  
+    <p-table 
+        [value]="pages" 
+        [paginator]="true" 
+        [rows]="rowsPerPage"
+        [totalRecords]="totalRecords"
+        [lazy]="true"
+        (onLazyLoad)="loadPages($event)"
+        [loading]="loading"
+        [rowsPerPageOptions]="[5,10,20,50]"
+        styleClass="custom-table">
+        
+    <ng-template pTemplate="header">
+      <tr class="custom-header">
+        <th>Nombre</th>
+        <th>Grupo</th>
+        <th>Padre</th>
+        <th>Modulo</th>
+        <th class="text-center" style="width: 120px;">Estado</th>
+        <th class="text-center" style="width: 150px;">Acciones</th>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="body" let-page>
+      <tr class="custom-row">
+        <td>{{page.nombre}}</td>
+        <td>{{page.grupo}}</td>
+        <td>{{page.menu}}</td>
+        <td>{{page.modulo}}</td>
+        <td class="text-center">
+          <span [class]="'status-badge status-' + (page.estado ? 'activo' : 'inactivo')">
+            {{page.estado ? '● Activo' : '● Inactivo'}}
+          </span>
+        </td>
+        <td class="actions-column">
+            <i class="pi pi-pencil action-icon edit-icon" 
+            (click)="editPage(page)" pTooltip="Editar" tooltipPosition="top"></i>
+            
+            <i class="pi pi-trash action-icon delete-icon" 
+            (click)="deletePage(page)" pTooltip="Eliminar" tooltipPosition="top"></i>
+
+             <!-- Acción de Activar/Inactivar -->
+            <i  *ngIf="page.estado"
+            class="pi pi-check-circle action-icon activate-icon" 
+            (click)="toggleStatus(page)"
+            pTooltip="Inactivar" tooltipPosition="left"></i>
+            
+            <i *ngIf="!page.estado" 
+            class="pi pi-ban action-icon deactivate-icon" 
+            (click)="toggleStatus(page)"
+            pTooltip="Activar" tooltipPosition="left"></i>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

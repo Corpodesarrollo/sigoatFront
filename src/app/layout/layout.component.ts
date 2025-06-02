@@ -170,6 +170,7 @@ export class LayoutComponent {
           "Email":"CHARLESROCK96@GMAIL.COM",
           "Name":"CLAUDIA MARTINEZ",
           "State":true,
+          "roleId":1,
           "RolCode":[
             "Perfil PISIS Neo",
             "SINTRA-ENT"
