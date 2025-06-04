@@ -5,6 +5,8 @@ import { LayoutComponent } from './layout/layout.component';
 import { LayoutSecondaryComponent } from './layout-secondary/layout-secondary.component';
 import { HomeComponent } from './components/modules/home/home.component';
 import { MenusConsultarComponent } from './components/modules/seguridad/menus/menus-consultar/menus-consultar.component';
+import { MenusCrearComponent } from './components/modules/seguridad/menus/menus-crear/menus-crear.component';
+import { MenusEditarComponent } from './components/modules/seguridad/menus/menus-editar/menus-editar.component';
 
 export const routes: Routes = [
   {
@@ -14,7 +16,9 @@ export const routes: Routes = [
       { path: '', component: HomeComponent },
       { path: 'home', component: HomeComponent },
       { path: 'health', component: HealthComponent },
-      { path: 'prueba', component: MenusConsultarComponent },
+      { path: 'menus', component: MenusConsultarComponent },
+      { path: 'menus-crear', component: MenusCrearComponent },
+      { path: 'menus-editar/:id', component: MenusEditarComponent },
     ]
   }
 ];

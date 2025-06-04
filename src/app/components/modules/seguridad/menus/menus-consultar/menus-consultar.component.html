@@ -1,10 +1,9 @@
 <div class="p-5">
     <div class="header-container mb-5 align-items-center">
         <h1>Administración de Menús</h1>
-        <button pButton 
-                icon="pi pi-plus" 
-                label="Agregar" 
-                class="p-button-success add-button"></button>
+        <button (click)="agregar()" class="btn button-success btn-lg add-button">
+            <i class="pi pi-plus"></i> Agregar
+        </button>
     </div>
   
     <p-table 
@@ -40,25 +39,33 @@
             {{page.estado ? '● Activo' : '● Inactivo'}}
           </span>
         </td>
-        <td class="actions-column">
+        <td>
+          <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
             <i class="pi pi-pencil action-icon edit-icon" 
-            (click)="editPage(page)" pTooltip="Editar" tooltipPosition="top"></i>
+              (click)="edit(page)" 
+              pTooltip="Editar" 
+              tooltipPosition="top"></i>
             
             <i class="pi pi-trash action-icon delete-icon" 
-            (click)="deletePage(page)" pTooltip="Eliminar" tooltipPosition="top"></i>
+              (click)="confirmDelete($event, page.id)" 
+              pTooltip="Eliminar" 
+              tooltipPosition="top"></i>
 
-             <!-- Acción de Activar/Inactivar -->
-            <i  *ngIf="page.estado"
-            class="pi pi-check-circle action-icon activate-icon" 
-            (click)="toggleStatus(page)"
-            pTooltip="Inactivar" tooltipPosition="left"></i>
-            
-            <i *ngIf="!page.estado" 
-            class="pi pi-ban action-icon deactivate-icon" 
-            (click)="toggleStatus(page)"
-            pTooltip="Activar" tooltipPosition="left"></i>
+            <p-inputSwitch [(ngModel)]="page.estado" class="custom-switch" pTooltip="{{validarEstado(page.estado)}}" tooltipPosition="left"
+                          (onChange)="onToggleChange(page)" />
+          </div>
         </td>
       </tr>
     </ng-template>
   </p-table>
 </div>
+
+<p-toast />
+
+<app-msg-box
+  [visible]="visible"
+  [msgTexto]="msg"
+  [msgTipo]="MsgTipo.Question"
+  [msgBotones]="MsgBotones.EliminarCancelar"
+  [width]="'25vw'"
+  (close)="onHide($event)">

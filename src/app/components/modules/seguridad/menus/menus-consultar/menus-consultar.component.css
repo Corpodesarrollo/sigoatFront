@@ -29,9 +29,7 @@
 
 .header-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
 }
 
 .status-badge {
@@ -79,24 +77,23 @@
   background-color: rgba(239, 68, 68, 0.1);
 }
 
-/* Efecto al hacer clic */
-.action-icon:active {
-  transform: scale(0.9);
+/* Estilos para el diálogo de confirmación */
+::ng-deep .p-confirm-dialog .p-button {
+  border-radius: 10px !important; /* Ajusta a tu gusto */
+  background-color: #EF4444 !important; /* Rojo */
+  color: white !important; /* Blanco */
+  margin-left: 10px;
 }
 
-/* Estilos específicos para cada ícono */
-.activate-icon {
-  color: #10B981; /* Verde */
+::ng-deep .p-confirm-dialog-reject .p-button  {
+  background-color: #6B7280 !important; /* Gris */
+  color: white !important; /* Blanco */
 }
 
-.activate-icon:hover {
-  background-color: rgba(16, 185, 129, 0.1);
+::ng-deep .custom-switch .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background-color: #28a745 !important; /* Verde */
 }
 
-.deactivate-icon {
-  color: #F59E0B; /* Ámbar */
-}
-
-.deactivate-icon:hover {
-  background-color: rgba(245, 158, 11, 0.1);
+::ng-deep .custom-switch .p-inputswitch .p-inputswitch-slider {
+  background-color: #dc3545 !important; /* Rojo */
 }

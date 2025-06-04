@@ -65,7 +65,7 @@ export class GenericService {
     if (environment.cookie){
       return this.http.delete(`${apiUrl}${modulo}${parameters}`, { withCredentials: true });
     } else {
-      return this.http.put(`${apiUrl}${modulo}`, parameters);
+      return this.http.delete(`${apiUrl}${modulo}${parameters}`);
     }
   } 
 }

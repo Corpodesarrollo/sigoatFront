@@ -13,7 +13,7 @@ export class PermisosService extends MethodsService {
         public override repos: GenericService,
     ) { super(repos); }
 
-    public async getByRol(idRol: number): Promise<PermisosRol[] | null> {
+    public async getByRol(idRol: number): Promise<any | null> {
         let url = `Permisos/Rol/${idRol}/idRol`;
         return new Promise((resolve) => {
             this.repos.get(url, ``, apis.Seguridad).subscribe({

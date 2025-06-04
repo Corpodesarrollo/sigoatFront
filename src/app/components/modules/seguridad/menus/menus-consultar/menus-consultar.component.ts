@@ -6,13 +6,21 @@ import { apis } from '../../../../../models/apis.model';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { CommonModule } from '@angular/common';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
-
+import { ResponseModel } from '../../../../../models/response.model';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MsgBoxComponent } from "../../../../shared/msg-box/msg-box.component";
+import { MsgTipo } from '../../../../../models/msgTipo.model';
+import { MsgBotones } from '../../../../../models/msgBotones.model';
 
 @Component({
     selector: 'app-menus-consultar',
-    imports: [TableModule, ButtonModule, TooltipModule, CommonModule, ConfirmDialog, ToastModule],
+    standalone: true,
+    imports: [TableModule, ButtonModule, TooltipModule, CommonModule, ConfirmDialogModule, ToastModule, InputSwitchModule, FormsModule, MsgBoxComponent],
     templateUrl: './menus-consultar.component.html',
     styleUrl: './menus-consultar.component.css',
     providers: [ConfirmationService, MessageService]
@@ -22,8 +30,15 @@ export class MenusConsultarComponent {
   totalRecords: number = 0;
   rowsPerPage: number = 10;
   loading: boolean = true;
+  visible: boolean = false;
+  msg: string = '';
+  MsgTipo = MsgTipo;
+  MsgBotones = MsgBotones;
+  error: boolean = false;
+  idEliminar: number = 0;
 
-  constructor(private ms: MenuService) {}
+
+  constructor(private confirmationService: ConfirmationService, private messageService: MessageService, private ms: MenuService, private router: Router) {}
 
   ngOnInit() {
     // Carga inicial puede estar vacía o cargar primera página
@@ -37,10 +52,16 @@ export class MenusConsultarComponent {
 
     let menusResponse = await this.ms.getOnDemand<any>('menus', page, pageSize, '', apis.Seguridad);
     if (menusResponse) {
-      console.log(menusResponse);
-      let result = menusResponse as {value: any[], count: number};
-      this.pages = result.value as Menus[];
-      this.totalRecords = result.count; // Asumiendo que la respuesta contiene el total de registros
+      let result: ResponseModel = menusResponse;
+      if (result.error) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: result.dataError.message });
+        this.loading = false;
+        return;
+      }
+
+      let data: {value: any[], count: number} = result.data;
+      this.pages = data.value as Menus[];
+      this.totalRecords = data.count; // Asumiendo que la respuesta contiene el total de registros
       this.loading = false;
     } else{
       this.loading = false;
@@ -48,59 +69,57 @@ export class MenusConsultarComponent {
     }
   }
 
-  toggleStatus(page: any) {
-    const newStatus = page.estado === 'activo' ? 'inactivo' : 'activo';
-    const action = newStatus === 'activo' ? 'activada' : 'inactivada';
-    
-    // this.pageService.updatePageStatus(page.id, newStatus).subscribe({
-    //   next: () => {
-    //     page.estado = newStatus;
-    //     this.messageService.add({
-    //       severity: 'success',
-    //       summary: 'Éxito',
-    //       detail: `Página ${action} correctamente`,
-    //       life: 3000
-    //     });
-    //   },
-    //   error: (err) => {
-    //     console.error(err);
-    //     this.messageService.add({
-    //       severity: 'error',
-    //       summary: 'Error',
-    //       detail: `No se pudo ${action} la página`,
-    //       life: 3000
-    //     });
-    //   }
-    // });
+  validarEstado(estado: boolean): string {
+    return !estado ? 'Activar' : 'Inactivar';
   }
 
-  editPage(page: any) {
-    // Lógica para editar la página
-    console.log('Editar página:', page);
-    // Aquí puedes abrir un diálogo/modal de edición
-    // this.messageService.add({
-    //   severity: 'info',
-    //   summary: 'Editar',
-    //   detail: `Editando página: ${page.titulo}`
-    // });
+  agregar() {
+    this.router.navigate([`/menus-crear`]);
   }
 
-  deletePage(page: any) {
-    // this.confirmationService.confirm({
-    //   message: `¿Estás seguro de eliminar "${page.titulo}"?`,
-    //   header: 'Confirmar eliminación',
-    //   icon: 'pi pi-exclamation-triangle',
-    //   acceptLabel: 'Sí, eliminar',
-    //   rejectLabel: 'Cancelar',
-    //   accept: () => {
-    //     // Lógica para eliminar la página
-    //     this.messageService.add({
-    //       severity: 'success',
-    //       summary: 'Eliminado',
-    //       detail: `Página "${page.titulo}" eliminada`,
-    //       life: 3000
-    //     });
-    //     // Aquí deberías llamar a tu servicio para eliminar
-    //   }
+  edit(page: any) {
+    this.router.navigate([`/menus-editar/${page.id}`]);
+  }
+
+  async onToggleChange(data: any) {
+    let menu: Menus = data;
+    let responseActivation = await this.ms.putActivateDeactivate('menus', data.id, apis.Seguridad);
+    if (responseActivation) {
+      let result: ResponseModel = responseActivation;
+      if (result.error) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: result.dataError.message });
+        return;
+      } else if (result.data) {
+        if (!menu.estado) {
+          this.messageService.add({ severity: 'error', summary: 'Éxito', detail: 'Registro inactivado correctamente' });
+        } else {
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro activado correctamente' });
+        }
+      }
     }
+  }
+
+  confirmDelete(event: Event, id: number) {
+    this.visible = true;
+    this.msg = '¿Desea eliminar este registro?';
+    this.idEliminar = id;
+  }
+
+  onHide(event: any): void {
+    console.log('Dialog closed', event);
+    this.visible = false;
+    if (event == true) {
+      this.ms.delete('menus', this.idEliminar, apis.Seguridad).then((response) => {
+        if (response) {
+          let result: ResponseModel = response;
+          if (result.error) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.dataError.message });
+          } else {
+            this.loadPages({ first: 0, rows: this.rowsPerPage } as TableLazyLoadEvent);
+            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado correctamente' });
+          }
+        }
+      });
+    }
+  }
 }

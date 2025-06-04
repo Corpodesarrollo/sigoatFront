@@ -1,0 +1,17 @@
+<p-dialog [(visible)]="visible" [modal]="true" (onHide)="onHide(false)" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: width }" [draggable]="false" [resizable]="false">
+  <div class="text-center mb-3">
+    <i *ngIf="!error && msgTipo == null || msgTipo == MsgTipo.Success" class="pi pi-check-circle" style="font-size: 4rem; color: #28a745;"></i>
+    <i *ngIf="error && msgTipo == null || msgTipo == MsgTipo.Error" class="pi pi-exclamation-triangle" style="font-size: 4rem; color: #dc3545;"></i>
+    <i *ngIf="msgTipo == MsgTipo.Info" class="pi pi-info-circle" style="font-size: 4rem; color: #17a2b8;"></i>
+    <i *ngIf="msgTipo == MsgTipo.Warning" class="pi pi-exclamation-circle" style="font-size: 4rem; color: #ffc107;"></i>
+    <i *ngIf="msgTipo == MsgTipo.Question" class="pi pi-question-circle" style="font-size: 4rem; color: #6c757d;"></i>
+  </div>
+  <div class="text-center mt-3 mb-3">
+    <h5>{{msgTexto}}</h5>
+  </div>
+  <div class="text-center mt-5">
+    <button *ngIf="msgBotones == MsgBotones.Aceptar" type="button" class="btn button-success btn-lg add-button" (click)="onHide(true)">Aceptar</button>
+    <button *ngIf="msgBotones == MsgBotones.EliminarCancelar" type="button" class="btn button-secondary btn-lg add-button me-2" (click)="onHide(false)">Cancelar</button>
+    <button *ngIf="msgBotones == MsgBotones.EliminarCancelar" type="button" class="btn btn-danger btn-lg add-button ms-2" (click)="onHide(true)">Eliminar</button>
+  </div>
+</p-dialog>

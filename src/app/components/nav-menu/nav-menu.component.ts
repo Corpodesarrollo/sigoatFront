@@ -25,8 +25,11 @@ export class NavMenuComponent implements OnInit {
     //Cordinador
     this.user.rolId = 1;
 
-    let permisos = await this.permisosService.getByRol(1);
-    if (permisos) {
+    let permisosResult = await this.permisosService.getByRol(1);
+    if (permisosResult.error) {
+      console.error('Error al obtener los permisos:', permisosResult.dataError);
+    } else {
+      const permisos: PermisosRol[] = permisosResult.data;
       this.cargarMenus(permisos);
     }
   }

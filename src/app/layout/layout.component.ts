@@ -166,7 +166,7 @@ export class LayoutComponent {
     }else{
       localStorage.setItem('user', `
         {
-          "Id":"48e6efab-2c8a-4d37-bc6c-d62ec8fdd0c5",
+          "Id":"1",
           "Alias":"CC51644243",
           "Email":"CHARLESROCK96@GMAIL.COM",
           "Name":"CLAUDIA MARTINEZ",

@@ -30,6 +30,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { LayoutComponent } from './layout/layout.component';
 import { LayoutSecondaryComponent } from './layout-secondary/layout-secondary.component';
+import { MsgBoxComponent } from './components/shared/msg-box/msg-box.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { LayoutSecondaryComponent } from './layout-secondary/layout-secondary.co
     HeaderComponent,
     FooterComponent,
     LayoutComponent,
-    LayoutSecondaryComponent
+    LayoutSecondaryComponent,
   ],
   imports: [
 
