@@ -19,16 +19,17 @@ import { Carrusel } from '../../../../models/carrusel.model';
 import { InputTextModule } from 'primeng/inputtext';
 import { CarruselService } from '../../../../services/carrusel.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Attachment } from '../../../../models/Attachment.model';
 import { environment } from '../../../../../environments/environment';
 import { PaginasService } from '../../../../services/paginas.service';
 import { Paginas } from '../../../../models/paginas.model';
+import { Attachment } from '../../../../models/attachment.model';
+import { StepsComponent } from "../../../shared/steps/steps.component";
 
 @Component({
   selector: 'app-carrusel',
   standalone: true,
-  imports: [TableModule, ButtonModule, TooltipModule, CommonModule, ConfirmDialogModule, ToastModule, 
-    InputSwitchModule, FormsModule, MsgBoxComponent, DialogModule, FileUploadModule, InputTextModule],
+  imports: [TableModule, ButtonModule, TooltipModule, CommonModule, ConfirmDialogModule, ToastModule,
+    InputSwitchModule, FormsModule, MsgBoxComponent, DialogModule, FileUploadModule, InputTextModule, StepsComponent],
   providers: [ConfirmationService, MessageService],
   templateUrl: './carrusel.component.html',
   styleUrl: './carrusel.component.css'
@@ -71,7 +72,7 @@ export class CarruselComponent {
   nombre: string = '';
   archivoSeleccionado: Attachment | null = null;
     
-  constructor(private messageService: MessageService, private ms: CarruselService, private ps: PaginasService, private route: ActivatedRoute) {
+  constructor(private messageService: MessageService, private ms: CarruselService, private ps: PaginasService, private route: ActivatedRoute, private router: Router) {
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       this.id = idParam ? +idParam : undefined;
@@ -251,5 +252,13 @@ export class CarruselComponent {
       this.urlImagen = '';
       this.imagenPreview = null;
     }
+  }
+
+  continuar(): void {
+    this.router.navigate([`/documentos/${this.id}`]);
+  }
+
+  anterior(): void {
+    this.router.navigate([`/paginas`]);
   }
 }

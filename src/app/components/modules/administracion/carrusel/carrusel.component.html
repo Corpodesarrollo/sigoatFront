@@ -1,6 +1,11 @@
 <div class="p-3">
+    <div class="row">
+      <div class="col-12">
+        <app-steps [stepsCount]="3" [activeIndex]="1" />
+      </div>
+    </div>
     <div class="header-container mb-2 align-items-center">
-        <h1>Administración de Carrusel</h1>
+        <h1>Administración del Carrusel de Imágenes</h1>
         <button (click)="agregar()" class="btn button-success btn-lg add-button" type="button">
             <i class="pi pi-plus"></i> Agregar
         </button>
@@ -76,7 +81,10 @@
 
 <div class="row">
     <div class="col-12 text-center">
-      <button (click)="agregar()" class="btn button-success btn-lg add-button" type="button">
+      <button (click)="anterior()" class="btn button-secondary btn-lg add-button text-white me-2" type="button">
+        <i class="pi pi-chevron-left"></i> Anterior
+      </button>
+      <button (click)="continuar()" class="btn button-success btn-lg add-button" type="button">
         <i class="pi pi-chevron-right"></i> Continuar
       </button>
     </div>

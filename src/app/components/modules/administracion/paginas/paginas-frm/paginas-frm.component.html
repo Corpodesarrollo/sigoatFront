@@ -17,7 +17,7 @@
                 id="idiomas"
                 class="w-100"
                 placeholder="Seleccione"/>
-            <div *ngIf="submitted && !(formulario.idioma === '')" class="text-danger">
+            <div *ngIf="submitted && (formulario.idioma === '')" class="text-danger">
                 Campo requerido
             </div>
         </div>

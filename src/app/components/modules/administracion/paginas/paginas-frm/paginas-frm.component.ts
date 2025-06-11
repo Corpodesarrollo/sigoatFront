@@ -85,22 +85,33 @@ export class PaginasFrmComponent {
       this.submitted = true;
       if (this.validarCamposRequeridos() && !this.saving) {
         this.saving = true;
-        let result;
+        let response;
         if (this.formulario.id === 0) {
-          result = await this.ms.post<Paginas>('paginas', this.formulario, apis.Seguridad);
+          response = await this.ms.post<Paginas>('paginas', this.formulario, apis.Administrador);
         } else {
-          result = await this.ms.put<Paginas>('paginas', this.formulario, apis.Seguridad);
+          response = await this.ms.put<Paginas>('paginas', this.formulario, apis.Administrador);
         }
-  
-        if (!result?.error) {
-          this.msg = 'La página se ha guardado correctamente.';
-        } else {
-          this.msg = 'Error al guardar la página . Por favor, inténtelo de nuevo.';
-          console.log(result.dataError);
+
+        if (response) {
+          if (!response.error) {
+            const result = response.data;
+            this.msg = 'La página se ha guardado correctamente.';
+            if (this.formulario.id === 0) {
+              this.router.navigate([`/carrusel/${result.id}`]);
+            } else {
+              this.router.navigate([`/carrusel/${this.formulario.id}`]);
+            }
+            
+          } else {
+            this.msg = 'Error al guardar la página . Por favor, inténtelo de nuevo.';
+            if (response) {
+              console.log(response.dataError);
+            }
+          }
+    
+          this.error = !!response?.error;
+          this.visible = true;
         }
-  
-        this.error = !!result?.error;
-        this.visible = true;
       }
       else {
         this.msg = 'Por favor, complete todos los campos requeridos.';
@@ -110,14 +121,13 @@ export class PaginasFrmComponent {
     }
   
     validarCamposRequeridos(): boolean {
+      this.formulario.idioma = this.selectedIdioma?.codigo || '';
       
       let camposAValidar: (string | number | undefined)[] = [];
   
       camposAValidar = [
         this.formulario.idioma,
         this.formulario.titulo,
-        this.formulario.detalle,
-        this.formulario.url
       ];
       
       let pos = 0;
