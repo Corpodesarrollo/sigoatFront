@@ -1,0 +1,168 @@
+<div class="container-fluid p-0">
+  <!-- Carrusel -->
+  <div id="newsCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="img/portal/medicamentos.png" class="d-block w-100" alt="Noticia 1">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Llegada de nuevos tratamientos</h5>
+          <p>2,610 tratamientos para hepatitis C</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="img/portal/medicamentos2.png" class="d-block w-100" alt="Noticia 2">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Campañas de prevención</h5>
+          <p>Nuevas iniciativas de salud pública</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#newsCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <div class="container mt-3">
+    <!-- Sección de Noticias -->
+<section class="news-section mb-5">
+    <h1 class="mb-3">Noticias Recientes</h1>
+      
+    <div class="row">
+        <!-- Noticia Principal -->
+        <div class="col-md-7 mb-4">
+            <div class="single-image-viewer">
+                <div class="image-container" [class.zoomed]="isZoomed" [class.fullscreen]="isFullscreen">
+                    <img [src]="currentImage.url" 
+                        [alt]="currentImage.alt" 
+                        class="adaptive-image"
+                        (load)="onImageLoad()"
+                        [style.max-width]="isFullscreen ? '100vw' : '100%'"
+                        [style.max-height]="isFullscreen ? '100vh' : 'auto'">
+                
+                    <div class="image-overlay" *ngIf="showOverlay">
+                        <p>{{currentImage.description}}</p>
+                    </div>
+                
+                    <div class="image-controls">
+                        <button class="btn btn-sm btn-control" (click)="toggleZoom()" title="Zoom">
+                        <i class="bi" [class.bi-zoom-in]="!isZoomed" [class.bi-zoom-out]="isZoomed"></i>
+                        </button>
+                        <button class="btn btn-sm btn-control" (click)="toggleFullscreen()" title="Pantalla completa">
+                        <i class="bi" [class.bi-fullscreen]="!isFullscreen" [class.bi-fullscreen-exit]="isFullscreen"></i>
+                        </button>
+                        <button class="btn btn-sm btn-control" (click)="toggleOverlay()" title="Mostrar información">
+                        <i class="bi bi-info-circle"></i>
+                        </button>
+                    </div>
+                </div>
+             </div>   
+        
+            <h3 class="mb-0">Nuevos tratamientos para hepatitis C</h3>
+            <div class="card-body">
+                <div class="news-meta mb-3 d-flex align-items-center">
+                    <span class="badge bg-secondary me-2">Salud</span>
+                    <span class="text-muted"><i class="bi bi-calendar me-1"></i> 15 de Junio, 2023</span>
+                </div>
+                <div class="card-text-container">
+                    <p class="card-text text-justify">
+                    El Ministerio de Salud y Protección Social y la ADRES anunciaron la llegada de 2,610 tratamientos, equivalentes a un 30.5% más que en la orden de compra anterior. Estos medicamentos están dirigidos a personas con hepatitis C afiliadas a los regímenes contributivo y subsidiado del Sistema de Seguridad Social en Salud.
+                    </p>
+                    <p class="card-text text-justify">
+                    La entrega de estos tratamientos forma parte de la estrategia nacional para eliminar la hepatitis C como problema de salud pública para el año 2030, siguiendo los lineamientos de la Organización Mundial de la Salud.
+                    </p>
+                </div>
+                <div class="text-center mt-3">
+                  <a href="#" class="btn btn-sm btn-outline-secondary">Leer más</a>
+                </div>
+            </div>
+        </div>
+        <!-- Noticias Secundarias -->
+        <div class="col-md-5">
+            <div class="card mb-3 news-side-card">
+                <div class="card-body">
+                    <h5 class="card-title">Campaña de vacunación</h5>
+                    <p class="card-text text-muted small">12 de Junio, 2023</p>
+                    <p class="card-text">Nueva jornada de vacunación contra influenza en centros de salud...</p>
+                    <a href="#" class="btn btn-sm btn-outline-secondary">Ver detalles</a>
+                </div>
+            </div>
+
+            <div class="card mb-3 news-side-card">
+                <div class="card-body">
+                    <h5 class="card-title">Nueva guía de salud mental</h5>
+                    <p class="card-text text-muted small">10 de Junio, 2023</p>
+                    <p class="card-text">El Ministerio de Salud lanza una nueva guía para el manejo de la salud mental en tiempos de pandemia...</p>
+                    <a href="#" class="btn btn-sm btn-outline-secondary">Ver detalles</a>
+                </div>
+            </div>
+
+            <div class="card mb-3 horizontal-card news-side-card">
+                <div class="row g-0">
+                <!-- Imagen a la izquierda -->
+                    <div class="col-md-4">
+                        <div class="card-image-container">
+                        <img src="img/portal/medicamentos2.png" 
+                            alt="Tratamientos hepatitis C" 
+                            class="card-img-left">
+                        </div>
+                    </div>
+                
+                    <!-- Contenido de texto a la derecha -->
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Entrega de medicamentos</h5>
+                            <p class="card-text text-muted small">12 de Junio, 2023</p>
+                            <p class="card-text">La ADRES y el Ministerio de Salud entregan nuevos tratamientos para hepatitis C...</p>
+                            <a href="#" class="btn btn-sm btn-outline-secondary">Ver detalles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+</section>
+
+    <!-- Documentos Anexos -->
+    <section class="documents-section mb-3">
+    <div class="row">
+      <div class="col-5 mb-4">
+        <h1 class="mb-4"><i class="bi bi-files me-2"></i>Documentos Anexos</h1>
+        <p class="mb-4">En esta sección encontrará los documentos necesarios para realizar su trámite.</p>
+      </div>  
+      <div class="col-7 mb-4">
+        <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th width="15%">Identificador</th>
+              <th>Nombre documento</th>
+              <th width="15%">Formato</th>
+              <th class="text-center" width="10%">Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="table-light">
+            <tr *ngFor="let document of documents">
+              <td class="fw-bold">{{ document.id }}</td>
+              <td>{{ document.name }}</td>
+              <td>
+                <span class="text-center text-dark">
+                  <i class="bi bi-filetype-{{document.format}} me-1"></i>{{ document.format | uppercase }}
+                </span>
+              </td>
+              <td class="text-center">
+                <i class="pi pi-eye text-warning" pTooltip="Ver" tooltipPosition="top" style="font-size: 1.4rem;"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>  
+    </div>
+    </section>
+  </div>
+</div>

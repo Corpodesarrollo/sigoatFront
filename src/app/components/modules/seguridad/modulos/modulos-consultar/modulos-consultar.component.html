@@ -1,1 +1,58 @@
-<p>modulos-consultar works!</p>
+<div class="p-5">
+    <div class="header-container mb-5 align-items-center">
+        <h1>Administración de Módulos</h1>
+        <button (click)="agregar()" class="btn button-success btn-lg add-button">
+            <i class="pi pi-plus"></i> Agregar
+        </button>
+    </div>
+  
+    <p-table 
+        [value]="pages" 
+        [paginator]="true" 
+        [rows]="rowsPerPage"
+        [totalRecords]="totalRecords"
+        [lazy]="true"
+        (onLazyLoad)="loadPages($event)"
+        [loading]="loading"
+        [rowsPerPageOptions]="[5,10,20,50]"
+        styleClass="custom-table">
+        
+    <ng-template pTemplate="header">
+      <tr class="custom-header">
+        <th  style="width: 400px;">Nombre</th>
+        <th>Path</th>
+        <th class="text-center" style="width: 150px;">Acciones</th>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="body" let-page>
+      <tr class="custom-row">
+        <td>{{page.nombre}}</td>
+        <td>{{page.path}}</td>
+        <td>
+          <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
+            <i class="pi pi-pencil action-icon edit-icon" 
+              (click)="edit(page)" 
+              pTooltip="Editar" 
+              tooltipPosition="top"></i>
+            
+            <i class="pi pi-trash action-icon delete-icon" 
+              (click)="confirmDelete($event, page.id)" 
+              pTooltip="Eliminar" 
+              tooltipPosition="top"></i>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-toast />
+
+<app-msg-box
+  [visible]="visible"
+  [msgTexto]="msg"
+  [msgTipo]="MsgTipo.Question"
+  [msgBotones]="MsgBotones.EliminarCancelar"
+  [width]="'25vw'"
+  (close)="onHide($event)">

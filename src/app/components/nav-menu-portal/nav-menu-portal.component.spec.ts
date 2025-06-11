@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ContenidosFrmComponent } from './contenidos-frm.component';
+import { NavMenuPortalComponent } from './nav-menu-portal.component';
 
-describe('ContenidosFrmComponent', () => {
-  let component: ContenidosFrmComponent;
-  let fixture: ComponentFixture<ContenidosFrmComponent>;
+describe('NavMenuPortalComponent', () => {
+  let component: NavMenuPortalComponent;
+  let fixture: ComponentFixture<NavMenuPortalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ContenidosFrmComponent]
+      imports: [NavMenuPortalComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ContenidosFrmComponent);
+    fixture = TestBed.createComponent(NavMenuPortalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

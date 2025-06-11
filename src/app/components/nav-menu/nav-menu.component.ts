@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { PermisosService } from '../../services/permisos.service';
 import { PermisosRol } from '../../models/permisosRol.model';
 import { User } from '../../services/user.service';
+import { Menus } from '../../models/menus.model';
+
 
 @Component({
     selector: 'app-nav-menu',
@@ -16,6 +18,7 @@ export class NavMenuComponent implements OnInit {
   items: MenuItem[] | undefined;
   arregloMenu: any[] = [];
   user = new User();
+  permisos: PermisosRol[] | undefined
 
   constructor(private service: GenericService, private router: Router, private permisosService: PermisosService, private cd: ChangeDetectorRef) {
 
@@ -27,47 +30,78 @@ export class NavMenuComponent implements OnInit {
 
     let permisosResult = await this.permisosService.getByRol(1);
     if (permisosResult.error) {
-      console.error('Error al obtener los permisos:', permisosResult.dataError);
+      //console.error('Error al obtener los permisos:', permisosResult.error);
     } else {
-      const permisos: PermisosRol[] = permisosResult.data;
-      this.cargarMenus(permisos);
+      this.permisos = permisosResult.data;
+      let grupos = this.agruparPorGrupo(this.permisos);
+      //recorrer los grupos 
+      let itemsGrupo = grupos.map((grupo) => this.cargarPorGrupo(grupo)).flat();
+
+      this.items = itemsGrupo;
+      
+      //console.log('Permisos obtenidos2:', this.items);
+      this.cd.detectChanges();
     }
   }
 
-  cargarMenus(permisos: PermisosRol[]) {
-    const menuMap = new Map<string, any>();
-    // Iterar sobre los permisos para construir el menú
-    permisos.forEach((permiso: PermisosRol) => {
-      // Verificar si el permiso tiene un menú asociado
-      if (permiso.nombreMenu) {
-        // Si el menú ya existe, agregar el permiso como submenú
-        if (menuMap.has(permiso.nombreMenu)) {
-          menuMap.get(permiso.nombreMenu).items.push({
-            label: permiso.nombreMenu,
-            icon: 'pi pi-fw pi-plus', // Puedes cambiar el icono según sea necesario
-            command: () => {
-              this.router.navigate(['/' + permiso.nombreMenu]);
-            }
-          });
-        } else {
-          // Si el menú no existe, crear una nueva entrada
-          menuMap.set(permiso.nombreMenu, {
-            label: permiso.nombreMenu,
-            items: [{
-              label: permiso.nombreMenu,
-              icon: 'pi pi-fw pi-plus', // Puedes cambiar el icono según sea necesario
-              command: () => {
-                this.router.navigate(['/' + permiso.nombreMenu]);
-              }
-            }]
-          });
-        }
-      }
-    });
+  // Cargar los permisos por grupo
+  cargarPorGrupo(grupo: string): MenuItem[] {
+    const permisosFiltrados = this.permisos?.filter(p => p.grupo === grupo) || [];
 
-    // Convertir el mapa a un array
-    this.arregloMenu = Array.from(menuMap.values());
-    this.items = this.arregloMenu;
-    this.cd.detectChanges();
+    if (grupo === 'Sin-grupo') {
+      // Retorna el árbol directamente sin contenedor de grupo
+      return this.construirArbolRecursivo(null, grupo);
+    } else {
+      // Solo un item por grupo, evita duplicaciones
+      return [
+        {
+          label: grupo,
+          expanded: true,
+          items: this.construirArbolRecursivo(null, grupo)
+        }
+      ];
+    }
+  }
+
+  private construirArbolRecursivo(id: number | null, grupo: string | null): MenuItem[] {
+    let items: MenuItem[] = [];
+    const permisosFiltrados = this.permisos ? this.permisos.filter(p => p.idMenuPadre === id && p.grupo === grupo) : [];
+
+    for (const permiso of permisosFiltrados) {
+      items.push({
+          label: permiso.nombreMenu,
+          routerLink: permiso.path,
+          expanded: true,
+          command: () => {
+            this.router.navigate([permiso.path]);
+          },
+          items: this.construirArbolRecursivo(permiso.idMenu, grupo)
+        });
+
+        //console.log('Permiso procesado:', permiso.nombreMenu, 'ID:', permiso.idMenu, 'Padre ID:', permiso.idMenuPadre);
+    }
+
+    return items;
+  }
+
+  private agruparPorGrupo(menus: PermisosRol[] | undefined): string[] {
+    const grupos: string[] = [];
+    if (this.permisos) {
+      this.permisos.forEach(permiso => {
+        if (!permiso.grupo && !grupos.includes('Sin-grupo')) {
+          grupos.push('Sin-grupo');
+        }
+        
+        if (permiso.grupo && !grupos.includes(permiso.grupo as string)) {
+          grupos.push(permiso.grupo as string);
+        }
+
+        if(!permiso.grupo){
+          permiso.grupo = 'Sin-grupo';
+        }
+      });
+    }
+    //console.log('Grupos encontrados:', grupos);
+    return grupos;
   }
 }

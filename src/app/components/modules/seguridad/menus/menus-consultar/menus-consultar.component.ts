@@ -20,9 +20,9 @@ import { MsgBotones } from '../../../../../models/msgBotones.model';
 @Component({
     selector: 'app-menus-consultar',
     standalone: true,
-    imports: [TableModule, ButtonModule, TooltipModule, CommonModule, ConfirmDialogModule, ToastModule, InputSwitchModule, FormsModule, MsgBoxComponent],
     templateUrl: './menus-consultar.component.html',
     styleUrl: './menus-consultar.component.css',
+    imports: [TableModule, ButtonModule, TooltipModule, CommonModule, ConfirmDialogModule, ToastModule, InputSwitchModule, FormsModule, MsgBoxComponent],
     providers: [ConfirmationService, MessageService]
 })
 export class MenusConsultarComponent {
@@ -38,7 +38,7 @@ export class MenusConsultarComponent {
   idEliminar: number = 0;
 
 
-  constructor(private confirmationService: ConfirmationService, private messageService: MessageService, private ms: MenuService, private router: Router) {}
+  constructor(private messageService: MessageService, private ms: MenuService, private router: Router) {}
 
   ngOnInit() {
     // Carga inicial puede estar vacía o cargar primera página

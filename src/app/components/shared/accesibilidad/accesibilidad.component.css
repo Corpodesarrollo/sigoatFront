@@ -1,0 +1,35 @@
+.accessibility-panel {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: #f8f8f8;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  z-index: 1000;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Estilos globales para accesibilidad */
+.high-contrast {
+  background-color: #000 !important;
+  color: #ff0 !important;
+}
+
+.dyslexia-font {
+  font-family: 'OpenDyslexic', Arial, sans-serif !important;
+}
+
+.large-text {
+  font-size: 1.25em !important;
+}
+
+.spacing {
+  letter-spacing: 2px !important;
+}
+
+.line-height {
+  line-height: 1.8 !important;
+}

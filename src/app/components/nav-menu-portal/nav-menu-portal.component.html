@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg navbar-transparent">
+  <div class="container-fluid">
+    <!-- Logo/Brand -->
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- Menú principal -->
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item dropdown"> <!-- Opción con dropdown -->
+          <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown">
+            Servicios
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Consulta médica</a></li>
+            <li><a class="dropdown-item" href="#">Exámenes</a></li>
+            <li><a class="dropdown-item" href="#">Vacunación</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Programas especiales</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/noticias">Noticias</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/contacto">Contacto</a>
+        </li>
+      </ul>
+
+      <!-- Contenedor de búsqueda y menú -->
+    <div class="collapse navbar-collapse" id="navbarSearch">
+      <!-- Menú principal -->
+      <ul class="navbar-nav me-auto">
+        <!-- Tus elementos de menú aquí -->
+      </ul>
+      
+      <!-- Campo de búsqueda VISIBLE -->
+      <div class="d-flex align-items-center search-container">
+        <div class="input-group bg-light rounded-pill">
+          <input type="text" 
+                 class="form-control border-0 bg-transparent py-2 px-3" 
+                 placeholder="Buscar..." 
+                 aria-label="Buscar">
+          <button class="btn btn-link text-dark pe-3" type="submit">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</nav>

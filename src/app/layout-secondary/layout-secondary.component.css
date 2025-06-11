@@ -1,0 +1,18 @@
+.portal-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.main-fondo {
+  background-color: #f8f9fa;
+  padding: 0;
+}
+
+::ng-deep .govco-data-front{
+  box-shadow: 600px 30px 0px -30px transparent, -600px 30px 0px -30px transparent, 0px 20px 0px 0px transparent, 600px 50px 0px -30px transparent, -600px 50px 0px -30px transparent !important;
+}
+
+::ng-deep .govco-data-front{
+  border: none !important;
+}

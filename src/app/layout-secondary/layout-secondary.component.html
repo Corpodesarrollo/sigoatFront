@@ -1,14 +1,15 @@
-<header>
+<div class="portal-wrapper">
+  <header>
     <app-header></app-header>
-</header>
+  </header>
 
-<div class="row content-row">
-  <main class="col-md-12 col-lg-12 main-fondo">
-      <div class="container-fluid" style="padding: 10px;">
-          <router-outlet></router-outlet>
-      </div>
+  <app-nav-menu-portal/>
+
+  <main class="main-fondo">
+    <router-outlet></router-outlet>
   </main>
+
   <footer>
-      <app-footer></app-footer>
+    <app-footer></app-footer>
   </footer>
 </div>

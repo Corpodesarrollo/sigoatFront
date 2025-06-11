@@ -26,5 +26,64 @@
     font-size: 40px;
 }
 
+.menu-list {
+  list-style: none;
+  padding-left: 1rem;
+}
 
+.menu-list li {
+  margin-bottom: 0.5rem;
+}
 
+/* menu-item.component.css */
+.menu-item {
+  margin-left: 10px;
+}
+
+.submenu {
+  margin-left: 15px;
+  list-style: none;
+  padding-left: 10px;
+}
+
+::ng-deep .p-panelmenu .p-panelmenu-header .p-panelmenu-header-action .p-menuitem-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  padding-left: 15px;
+  color: #4D4D4D;
+}
+
+::ng-deep .p-panelmenu .p-panelmenu-header .p-panelmenu-header-action .p-menuitem-link-active {
+  font-weight: bold;
+  color: #4D4D4D;
+}
+
+::ng-deep .p-panelmenu .p-panelmenu-header .p-panelmenu-header-action {
+  background-color: #D9D9D980;
+  text-decoration: none;
+  height: 30px;
+}
+
+::ng-deep .p-submenu-icon {
+  display: none !important;
+}
+
+::ng-deep .p-panelmenu-content  {
+  background: transparent !important;
+  box-shadow: none !important; /* en caso tenga sombra */
+   font-size: 18px;
+  text-decoration: none;
+}
+
+::ng-deep .p-panelmenu-content .p-submenu-list > li > .p-menuitem-content .p-menuitem-link {
+  text-decoration: none;
+}
+
+::ng-deep .p-panelmenu-content .p-submenu-list > li > .p-menuitem-content .p-panelmenu-header-action {
+  text-decoration: none;
+}
+
+::ng-deep .p-menuitem-link-active {
+  font-weight: bold;
+}

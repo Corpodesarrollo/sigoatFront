@@ -1,0 +1,11 @@
+::ng-deep .custom-switch .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background-color: #28a745 !important; /* Verde */
+}
+
+::ng-deep .custom-switch .p-inputswitch .p-inputswitch-slider {
+  background-color: #dc3545 !important; /* Rojo */
+}
+
+.add-button {
+  width: 200px;
+}

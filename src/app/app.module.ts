@@ -31,6 +31,10 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { LayoutComponent } from './layout/layout.component';
 import { LayoutSecondaryComponent } from './layout-secondary/layout-secondary.component';
 import { MsgBoxComponent } from './components/shared/msg-box/msg-box.component';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { TieredMenuModule } from 'primeng/tieredmenu';
+import { NavMenuPortalComponent } from "./components/nav-menu-portal/nav-menu-portal.component";
+import { AccesibilidadComponent } from "./components/shared/accesibilidad/accesibilidad.component";
 
 @NgModule({
   declarations: [
@@ -42,7 +46,6 @@ import { MsgBoxComponent } from './components/shared/msg-box/msg-box.component';
     LayoutSecondaryComponent,
   ],
   imports: [
-
     RouterModule.forRoot(routes),
     BrowserModule,
     BrowserAnimationsModule,
@@ -50,7 +53,6 @@ import { MsgBoxComponent } from './components/shared/msg-box/msg-box.component';
     CommonModule,
     RouterModule,
     FormsModule,
-
     /** PrimeNG */
     MenuModule,
     BadgeModule,
@@ -63,11 +65,13 @@ import { MsgBoxComponent } from './components/shared/msg-box/msg-box.component';
     IconFieldModule,
     InputIconModule,
     MultiSelectModule,
-
+    PanelMenuModule,
+    TieredMenuModule
     /**Component standalone */
-
-
-  ],
+    ,
+    NavMenuPortalComponent,
+    AccesibilidadComponent
+],
   providers: [
     DialogService,
     { provide: HTTP_INTERCEPTORS, useClass: HealthCheckInterceptor, multi: true }
