@@ -11,8 +11,8 @@ import { apis } from '../../../../../models/apis.model';
 import { Menus } from '../../../../../models/menus.model';
 import { MsgTipo } from '../../../../../models/msgTipo.model';
 import { Parametricas } from '../../../../../models/parametricas.model';
-import { MenuService } from '../../../../../services/menu.service';
-import { ModulosService } from '../../../../../services/modulos.service';
+import { MenuService } from '../../../../../services/menu.services';
+import { ModulosService } from '../../../../../services/modulos.services';
 import { MsgBoxComponent } from '../../../../shared/msg-box/msg-box.component';
 import { Paginas } from '../../../../../models/paginas.model';
 

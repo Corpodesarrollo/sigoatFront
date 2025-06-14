@@ -109,3 +109,36 @@ a.nav-link {
     }
   }
 }
+
+::ng-deep .p-menuitem-link{
+  font-family: 'Montserrat', sans-serif;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+::ng-deep .p-menuitem-link:hover{
+  text-decoration: none;
+  color: #4D4D4D !important; /* Cambia el color al pasar el mouse */
+  background-color: transparent !important; /* Fondo transparente al pasar el mouse */
+}
+
+::ng-deep .p-menubar{
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0.5rem 0;
+}
+
+::ng-deep .p-menubar .p-menubar-root-list{
+  margin-top: 10px;
+}
+
+.busqueda-menu {
+  height: 2rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  padding-left: 2rem; /* espacio para el icono */
+  width: 200px;
+  border: 1px solid #ccc;
+  margin-right: 20px;
+}

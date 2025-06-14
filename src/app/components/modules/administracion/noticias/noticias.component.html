@@ -1,0 +1,115 @@
+<div class="p-3">
+    <div class="row">
+      <div class="col-12">
+        <app-steps [stepsCount]="5" [activeIndex]="3" />
+      </div>
+    </div>
+    <div class="header-container mb-2 align-items-center">
+        <h1>Administración de Noticias</h1>
+        <button (click)="agregar()" class="btn button-success btn-lg add-button" type="button">
+            <i class="pi pi-plus"></i> Agregar
+        </button>
+    </div>
+
+    <div class="row mb-3 align-items-center">
+      <div class="col-auto">
+        Página:
+      </div>
+      <div class="col-auto d-flex align-items-center">
+        <h2 class="mb-0">{{ tituloPagina }}</h2>
+      </div>
+    </div>
+      
+    <p-table 
+        [value]="pages" 
+        [paginator]="true" 
+        [rows]="rowsPerPage"
+        [totalRecords]="totalRecords"
+        [loading]="loading"
+        [rowsPerPageOptions]="[5,10,20,50]"
+        styleClass="custom-table">
+        
+    <ng-template pTemplate="header">
+      <tr class="custom-header">
+        <th style="width: 200px;">Título</th>
+        <th>Detalle</th>
+        <th class="text-center" style="width: 200px;">Fecha</th>
+        <th class="text-center" style="width: 200px;">Acciones</th>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="body" let-page>
+      <tr class="custom-row">
+        <td>{{ page.titulo }}</td>
+        <td>{{ page.detalle }}</td>
+        <td class="text-center">{{ page.fecha | date: 'dd/MM/yyyy' }}</td>
+        <td>
+          <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
+          <i class="pi pi-book action-icon create-icon text-primary" 
+              (click)="detalles(page.id)" 
+              pTooltip="Detalles" 
+              tooltipPosition="top"></i>
+          <i class="pi pi-pencil action-icon edit-icon" 
+              (click)="editar(page.id)" 
+              pTooltip="Editar" 
+              tooltipPosition="top"></i>
+            <i class="pi pi-trash action-icon delete-icon" 
+              (click)="confirmDelete($event, page.id)" 
+              pTooltip="Eliminar" 
+              tooltipPosition="top"></i>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog [(visible)]="displayModal" [modal]="true" [closable]="true" header="Agregar Noticia" [style]="{ width: '500px' }">
+  <div class="row mb-3 align-items-center">
+    <div class="col-3">
+      <label class="form-label fw-bold mb-0" for="titulo">Título</label>
+    </div>
+    <div class="col-9 p-fluid">
+      <input pInputText type="text" id="titulo" [(ngModel)]="formulario.titulo" class="w-100" />
+      <div *ngIf="submitted && (formulario.titulo === '')" class="text-danger">
+          Campo requerido
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-3">
+      <label class="form-label fw-bold mb-0" for="detalle">Detalle</label>
+    </div>
+    <div class="col-9 p-fluid">
+      <textarea pInputTextarea id="detalle" [(ngModel)]="formulario.detalle" rows="2" class="w-100"></textarea>
+    </div>
+  </div>
+  <div class="row mb-3 align-items-center">
+    <div class="col-3">
+      <label class="form-label fw-bold mb-0" for="fecha">Fecha</label>
+    </div>
+    <div class="col-9 p-fluid">
+      <p-calendar id="fecha" appendTo="body" [(ngModel)]="formulario.fecha" dateFormat="dd/mm/yy" class="w-100"></p-calendar>
+      <div *ngIf="submitted && (formulario.fecha === null)" class="text-danger">
+          Campo requerido
+      </div>
+    </div>
+  </div>
+
+  <div class="w-100 d-flex justify-content-end mt-3">
+    <button class="btn button-success btn-lg add-button" (click)="onSubmit()">
+      <i class="pi pi-plus"></i> Guardar
+    </button>
+  </div>
+</p-dialog>
+
+<p-toast />
+
+<app-msg-box
+  [visible]="visible"
+  [msgTexto]="msg"
+  [msgTipo]="MsgTipo.Question"
+  [msgBotones]="MsgBotones.EliminarCancelar"
+  [width]="'25vw'"
+  (close)="onHide($event)">
+

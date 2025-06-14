@@ -1,10 +1,11 @@
 import { Attachment } from "./attachment.model";
 
-export interface Anexo {
+export interface Anexos {
+    id?: number;
     codigo?: string | null;
     nombre?: string | null;
     idPagina?: number | null;
     idArchivo?: number | null;
-    estado?: boolean;
     archivo?: Attachment | null;
+    mimeType?: string | null;
 }

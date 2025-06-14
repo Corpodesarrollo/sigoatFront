@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { MethodsService } from './methods.service';
+import { MethodsService } from './methods.services';
 import { GenericService } from './generic.services';
-import { Menus } from '../models/menus.model';
 import { apis } from '../models/apis.model';
 import { Parametricas } from '../models/parametricas.model';
+import { Paginas } from '../models/paginas.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MenuService extends MethodsService {
+export class PaginasService extends MethodsService {
   private menuCollapsedSource = new BehaviorSubject<boolean>(false);
   currentMenuState = this.menuCollapsedSource.asObservable();
 
@@ -17,14 +17,10 @@ export class MenuService extends MethodsService {
       public override repos: GenericService,
   ) { super(repos); }
 
-  toggleMenu() {
-    this.menuCollapsedSource.next(!this.menuCollapsedSource.getValue());
-  }
-
-  async getList(): Promise<Parametricas[]> {
-    let response = await this.getAll<Menus>('menus', apis.Seguridad);
+  async getList(): Promise<Paginas[]> {
+    let response = await this.getAll<Paginas>('paginas', apis.Administrador);
     if(!response?.error){
-      return response?.data as Parametricas[];
+      return response?.data as Paginas[];
     }
     return [];
   }

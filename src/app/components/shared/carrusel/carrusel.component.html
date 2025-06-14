@@ -1,0 +1,16 @@
+  <div id="newsCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item action-icon" *ngFor="let item of carrusel; let i = index" [class.active]="i === 0">
+        <img *ngIf="!item.url" [src]="cargarUrl(item.id!)" class="d-block w-100" alt="Noticia 1">
+        <img *ngIf="item.url" [src]="item.url" class="d-block w-100" alt="Noticia 1">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#newsCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>

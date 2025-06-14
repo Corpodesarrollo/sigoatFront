@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RolesFrmComponent } from "../roles-frm/roles-frm.component";
 import { Roles } from '../../../../../models/roles.model';
 import { ActivatedRoute } from '@angular/router';
-import { RolesService } from '../../../../../services/roles.service';
+import { RolesService } from '../../../../../services/roles.services';
 import { apis } from '../../../../../models/apis.model';
 
 @Component({

@@ -1,0 +1,241 @@
+<div class="p-3">
+    <div class="row">
+      <div class="col-12">
+        <app-steps [stepsCount]="5" [activeIndex]="4" />
+      </div>
+    </div>
+    <div class="header-container mb-2 align-items-center">
+        <h1>Administración Detalles de Noticia</h1>
+        <button (click)="agregar()" class="btn button-success btn-lg add-button" type="button">
+            <i class="pi pi-plus"></i> Agregar
+        </button>
+    </div>
+
+    <div class="row mb-3 align-items-center">
+      <div class="col-auto">
+        Noticia:
+      </div>
+      <div class="col-auto d-flex align-items-center">
+        <h2 class="mb-0">{{ tituloPagina }}</h2>
+      </div>
+    </div>
+      
+    <p-table 
+        [value]="pages" 
+        [paginator]="true" 
+        [rows]="rowsPerPage"
+        [totalRecords]="totalRecords"
+        [loading]="loading"
+        [rowsPerPageOptions]="[5,10,20,50]"
+        styleClass="custom-table">
+        
+    <ng-template pTemplate="header">
+      <tr class="custom-header">
+        <th style="width: 200px;">Tipo</th>
+        <th>Contenido</th>
+        <th class="text-center" style="width: 150px;">Orden</th>
+        <th class="text-center" style="width: 200px;">Acciones</th>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="body" let-page>
+      <tr class="custom-row">
+        <td>
+            <ng-container *ngIf="page.tipo === TipoNoticia.Titulo">Título</ng-container>
+            <ng-container *ngIf="page.tipo === TipoNoticia.Texto">Texto</ng-container>
+            <ng-container *ngIf="page.tipo === TipoNoticia.Imagen">Imagen</ng-container>
+            <ng-container *ngIf="page.tipo === TipoNoticia.ImagenUrl">Imagen Url</ng-container>
+            <ng-container *ngIf="page.tipo === TipoNoticia.Video">Video</ng-container>
+            <ng-container *ngIf="page.tipo === TipoNoticia.Audio">Audio</ng-container>
+        </td>
+        <td>
+            <ng-container *ngIf="page.tipo === TipoNoticia.Titulo">
+                <h4>{{ page.contenido }}</h4>
+            </ng-container>
+            <ng-container *ngIf="page.tipo === TipoNoticia.Texto">
+                <div [innerHTML]="page.contenido" style="width: 100%; height: auto; overflow: auto; word-break: break-word;"></div>
+            </ng-container>
+            <ng-container *ngIf="page.tipo === TipoNoticia.Imagen || page.tipo === TipoNoticia.ImagenUrl">
+                <img *ngIf="page.idArchivo" [src]="cargarUrl(page.id)" alt="Imagen" class="img-thumbnail" />
+                <img *ngIf="page.url" [src]="page.url" alt="Imagen" class="img-thumbnail" />
+            </ng-container>
+            <ng-container *ngIf="page.tipo === TipoNoticia.Video">
+                <a [href]="page.url" target="_blank">
+                    <iframe
+                        [src]="sanitizarURL(page.url)"
+                        width="auto"
+                        height="200px"
+                        frameborder="0"
+                        allowfullscreen
+                    ></iframe>
+                </a>
+            </ng-container>
+            <ng-container *ngIf="page.tipo === TipoNoticia.Audio">
+                <audio *ngIf="page.url" [src]="page.url" controls class="w-100"></audio>
+            </ng-container>
+        </td>
+        <td class="text-center">{{page.orden}}</td>
+        <td>
+          <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
+            <i 
+              class="pi pi-chevron-up action-icon text-warning fw-bold" 
+              (click)="cambiarOrden(page.id, 'up')" 
+              pTooltip="Subir" 
+              tooltipPosition="top"
+              [ngClass]="{'disabled-icon': pages[0].id === page.id}"
+              [style.pointerEvents]="pages[0].id === page.id ? 'none' : 'auto'"
+              [style.opacity]="pages[0].id === page.id ? 0.5 : 1"
+            ></i>
+            
+            <i 
+              class="pi pi-chevron-down action-icon text-warning fw-bold" 
+              (click)="cambiarOrden(page.id, 'down')" 
+              pTooltip="Bajar" 
+              tooltipPosition="top"
+              [ngClass]="{'disabled-icon': pages[pages.length - 1].id === page.id}"
+              [style.pointerEvents]="pages[pages.length - 1].id === page.id ? 'none' : 'auto'"
+              [style.opacity]="pages[pages.length - 1].id === page.id ? 0.5 : 1"
+            ></i>
+
+            <i class="pi pi-trash action-icon delete-icon" 
+              (click)="confirmDelete($event, page.id)" 
+              pTooltip="Eliminar" 
+              tooltipPosition="top"></i>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<div class="row">
+    <div class="col-12 text-center">
+      <button (click)="anterior()" class="btn button-secondary btn-lg add-button text-white me-2" type="button">
+        <i class="pi pi-chevron-left"></i> Volver a Noticias
+      </button>
+    </div>
+</div>
+
+<p-dialog [(visible)]="displayModal" [modal]="true" [closable]="true" header="Agregar Contenido" [style]="{ width: '800px' }">
+    <div class="row mb-3 align-items-center">
+        <div class="col-3">
+            <label class="form-label fw-bold mb-0" for="tipo">Tipo</label>
+        </div>
+        <div class="col-9 p-fluid">
+            <p-dropdown 
+                appendTo="body"
+                id="tipo" 
+                [options]="tipos" 
+                [(ngModel)]="formulario.tipo" 
+                optionLabel="nombre" 
+                optionValue="id" 
+                placeholder="Seleccione un tipo"
+                [filter]="true"
+                filterBy="nombre"
+                class="w-100">
+            </p-dropdown>
+            <div *ngIf="submitted && (formulario.tipo === null)" class="text-danger">
+                Campo requerido
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-3">
+            <label class="form-label fw-bold mb-0" for="detalle">Contenido</label>
+        </div>
+        <div class="col-9 p-fluid">
+            <!-- Título -->
+            <ng-container *ngIf="formulario.tipo === TipoNoticia.Titulo">
+                <input pInputText type="text" id="contenido" [(ngModel)]="formulario.contenido" class="w-100" />
+                <div *ngIf="submitted && (!formulario.contenido || formulario.contenido.trim() === '')" class="text-danger">
+                    El contenido es obligatorio.
+                </div>
+            </ng-container>
+            <!-- Texto -->
+            <ng-container *ngIf="formulario.tipo === TipoNoticia.Texto">
+                <p-editor [(ngModel)]="formulario.contenido" [style]="{ height: '320px' }" />
+                <div *ngIf="submitted && (!formulario.contenido || formulario.contenido.trim() === '')" class="text-danger">
+                    El contenido es obligatorio.
+                </div>
+            </ng-container>
+            <!-- Imagen -->
+            <ng-container *ngIf="formulario.tipo === TipoNoticia.Imagen">
+                <p-fileUpload 
+                    name="myFile" 
+                    accept=".jpg,.jpeg,.png"
+                    maxFileSize="10485760"
+                    [auto]="true"
+                    [showUploadButton]="false"
+                    [showCancelButton]="false"
+                    [mode]="'advanced'"
+                    (onSelect)="onArchivoSeleccionado($event)"
+                    class="w-100">
+                </p-fileUpload>
+                <div *ngIf="submitted && !archivoSeleccionado" class="text-danger">
+                    Debe seleccionar una imagen.
+                </div>
+            </ng-container>
+            <!-- Anexo -->
+            <ng-container *ngIf="formulario.tipo === TipoNoticia.Anexo">
+                <p-fileUpload 
+                    name="myFile" 
+                    accept=".pdf,.doc,.docx,.xls,.xlsx"
+                    maxFileSize="10485760"
+                    [auto]="true"
+                    [showUploadButton]="false"
+                    [showCancelButton]="false"
+                    [mode]="'advanced'"
+                    (onSelect)="onArchivoSeleccionado($event)"
+                    class="w-100">
+                </p-fileUpload>
+                <div *ngIf="submitted && !archivoSeleccionado" class="text-danger">
+                    Debe seleccionar un archivo.
+                </div>
+            </ng-container>
+            <!-- Video, Audio, ImagenUrl -->
+            <ng-container *ngIf="formulario.tipo === TipoNoticia.Video || formulario.tipo === TipoNoticia.Audio || formulario.tipo === TipoNoticia.ImagenUrl">
+                <input pInputText type="text" id="url" [(ngModel)]="formulario.url" class="w-100" placeholder="Ingrese la URL del video o audio"/>
+                <div *ngIf="submitted && (!formulario.url || formulario.url.trim() === '')" class="text-danger">
+                    El contenido es obligatorio.
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div class="visor">
+                            <ng-container *ngIf="formulario.tipo === TipoNoticia.Audio">
+                                <audio *ngIf="formulario.url" [src]="formulario.url" controls class="w-100"></audio>
+                            </ng-container>
+                            <ng-container *ngIf="formulario.tipo === TipoNoticia.Video && formulario.url">
+                                <iframe
+                                    [src]="sanitizarURL(formulario.url)"
+                                    width="100%"
+                                    height="315"
+                                    frameborder="0"
+                                    allowfullscreen
+                                ></iframe>
+                            </ng-container>
+                            <ng-container *ngIf="formulario.tipo === TipoNoticia.ImagenUrl && formulario.url">
+                                <img [src]="formulario.url" alt="Imagen" style="height: 200px;" />
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+  <div class="w-100 d-flex justify-content-end mt-3">
+    <button class="btn button-success btn-lg add-button" (click)="onSubmit()">
+      <i class="pi pi-plus"></i> Guardar
+    </button>
+  </div>
+</p-dialog>
+
+<p-toast />
+
+<app-msg-box
+  [visible]="visible"
+  [msgTexto]="msg"
+  [msgTipo]="MsgTipo.Question"
+  [msgBotones]="MsgBotones.EliminarCancelar"
+  [width]="'25vw'"
+  (close)="onHide($event)">
+

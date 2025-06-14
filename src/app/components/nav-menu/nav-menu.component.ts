@@ -2,9 +2,9 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { GenericService } from '../../services/generic.services';
 import { Router } from '@angular/router';
-import { PermisosService } from '../../services/permisos.service';
+import { PermisosService } from '../../services/permisos.services';
 import { PermisosRol } from '../../models/permisosRol.model';
-import { User } from '../../services/user.service';
+import { User } from '../../services/user.services';
 import { Menus } from '../../models/menus.model';
 
 

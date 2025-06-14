@@ -216,3 +216,13 @@
   border: 1px solid #ccc;
   margin-right: 10px;
 }
+
+.download-icon {
+  color: #4D4D4D80; 
+  background-color: #F3F4F6; /* Gris claro */
+}
+
+.download-icon:hover {
+  background-color: rgba(245, 245, 245, 0.8); /* Gris claro al pasar el mouse */
+  color: #333; /* Color más oscuro al pasar el mouse */
+}

@@ -1,6 +1,11 @@
 <div class="p-3">
+    <div class="row">
+      <div class="col-12">
+        <app-steps [stepsCount]="5" [activeIndex]="2" />
+      </div>
+    </div>
     <div class="header-container mb-2 align-items-center">
-        <h1>Administración del Carrusel de Imágenes</h1>
+        <h1>Administración de Documentos</h1>
         <button (click)="agregar()" class="btn button-success btn-lg add-button" type="button">
             <i class="pi pi-plus"></i> Agregar
         </button>
@@ -26,21 +31,16 @@
         
     <ng-template pTemplate="header">
       <tr class="custom-header">
-        <th style="width: 150px;">Imagen</th>
-        <th class="text-center" style="width: 150px;">Orden</th>
-        <th>Url</th>
+        <th style="width: 200px;">Código</th>
+        <th>Nombre</th>
         <th class="text-center" style="width: 200px;">Acciones</th>
       </tr>
     </ng-template>
     
     <ng-template pTemplate="body" let-page>
       <tr class="custom-row">
-        <td>
-          <img *ngIf="!page.url" [src]="cargarUrl(page.id)" alt="Imagen" class="img-thumbnail" />
-          <img *ngIf="page.url" [src]="page.url" alt="Imagen" class="img-thumbnail" />
-        </td>
-        <td class="text-center">{{page.orden}}</td>
-        <td>{{page.url}}</td>
+        <td>{{page.codigo}}</td>
+        <td>{{page.nombre}}</td>
         <td>
           <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
             <i 
@@ -52,7 +52,6 @@
               [style.pointerEvents]="pages[0].id === page.id ? 'none' : 'auto'"
               [style.opacity]="pages[0].id === page.id ? 0.5 : 1"
             ></i>
-            
             <i 
               class="pi pi-chevron-down action-icon text-warning fw-bold" 
               (click)="cambiarOrden(page.id, 'down')" 
@@ -67,6 +66,8 @@
               (click)="confirmDelete($event, page.id)" 
               pTooltip="Eliminar" 
               tooltipPosition="top"></i>
+
+            <i class="pi pi-download action-icon download-icon" pTooltip="Descargar" tooltipPosition="top" (click)="download(page.id)" ></i>
           </div>
         </td>
       </tr>
@@ -85,17 +86,31 @@
     </div>
 </div>
 
-<p-dialog [(visible)]="displayModal" [modal]="true" [closable]="true" header="Agregar Imagen al Carrusel" [style]="{ width: '500px' }">
-    <div class="info-carga mb-3">
-        <ul>
-            <li>Cargar archivo JPG, JPEG o PNG.</li>
-            <li>Tamaño máximo de 4MB.</li>
-            <li>Dimensiones recomendadas: <br>640 x 400.</li>
-        </ul>
-        <div class="preview-imagen">
-            <img *ngIf="imagenPreview" [src]="imagenPreview" alt="Vista previa" />
-        </div>
+<p-dialog [(visible)]="displayModal" [modal]="true" [closable]="true" header="Agregar Documento" [style]="{ width: '500px' }">
+  <div class="row mb-3 align-items-center">
+    <div class="col-3">
+      <label class="form-label fw-bold mb-0" for="codigo">Código</label>
     </div>
+    <div class="col-9">
+      <input pInputText type="text" id="codigo" [(ngModel)]="formulario.codigo" class="w-100" />
+      <div *ngIf="submitted && (formulario.codigo === '')" class="text-danger">
+          Campo requerido
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3 align-items-center">
+    <div class="col-3">
+      <label class="form-label fw-bold mb-0" for="nombre">Nombre</label>
+    </div>
+    <div class="col-9">
+      <input pInputText type="text" id="nombre" [(ngModel)]="formulario.nombre" class="w-100" />
+      <div *ngIf="submitted && (formulario.nombre === '')" class="text-danger">
+          Campo requerido
+      </div>
+    </div>
+  </div>
+
 
     <div *ngIf="mensajeError" class="mensaje-error text-center mb-2">
         {{ mensajeError }}
@@ -103,10 +118,6 @@
 
     <div *ngIf="nombre" class="nombre-imagen text-center mb-2">
         {{ nombre }}
-    </div>
-
-    <div class="mb-3">
-        <input pInputText type="text" id="0" [(ngModel)]="urlImagen" (blur)="validarImagen(urlImagen)" class="w-100" placeholder="Ingrese URL opcional" />
     </div>
     
     <div class="card-contenedor">
@@ -116,10 +127,13 @@
                 <input id="archivo" type="file" (change)="onArchivoSeleccionado($event)" #fileInput style="display: none;" accept=".pdf, .doc, .docx, .xls, .xlsx, .jpg, .jpeg" />
             </label>
 
-            <button class="btn-subir" (click)="subirArchivo()" [disabled]="!archivoSeleccionado && !urlImagen">
+            <button class="btn-subir" (click)="onSubmit()">
                 <i class="pi pi-upload"></i> Subir archivo
             </button>
         </div>
+    </div>
+    <div *ngIf="submitted && !formulario.archivo" class="text-danger">
+      Campo requerido
     </div>
 </p-dialog>
 

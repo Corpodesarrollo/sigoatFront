@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { MethodsService } from './methods.service';
+import { MethodsService } from './methods.services';
 import { GenericService } from './generic.services';
 import { Menus } from '../models/menus.model';
 import { apis } from '../models/apis.model';
 import { Parametricas } from '../models/parametricas.model';
 import { Carrusel } from '../models/carrusel.model';
 import { ResponseModel } from '../models/response.model';
+import { Anexos } from '../models/anexos.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CarruselService extends MethodsService {
+export class AnexosService extends MethodsService {
   private menuCollapsedSource = new BehaviorSubject<boolean>(false);
   currentMenuState = this.menuCollapsedSource.asObservable();
 
@@ -19,12 +20,8 @@ export class CarruselService extends MethodsService {
       public override repos: GenericService,
   ) { super(repos); }
 
-  toggleMenu() {
-    this.menuCollapsedSource.next(!this.menuCollapsedSource.getValue());
-  }
-
   async getList(): Promise<Parametricas[]> {
-    let response = await this.getAll<Carrusel>('imagenes', apis.Seguridad);
+    let response = await this.getAll<Anexos>('anexos', apis.Administrador);
     if(!response?.error){
       return response?.data as Parametricas[];
     }

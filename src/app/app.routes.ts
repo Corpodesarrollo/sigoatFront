@@ -19,6 +19,12 @@ import { PaginasComponent } from './components/modules/portal/paginas/paginas.co
 import { PaginasEditarComponent } from './components/modules/administracion/paginas/paginas-editar/paginas-editar.component';
 import { PaginasCrearComponent } from './components/modules/administracion/paginas/paginas-crear/paginas-crear.component';
 import { CarruselComponent } from './components/modules/administracion/carrusel/carrusel.component';
+import { DocumentosComponent } from './components/modules/administracion/documentos/documentos.component';
+import { NoticiasComponent } from './components/modules/administracion/noticias/noticias.component';
+import { DetallesNoticiaComponent } from './components/modules/administracion/detalles-noticia/detalles-noticia.component';
+import { MenusPortalConsultarComponent } from './components/modules/seguridad/menusPortal/menus-portal-consultar/menus-portal-consultar.component';
+import { MenusPortalCrearComponent } from './components/modules/seguridad/menusPortal/menus-portal-crear/menus-portal-crear.component';
+import { MenusPortalEditarComponent } from './components/modules/seguridad/menusPortal/menus-portal-editar/menus-portal-editar.component';
 
 export const routes: Routes = [
   {
@@ -42,6 +48,12 @@ export const routes: Routes = [
       { path: 'paginas-crear', component: PaginasCrearComponent },
       { path: 'paginas-editar/:id', component: PaginasEditarComponent },
       { path: 'carrusel/:id', component: CarruselComponent },
+      { path: 'documentos/:id', component: DocumentosComponent },
+      { path: 'noticias/:id', component: NoticiasComponent },
+      { path: 'detallesNoticias/:id', component: DetallesNoticiaComponent },
+      { path: 'menusPortal', component: MenusPortalConsultarComponent },
+      { path: 'menusPortal-crear', component: MenusPortalCrearComponent },
+      { path: 'menusPortal-editar/:id', component: MenusPortalEditarComponent },
     ]
   },
   {
