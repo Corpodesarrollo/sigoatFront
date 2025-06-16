@@ -1,0 +1,66 @@
+/* Contenedor principal */
+.p-4 {
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Etiquetas */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Inputs y textareas de PrimeNG */
+input[pInputText],
+textarea[pInputTextarea] {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[pInputText]:focus,
+textarea[pInputTextarea]:focus {
+  border-color: #3f51b5;
+  outline: none;
+}
+
+/* Mensajes de error */
+.text-danger {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Botón genérico (se aplica a todos si no usas clases personalizadas) */
+button {
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #303f9f;
+}
+
+/* Distribución responsive de columnas */
+.p-col-12,
+.p-md-4 {
+  margin-bottom: 1rem;
+    flex: 0 0 36%
+}
+
+/* Alineación derecha */
+.text-end {
+  text-align: right;
+}

@@ -19,6 +19,8 @@ import { PaginasComponent } from './components/modules/portal/paginas/paginas.co
 import { PaginasEditarComponent } from './components/modules/administracion/paginas/paginas-editar/paginas-editar.component';
 import { PaginasCrearComponent } from './components/modules/administracion/paginas/paginas-crear/paginas-crear.component';
 import { CarruselComponent } from './components/modules/administracion/carrusel/carrusel.component';
+import { CalendarioComponent } from './components/modules/administracion/calendario/calendario.component';
+import { ContactoComponent } from './components/modules/administracion/contactenos/contactenos.component';
 
 export const routes: Routes = [
   {
@@ -42,6 +44,9 @@ export const routes: Routes = [
       { path: 'paginas-crear', component: PaginasCrearComponent },
       { path: 'paginas-editar/:id', component: PaginasEditarComponent },
       { path: 'carrusel/:id', component: CarruselComponent },
+      { path: 'calendario', component: CalendarioComponent },
+      { path: 'contactenos', component: ContactoComponent },
+
     ]
   },
   {
