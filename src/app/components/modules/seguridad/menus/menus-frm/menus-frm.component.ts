@@ -6,12 +6,12 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { Parametricas } from '../../../../../models/parametricas.model';
-import { MenuService } from '../../../../../services/menu.service';
+import { MenuService } from '../../../../../services/menu.services';
 import { apis } from '../../../../../models/apis.model';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
-import { ModulosService } from '../../../../../services/modulos.service';
+import { ModulosService } from '../../../../../services/modulos.services';
 import { MsgBoxComponent } from "../../../../shared/msg-box/msg-box.component";
 import { MsgTipo } from '../../../../../models/msgTipo.model';
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
-import { MenuService } from './services/menu.service';
+import { MenuService } from './services/menu.services';
 import { GenericService } from './services/generic.services';
 import { environment } from '../environments/environment';
 

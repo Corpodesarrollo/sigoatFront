@@ -41,6 +41,11 @@
         </td>
         <td>
           <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
+            <i class="pi pi-book action-icon create-icon" 
+               (click)="mostrarMenu($event, page.id)"
+              pTooltip="Noticias" 
+              tooltipPosition="top"></i>
+            
             <i class="pi pi-pencil action-icon edit-icon" 
               (click)="edit(page)" 
               pTooltip="Editar" 
@@ -60,6 +65,7 @@
   </p-table>
 </div>
 
+<p-menu #menu [popup]="true" [model]="items"></p-menu>
 <p-toast />
 
 <app-msg-box

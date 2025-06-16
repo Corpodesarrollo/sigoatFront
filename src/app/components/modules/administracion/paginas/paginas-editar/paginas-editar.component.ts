@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { PaginasFrmComponent } from "../paginas-frm/paginas-frm.component";
-import { PaginasService } from '../../../../../services/paginas.service';
+import { PaginasService } from '../../../../../services/paginas.services';
 import { ActivatedRoute } from '@angular/router';
 import { apis } from '../../../../../models/apis.model';
 import { Menus } from '../../../../../models/menus.model';

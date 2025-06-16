@@ -1,0 +1,39 @@
+import { Component, Input } from '@angular/core';
+import { CarruselService } from '../../../services/carrusel.services';
+import { apis } from '../../../models/apis.model';
+import { ResponseModel } from '../../../models/response.model';
+import { Carrusel } from '../../../models/carrusel.model';
+import { CommonModule } from '@angular/common';
+import { environment } from '../../../../environments/environment';
+
+@Component({
+  selector: 'app-carrusel',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './carrusel.component.html',
+  styleUrl: './carrusel.component.css'
+})
+export class CarruselComponent {
+  @Input() id: number = 0;
+  carrusel: Carrusel[] = [];
+
+  constructor(private carruselService: CarruselService) {  
+  }
+
+  async ngOnInit() {
+    let carrusel = await this.carruselService.getAllById("imagenes", this.id, apis.Administrador);
+    let result = carrusel as ResponseModel;
+    if (result.error) {
+      console.error('Error al obtener las imágenes del carrusel:', result.dataError);
+    } else {
+      this.carrusel = result.data as Carrusel[];
+      // Aquí puedes manejar las imágenes obtenidas
+      console.log('Imágenes del carrusel:', result.data);
+    }
+  }
+
+  cargarUrl(id: number): string {
+    console.log('Cargando URL para la imagen con ID:', id);
+    return `${environment.urlMSAdministracion}Imagenes/GetImg/${id}`;
+  }
+}

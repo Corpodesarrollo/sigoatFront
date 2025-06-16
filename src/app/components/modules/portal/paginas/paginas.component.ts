@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import { AccesibilidadComponent } from "../../../shared/accesibilidad/accesibilidad.component";
+import { CarruselComponent } from '../../../shared/carrusel/carrusel.component';
 
 @Component({
   selector: 'app-paginas',
   standalone: true,
-  imports: [CommonModule, AccesibilidadComponent],
+  imports: [CommonModule, AccesibilidadComponent, CarruselComponent],
   templateUrl: './paginas.component.html',
   styleUrl: './paginas.component.css'
 })

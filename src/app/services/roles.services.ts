@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.services';
 import { apis } from '../models/apis.model';
-import { MethodsService } from './methods.service';
+import { MethodsService } from './methods.services';
 import { Parametricas } from '../models/parametricas.model';
 import { Roles } from '../models/roles.model';
 

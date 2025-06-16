@@ -61,6 +61,14 @@
   transition: all 0.2s;
 }
 
+.create-icon {
+    color: #424bf5;
+    background-color: #E0E7FF; /* Fondo azul claro */
+}
+.create-icon:hover {
+    background-color: rgba(66, 75, 245, 0.1);
+}
+
 .edit-icon {
     color: #F59E42; /* Naranja para advertencia */
     background-color: #FFF7ED; /* Fondo naranja claro */
@@ -96,4 +104,16 @@
 
 ::ng-deep .custom-switch .p-inputswitch .p-inputswitch-slider {
   background-color: #dc3545 !important; /* Rojo */
+}
+
+::ng-deep .p-menu .p-menuitem {
+  text-decoration: none;
+}
+
+::ng-deep .p-menu .p-menuitem-link {
+  text-decoration: none;
+}
+
+::ng-deep .p-menu {
+  text-decoration: none;
 }

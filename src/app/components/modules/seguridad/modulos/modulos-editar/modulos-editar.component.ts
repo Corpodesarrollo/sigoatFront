@@ -4,7 +4,7 @@ import { Modulos } from '../../../../../models/modulos.model';
 import { ActivatedRoute } from '@angular/router';
 import { apis } from '../../../../../models/apis.model';
 import { Menus } from '../../../../../models/menus.model';
-import { ModulosService } from '../../../../../services/modulos.service';
+import { ModulosService } from '../../../../../services/modulos.services';
 
 @Component({
   selector: 'app-modulos-editar',

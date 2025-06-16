@@ -21,6 +21,12 @@ import { PaginasCrearComponent } from './components/modules/administracion/pagin
 import { CarruselComponent } from './components/modules/administracion/carrusel/carrusel.component';
 import { CalendarioComponent } from './components/modules/administracion/calendario/calendario.component';
 import { ContactoComponent } from './components/modules/administracion/contactenos/contactenos.component';
+import { DocumentosComponent } from './components/modules/administracion/documentos/documentos.component';
+import { NoticiasComponent } from './components/modules/administracion/noticias/noticias.component';
+import { DetallesNoticiaComponent } from './components/modules/administracion/detalles-noticia/detalles-noticia.component';
+import { MenusPortalConsultarComponent } from './components/modules/seguridad/menusPortal/menus-portal-consultar/menus-portal-consultar.component';
+import { MenusPortalCrearComponent } from './components/modules/seguridad/menusPortal/menus-portal-crear/menus-portal-crear.component';
+import { MenusPortalEditarComponent } from './components/modules/seguridad/menusPortal/menus-portal-editar/menus-portal-editar.component';
 
 export const routes: Routes = [
   {
@@ -47,6 +53,12 @@ export const routes: Routes = [
       { path: 'calendario', component: CalendarioComponent },
       { path: 'contactenos', component: ContactoComponent },
 
+      { path: 'documentos/:id', component: DocumentosComponent },
+      { path: 'noticias/:id', component: NoticiasComponent },
+      { path: 'detallesNoticias/:id', component: DetallesNoticiaComponent },
+      { path: 'menusPortal', component: MenusPortalConsultarComponent },
+      { path: 'menusPortal-crear', component: MenusPortalCrearComponent },
+      { path: 'menusPortal-editar/:id', component: MenusPortalEditarComponent },
     ]
   },
   {

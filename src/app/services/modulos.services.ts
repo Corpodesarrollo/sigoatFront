@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { GenericService } from './generic.services';
 import { Permisos } from '../models/permisos.model';
 import { apis } from '../models/apis.model';
-import { MethodsService } from './methods.service';
+import { MethodsService } from './methods.services';
 import { PermisosRol } from '../models/permisosRol.model';
 import { Parametricas } from '../models/parametricas.model';
 import { Modulos } from '../models/modulos.model';
