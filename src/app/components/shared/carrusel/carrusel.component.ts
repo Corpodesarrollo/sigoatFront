@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { CarruselService } from '../../../services/carrusel.services';
 import { apis } from '../../../models/apis.model';
 import { ResponseModel } from '../../../models/response.model';
@@ -20,6 +20,13 @@ export class CarruselComponent {
   constructor(private carruselService: CarruselService) {  
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+      if (changes['id']) {
+        this.id = changes['id'].currentValue;
+        this.ngOnInit();
+      }
+    }
+
   async ngOnInit() {
     let carrusel = await this.carruselService.getAllById("imagenes", this.id, apis.Administrador);
     let result = carrusel as ResponseModel;
@@ -33,7 +40,6 @@ export class CarruselComponent {
   }
 
   cargarUrl(id: number): string {
-    console.log('Cargando URL para la imagen con ID:', id);
     return `${environment.urlMSAdministracion}Imagenes/GetImg/${id}`;
   }
 }

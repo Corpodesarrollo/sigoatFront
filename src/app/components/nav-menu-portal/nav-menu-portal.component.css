@@ -2,114 +2,6 @@
   margin-top: 0; /* sin espacio adicional si no usas navbar fixed */
 }
 
-a.nav-link {
-  cursor: pointer;
-}
-
-.navbar-transparent {
-  font-weight: 600;
-  background-color: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
-  padding: 1rem 0;
-  
-  .nav-link {
-    color: #333; 
-    padding: 0.5rem 1rem;
-    position: relative;
-    transition: color 0.3s ease;
-    
-    &:hover {
-      color: #000; 
-    }
-    
-    &.active {
-      font-weight: 500;
-      
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 1rem;
-        right: 1rem;
-        height: 2px;
-        background-color: currentColor;
-      }
-    }
-  }
-  
-  .navbar-toggler {
-    border: none;
-    padding: 0.5rem;
-    
-    &:focus {
-      box-shadow: none;
-    }
-  }
-}
-
-.header-with-bg {
-  position: absolute;
-  width: 100%;
-  z-index: 1000;
-  
-  .nav-link {
-    color: white !important; 
-    
-    &:hover {
-      color: rgba(255, 255, 255, 0.8) !important;
-    }
-  }
-  
-  .navbar-toggler-icon {
-    filter: invert(1); 
-  }
-}
-
-/* Estilos obligatorios para visibilidad */
-.navbar-transparent {
-  .search-container {
-    min-width: 250px;
-    
-    .input-group {
-      background: rgba(255, 255, 255, 0.9) !important;
-      transition: all 0.3s ease;
-      
-      &:hover, &:focus-within {
-        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-      }
-    }
-    
-    .form-control {
-      color: #333 !important;
-      
-      &::placeholder {
-        color: #6c757d !important;
-        opacity: 1;
-      }
-    }
-    
-    .btn-link {
-      color: #495057 !important;
-    }
-  }
-}
-
-/* Versión móvil garantizada */
-@media (max-width: 992px) {
-  .navbar-transparent {
-    .search-container {
-      width: 100%;
-      margin: 1rem 0;
-      order: 3; /* Mover después del menú */
-      
-      .input-group {
-        width: 100% !important;
-      }
-    }
-  }
-}
-
 ::ng-deep .p-menuitem-link{
   font-family: 'Montserrat', sans-serif;
   text-decoration: none;
@@ -126,7 +18,6 @@ a.nav-link {
   background-color: transparent !important;
   box-shadow: none !important;
   border: none !important;
-  padding: 0.5rem 0;
 }
 
 ::ng-deep .p-menubar .p-menubar-root-list{

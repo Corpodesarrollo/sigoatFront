@@ -31,8 +31,6 @@ export class NavMenuPortalComponent {
       let itemsGrupo = this.construirArbolRecursivo(null);
 
       this.items = itemsGrupo;
-      
-      //console.log('Permisos obtenidos2:', this.items);
       this.cd.detectChanges();
     }
   }
@@ -54,7 +52,7 @@ export class NavMenuPortalComponent {
           routerLink: permiso.path,
           expanded: true,
           command: () => {
-            this.router.navigate([permiso.path]);
+            this.router.navigate([`${permiso.path}`]);
           },
           items: this.construirArbolRecursivo(permiso.idMenu)
         });

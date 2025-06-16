@@ -1,0 +1,79 @@
+<div class="p-5">
+    <div class="header-container mb-5 align-items-center">
+        <h1>Contactenos</h1>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="p-4">
+        <div class="container-fluid">
+            <!-- Nombre -->
+            <div class="row align-items-center mb-3 p-fluid">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold mb-0" for="nombre">Nombre Completo</label>
+                </div>
+                <div class="col-md-8">
+                    <input pInputText type="text" id="nombreCompleto" [(ngModel)]="formulario.nombreCompleto" class="w-100" />
+                    <div *ngIf="submitted && (!formulario.nombreCompleto || formulario.nombreCompleto.trim() === '')" class="text-danger">
+                        Campo requerido
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-center mb-3 p-fluid">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold mb-0" for="nombre">Email</label>
+                </div>
+                <div class="col-md-8">
+                    <input pInputText type="text" id="email" [(ngModel)]="formulario.email" class="w-100" />
+                    <div *ngIf="submitted && (!formulario.email || formulario.email.trim() === '')" class="text-danger">
+                        Campo requerido
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-center mb-3 p-fluid">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold mb-0" for="telefono">Teléfono</label>
+                </div>
+                <div class="col-md-8">
+                    <input pInputText type="text" id="telefono" [(ngModel)]="formulario.telefono" class="w-100" />
+                    <div *ngIf="submitted && (!formulario.telefono || formulario.telefono.trim() === '')" class="text-danger">
+                        Campo requerido
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-center mb-3 p-fluid">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold mb-0" for="asunto">Asunto</label>
+                </div>
+                <div class="col-md-8">
+                    <input pInputText type="text" id="asunto" [(ngModel)]="formulario.asunto" class="w-100" />
+                    <div *ngIf="submitted && (!formulario.asunto || formulario.asunto.trim() === '')" class="text-danger">
+                        Campo requerido
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orden -->
+            <div class="row align-items-center mb-3 p-fluid">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold mb-0" for="mensaje">Mensaje</label>
+                </div>
+                <div class="col-md-8">
+                    <textarea pInputText type="number" id="mensaje" [(ngModel)]="formulario.mensaje" class="w-100"></textarea>
+                    <div *ngIf="submitted && (!formulario.mensaje || formulario.mensaje.trim() === '')" class="text-danger">
+                        Campo requerido
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="row mt-3">
+                <div class="col-md-12 text-end">
+                <button type="button" (click)="onSubmit()" class="btn button-success btn-lg add-button">Envias</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>

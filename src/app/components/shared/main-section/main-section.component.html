@@ -1,0 +1,102 @@
+<section class="news-section mb-5">
+    <h1 class="mb-3">Noticias Recientes</h1>
+    <div class="row">
+          <!-- Noticia Principal -->
+        <div class="col-md-7 mb-4" *ngIf="noticia1">
+            <h3 class="mb-0">{{noticia1.titulo}}</h3>
+            <div class="news-meta mb-3 d-flex align-items-center">
+                <span class="text-muted"><i class="bi bi-calendar me-1"></i>{{noticia1.fecha | date:'d \'de\' MMMM, y'}}</span>
+            </div>
+            <div class="card-body">
+                <div *ngFor="let item of noticia1.detalles; let i = index">
+                    <div class="single-image-viewer" *ngIf="item.tipo === TipoNoticia.Imagen && i < 3">
+                        <div class="image-container" [class.zoomed]="isZoomed" [class.fullscreen]="isFullscreen">
+                            <img [src]="cargarUrl(item.id!)"
+                                class="adaptive-image"
+                                (load)="onImageLoad()"
+                                [style.max-width]="isFullscreen ? '100vw' : '100%'"
+                                [style.max-height]="isFullscreen ? '100vh' : 'auto'">
+                            <div class="image-controls">
+                                <button class="btn btn-sm btn-control" (click)="toggleZoom()" title="Zoom">
+                                <i class="bi" [class.bi-zoom-in]="!isZoomed" [class.bi-zoom-out]="isZoomed"></i>
+                                </button>
+                                <button class="btn btn-sm btn-control" (click)="toggleFullscreen()" title="Pantalla completa">
+                                <i class="bi" [class.bi-fullscreen]="!isFullscreen" [class.bi-fullscreen-exit]="isFullscreen"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-text-container  word-break-fix" *ngIf="item.tipo === TipoNoticia.Texto && i < 3">
+                        <span [innerHTML]="item.contenido"></span>
+                    </div>
+                    <h3 class="mb-0" *ngIf="item.tipo === TipoNoticia.Titulo && i < 3">{{item.contenido}}</h3>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="#" class="btn btn-sm btn-outline-secondary" (click)="noticia(noticia1.idNoticia)">Leer más</a>
+                </div>
+            </div>
+        </div>
+        <!-- Noticias Secundarias -->
+        <div class="col-md-5">
+            <div class="card mb-3 horizontal-card news-side-card" *ngIf="noticia2">
+                <div class="row g-0">
+                    <!-- Contenido de texto a la derecha -->
+                    <div class="col-md-4" *ngIf="noticia2.detalles && noticia2.detalles.length > 0 && noticia2.detalles[0].tipo === TipoNoticia.Imagen">
+                        <div class="card-image-container">
+                            <img [src]="cargarUrl(noticia2.detalles[0].id!)"
+                                class="card-img-left">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ noticia2.titulo}}</h5>
+                            <p class="card-text text-muted small">{{noticia2.fecha | date:'d \'de\' MMMM, y'}}</p>
+                            <p class="card-text">{{ noticia2.detalle }}</p>
+                            <a href="#" class="btn btn-sm btn-outline-secondary">Ver detalles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3 horizontal-card news-side-card" *ngIf="noticia3">
+                <div class="row g-0">
+                    <!-- Contenido de texto a la derecha -->
+                    <div class="col-md-4" *ngIf="noticia3.detalles && noticia3.detalles.length > 0 && noticia3.detalles[0].tipo === TipoNoticia.Imagen">
+                        <div class="card-image-container">
+                            <img [src]="cargarUrl(noticia3.detalles[0].id!)"
+                                class="card-img-left">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ noticia3.titulo}}</h5>
+                            <p class="card-text text-muted small">{{noticia3.fecha | date:'d \'de\' MMMM, y'}}</p>
+                            <p class="card-text">{{ noticia3.detalle }}</p>
+                            <a href="#" class="btn btn-sm btn-outline-secondary">Ver detalles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3 horizontal-card news-side-card" *ngIf="noticia4">
+                <div class="row g-0">
+                    <!-- Contenido de texto a la derecha -->
+                    <div class="col-md-4" *ngIf="noticia4.detalles && noticia4.detalles.length > 0 && noticia4.detalles[0].tipo === TipoNoticia.Imagen">
+                        <div class="card-image-container">
+                            <img [src]="cargarUrl(noticia4.detalles[0].id!)"
+                                class="card-img-left">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ noticia4.titulo}}</h5>
+                            <p class="card-text text-muted small">{{noticia4.fecha | date:'d \'de\' MMMM, y'}}</p>
+                            <p class="card-text">{{ noticia4.detalle }}</p>
+                            <a href="#" class="btn btn-sm btn-outline-secondary">Ver detalles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

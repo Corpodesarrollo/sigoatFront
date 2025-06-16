@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
-import { AccesibilidadComponent } from "../../../shared/accesibilidad/accesibilidad.component";
-import { CarruselComponent } from '../../../shared/carrusel/carrusel.component';
-import { DocumentosComponent } from "../../../shared/documentos/documentos.component";
-import { MainSectionComponent } from "../../../shared/main-section/main-section.component";
+import { AccesibilidadComponent } from '../../../shared/accesibilidad/accesibilidad.component';
+import { MainSectionComponent } from '../../../shared/main-section/main-section.component';
+import { CarruselComponent } from '../../administracion/carrusel/carrusel.component';
+import { DocumentosComponent } from '../../administracion/documentos/documentos.component';
 
 @Component({
-  selector: 'app-paginas',
+  selector: 'app-noticia',
   standalone: true,
   imports: [CommonModule, AccesibilidadComponent, CarruselComponent, DocumentosComponent, MainSectionComponent],
-  templateUrl: './paginas.component.html',
-  styleUrl: './paginas.component.css'
+  templateUrl: './noticia.component.html',
+  styleUrl: './noticia.component.css'
 })
-export class PaginasComponent {
+export class NoticiaComponent {
   id: number = 1;
   documents = [
     { id: '01', name: 'Afiliación', format: 'docx' },

@@ -27,6 +27,9 @@ import { DetallesNoticiaComponent } from './components/modules/administracion/de
 import { MenusPortalConsultarComponent } from './components/modules/seguridad/menusPortal/menus-portal-consultar/menus-portal-consultar.component';
 import { MenusPortalCrearComponent } from './components/modules/seguridad/menusPortal/menus-portal-crear/menus-portal-crear.component';
 import { MenusPortalEditarComponent } from './components/modules/seguridad/menusPortal/menus-portal-editar/menus-portal-editar.component';
+import { NoticiaComponent } from './components/modules/portal/noticia/noticia.component';
+import { ContactenosComponent } from './components/modules/portal/contactenos/contactenos.component';
+import { ContactenosConsultarComponent } from './components/modules/administracion/contactenos/contactenos-consultar/contactenos-consultar.component';
 
 export const routes: Routes = [
   {
@@ -59,13 +62,17 @@ export const routes: Routes = [
       { path: 'menusPortal', component: MenusPortalConsultarComponent },
       { path: 'menusPortal-crear', component: MenusPortalCrearComponent },
       { path: 'menusPortal-editar/:id', component: MenusPortalEditarComponent },
+      { path: 'contactenos', component: ContactenosConsultarComponent },
     ]
   },
   {
     path: '',
     component: LayoutSecondaryComponent,
     children: [
-      { path: 'prueba', component: PaginasComponent },
+      { path: 'contactenos', component: ContactenosComponent },
+      { path: 'noticia/:idPagina/:idNoticia', component: NoticiaComponent },
+      { path: ':id', component: PaginasComponent },
+      { path: 'portal', component: PaginasComponent },
     ]
   }
 ];

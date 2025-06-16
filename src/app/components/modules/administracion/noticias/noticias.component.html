@@ -45,18 +45,18 @@
         <td class="text-center">{{ page.fecha | date: 'dd/MM/yyyy' }}</td>
         <td>
           <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
-          <i class="pi pi-book action-icon create-icon text-primary" 
-              (click)="detalles(page.id)" 
-              pTooltip="Detalles" 
-              tooltipPosition="top"></i>
-          <i class="pi pi-pencil action-icon edit-icon" 
-              (click)="editar(page.id)" 
-              pTooltip="Editar" 
-              tooltipPosition="top"></i>
+            <i class="pi pi-book action-icon create-icon text-primary" 
+                (click)="detalles(page.id)" 
+                pTooltip="Detalles" 
+                tooltipPosition="top"></i>
+            <i class="pi pi-pencil action-icon edit-icon" 
+                (click)="editar(page.id)" 
+                pTooltip="Editar" 
+                tooltipPosition="top"></i>
             <i class="pi pi-trash action-icon delete-icon" 
-              (click)="confirmDelete($event, page.id)" 
-              pTooltip="Eliminar" 
-              tooltipPosition="top"></i>
+                (click)="confirmDelete($event, page.id)" 
+                pTooltip="Eliminar" 
+                tooltipPosition="top"></i>
           </div>
         </td>
       </tr>

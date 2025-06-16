@@ -1,0 +1,31 @@
+/* Estilos para documentos */
+.documents-section {
+  h2 {
+    font-weight: 700;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+    color: #4D4D4D;
+  }
+  
+  .table {
+    th {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+        color: #4D4D4D;
+    }
+    
+    td {
+      vertical-align: middle;
+    }
+
+    tr {
+        background-color: transparent !important;
+    }
+  }
+
+  .text-warning {
+    cursor: pointer;
+  }
+}

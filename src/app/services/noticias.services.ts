@@ -41,6 +41,21 @@ export class NoticiasServices extends MethodsService {
       });
   }
 
+  public async PaginaNoticia(endpoint: string, id: number, api: string): Promise<ResponseModel | null> {
+      const url = `${endpoint}/PaginaNoticia/${id}`;
+      return new Promise((resolve) => {
+          this.repos.getWithOutParameters(url, api).subscribe({
+              next: (data: any) => {
+                  resolve(data);
+              },
+              error: (err) => {
+                  console.error(err);
+                  resolve(null);
+              }
+          });
+      });
+  }
+
   public async putUpDown(endpoint: string, data: string, api: string): Promise<ResponseModel | null> {
     return new Promise((resolve) => {
         const url = `${endpoint}/UpDown/${data}`;

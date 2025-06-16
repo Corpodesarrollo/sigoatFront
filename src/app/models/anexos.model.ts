@@ -8,4 +8,5 @@ export interface Anexos {
     idArchivo?: number | null;
     archivo?: Attachment | null;
     mimeType?: string | null;
+    formato?: string | null;
 }
