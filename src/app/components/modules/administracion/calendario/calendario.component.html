@@ -1,0 +1,38 @@
+<div class="p-5">
+    <div class="header-container mb-5 align-items-center">
+        <h1>Calendarios de Eventos</h1>
+
+    </div>
+
+<div class="calendar-container">
+  <!-- 📅 Calendario -->
+  <section class="calendar-panel">
+    <p-calendar
+      [(ngModel)]="fechaSeleccionada"
+      (onSelect)="seleccionarFecha($event)"
+      (onMonthChange)="cambiarMes($event)"
+      [inline]="true"
+      [showButtonBar]="true"
+    ></p-calendar>
+  </section>
+
+  <!-- 🗓️ Eventos -->
+  <section class="event-panel">
+    <h3>Próximos Eventos</h3>
+
+    @if (getEventosDelMes(mesActivo).length > 0) {
+      <ul>
+        @for (evento of getEventosDelMes(mesActivo); track $index) {
+          <li>
+            <strong>{{ evento.subject }}</strong><br />
+            🗓 {{ evento.start.dateTime | date: 'mediumDate' }}<br />
+            🕒 {{ evento.start.dateTime | date: 'shortTime' }} - {{ evento.end.dateTime | date: 'shortTime' }}<br />
+            📝 {{ evento.bodyPreview || evento.body?.content || 'Sin descripción' }}
+          </li>
+        }
+      </ul>
+    } @else {
+      <p>No hay eventos para esta fecha.</p>
+    }
+  </section>
+</div>

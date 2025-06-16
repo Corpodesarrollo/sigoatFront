@@ -1,0 +1,33 @@
+<div class="card p-4">
+  <h2>Contáctanos</h2>
+
+  <form [formGroup]="formulario" (ngSubmit)="enviar()">
+    <div class="p-grid p-fluid">
+
+      <div class="p-col-12 p-md-4">
+        <label for="email">Email</label>
+        <input id="email" type="email" pInputText formControlName="email" />
+      </div>
+
+      <div class="p-col-12 p-md-4">
+        <label for="telefono">Teléfono</label>
+        <input id="telefono" type="text" pInputText formControlName="telefono" />
+      </div>
+
+      <div class="p-col-12 p-md-4">
+        <label for="asunto">Asunto</label>
+        <input id="asunto" type="text" pInputText formControlName="asunto" />
+      </div>
+
+      <div class="p-col-12">
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" rows="5" pInputTextarea formControlName="mensaje"></textarea>
+      </div>
+
+      <div class="p-col-12 text-end">
+        <button pButton type="submit" label="Enviar" [disabled]="formulario.invalid"></button>
+      </div>
+
+    </div>
+  </form>
+</div>

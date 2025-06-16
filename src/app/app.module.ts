@@ -35,6 +35,13 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { NavMenuPortalComponent } from "./components/nav-menu-portal/nav-menu-portal.component";
 import { AccesibilidadComponent } from "./components/shared/accesibilidad/accesibilidad.component";
+import { appConfig } from './services/app.configCalendario'; 
+import { MsalModule, MsalService  } from '@azure/msal-angular';
+import { MSALInstanceFactory } from './services/app.configCalendario';
+import { InteractionType } from '@azure/msal-browser';
+import { CalendarioComponent } from './components/modules/administracion/calendario/calendario.component';
+import { ContactoComponent } from './components/modules/administracion/contactenos/contactenos.component';
+import { ReactiveFormsModule } from '@angular/forms'; // ✅ <-- Esto es clave
 
 @NgModule({
   declarations: [
@@ -44,6 +51,9 @@ import { AccesibilidadComponent } from "./components/shared/accesibilidad/accesi
     FooterComponent,
     LayoutComponent,
     LayoutSecondaryComponent,
+    CalendarioComponent,
+    ContactoComponent,
+    
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -53,7 +63,6 @@ import { AccesibilidadComponent } from "./components/shared/accesibilidad/accesi
     CommonModule,
     RouterModule,
     FormsModule,
-    /** PrimeNG */
     MenuModule,
     BadgeModule,
     RippleModule,
@@ -66,13 +75,23 @@ import { AccesibilidadComponent } from "./components/shared/accesibilidad/accesi
     InputIconModule,
     MultiSelectModule,
     PanelMenuModule,
-    TieredMenuModule
-    /**Component standalone */
-    ,
+    TieredMenuModule,
     NavMenuPortalComponent,
-    AccesibilidadComponent
-],
+    ReactiveFormsModule,
+    AccesibilidadComponent,
+    MsalModule.forRoot(MSALInstanceFactory(), {
+      interactionType: InteractionType.Redirect,
+      authRequest: {
+        scopes: ['user.read']
+      }
+    }, {
+      interactionType: InteractionType.Redirect,
+      protectedResourceMap: new Map()
+    })
+  ],
+
   providers: [
+    ...appConfig, 
     DialogService,
     { provide: HTTP_INTERCEPTORS, useClass: HealthCheckInterceptor, multi: true }
   ],

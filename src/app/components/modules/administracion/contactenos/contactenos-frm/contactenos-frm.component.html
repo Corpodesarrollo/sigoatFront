@@ -1,0 +1,61 @@
+<div class="p-4">
+  <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+    <div class="container-fluid">
+      <!-- Nombre -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label for="nombre" class="form-label fw-bold mb-0">Nombre</label>
+        </div>
+        <div class="col-md-9">
+          <input pInputText type="text" id="nombre" formControlName="nombre" class="w-100" />
+          <div *ngIf="submitted && formulario.get('nombre')?.invalid" class="text-danger">
+            Campo requerido
+          </div>
+        </div>
+      </div>
+
+      <!-- Correo -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label for="correo" class="form-label fw-bold mb-0">Correo</label>
+        </div>
+        <div class="col-md-9">
+          <input pInputText type="email" id="correo" formControlName="correo" class="w-100" />
+          <div *ngIf="submitted && formulario.get('correo')?.invalid" class="text-danger">
+            Correo válido requerido
+          </div>
+        </div>
+      </div>
+
+      <!-- Mensaje -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label for="mensaje" class="form-label fw-bold mb-0">Mensaje</label>
+        </div>
+        <div class="col-md-9">
+          <textarea pInputTextarea id="mensaje" formControlName="mensaje" class="w-100"></textarea>
+          <div *ngIf="submitted && formulario.get('mensaje')?.invalid" class="text-danger">
+            Campo requerido
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="row mt-3">
+        <div class="col-md-12 text-end">
+          <button type="button" (click)="cancelar()" class="btn button-secondary btn-lg me-2">Cancelar</button>
+          <button type="submit" class="btn button-success btn-lg">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!-- Mensaje de resultado -->
+  <app-msg-box
+    [visible]="visible"
+    [msgTexto]="msg"
+    [error]="error"
+    [width]="'25vw'"
+    (close)="onHide()">
+  </app-msg-box>
+</div>

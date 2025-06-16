@@ -1,0 +1,96 @@
+.p-datepicker .p-datepicker-header {
+  background-color: #5c6bc0;
+  color: white;
+  font-weight: bold;
+  justify-content: space-between;
+}
+
+.p-datepicker-prev,
+.p-datepicker-next {
+  color: white !important;
+  font-weight: bold;
+}
+
+.p-datepicker .p-datepicker-weekday {
+  color: #333;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+
+
+.p-datepicker .p-datepicker-calendar td.p-datepicker-today span {
+  background-color: #d1c4e9;
+  color: #000;
+}
+
+.p-datepicker .p-datepicker-calendar td.p-highlight span {
+  background-color: #c2185b;
+  color: white;
+}
+
+
+
+.p-calendar {
+  border: none;
+  box-shadow: none;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .p-calendar {
+    width: 100%;
+  }
+}
+
+.fecha-con-evento {
+  background-color: #e74c3c !important;
+  color: white !important;
+  border-radius: 50%;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2em;
+  height: 2em;
+}
+
+
+.calendar-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.calendar-panel {
+  flex: 1 1 300px;
+  max-width: 400px;
+}
+
+.event-panel {
+  flex: 2 1 400px;
+  background-color: #f5f5f5;
+  padding: 1rem;
+  border-radius: 8px;
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.event-panel h3 {
+  margin-top: 0;
+  background-color: #3f51b5;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.event-panel ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.event-panel li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
+}
