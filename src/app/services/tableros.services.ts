@@ -5,11 +5,12 @@ import { GenericService } from './generic.services';
 import { Menus } from '../models/menus.model';
 import { apis } from '../models/apis.model';
 import { Parametricas } from '../models/parametricas.model';
+import { Tableros } from '../models/tableros.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MenuService extends MethodsService {
+export class TablerosService extends MethodsService {
   private menuCollapsedSource = new BehaviorSubject<boolean>(false);
   currentMenuState = this.menuCollapsedSource.asObservable();
 
@@ -17,15 +18,16 @@ export class MenuService extends MethodsService {
       public override repos: GenericService,
   ) { super(repos); }
 
-  toggleMenu() {
-    this.menuCollapsedSource.next(!this.menuCollapsedSource.getValue());
-  }
-
   async getList(): Promise<Parametricas[]> {
-    let response = await this.getAll<Menus>('menus', apis.Seguridad);
+    let response = await this.getAll('tableros', apis.Administrador);
     if(!response?.error){
       return response?.data as Parametricas[];
     }
     return [];
+  }
+
+  async getTablero(id: number, idRol: number): Promise<any> {
+    let response = await this.get(`tableros/${id}/${idRol}`, apis.Administrador);
+    return response;
   }
 }

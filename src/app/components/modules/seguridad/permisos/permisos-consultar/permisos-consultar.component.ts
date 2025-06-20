@@ -46,6 +46,20 @@ export class PermisosConsultarComponent {
   selectedRol: Parametricas | undefined;
   isLoadingRoles: boolean = true;
 
+  checkAll = {
+    consultar: false,
+    crear: false,
+    editar: false,
+    eliminar: false
+  };
+
+  indeterminate = {
+    consultar: false,
+    crear: false,
+    editar: false,
+    eliminar: false
+  };
+
   constructor(private messageService: MessageService, private ms: PermisosService, private router: Router) {}
 
   async ngOnInit() {
@@ -92,7 +106,7 @@ export class PermisosConsultarComponent {
       this.loadPages(this.idRol);
     }
 
-    async onPermisoChange(page: any,parm: string) {
+    async onPermisoChange(page: any, parm: 'consultar' | 'crear' | 'editar' | 'eliminar') {
       let data = {
         idRol: this.idRol,
         idMenu: page.idMenu,
@@ -107,9 +121,9 @@ export class PermisosConsultarComponent {
           return;
         } else if (result.data) {
           if (!result.data) {
-            this.messageService.add({ severity: 'error', summary: 'Éxito', detail: 'Permiso inactivado correctamente' });
+            //this.messageService.add({ severity: 'error', summary: 'Éxito', detail: 'Permiso inactivado correctamente' });
           } else {
-            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Permiso activado correctamente' });
+            //this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Permiso activado correctamente' });
           }
         }
       }

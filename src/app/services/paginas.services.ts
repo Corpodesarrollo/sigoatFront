@@ -18,7 +18,7 @@ export class PaginasService extends MethodsService {
   ) { super(repos); }
 
   async getList(): Promise<Paginas[]> {
-    let response = await this.getAll<Paginas>('paginas', apis.Administrador);
+    let response = await this.getAll('paginas', apis.Administrador);
     if(!response?.error){
       return response?.data as Paginas[];
     }

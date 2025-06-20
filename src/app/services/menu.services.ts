@@ -22,7 +22,7 @@ export class MenuService extends MethodsService {
   }
 
   async getList(): Promise<Parametricas[]> {
-    let response = await this.getAll<Menus>('menus', apis.Seguridad);
+    let response = await this.getAll('menus', apis.Seguridad);
     if(!response?.error){
       return response?.data as Parametricas[];
     }

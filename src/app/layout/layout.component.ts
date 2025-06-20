@@ -16,7 +16,6 @@ export class LayoutComponent {
   constructor(private primengConfig: PrimeNGConfig, private menuService: MenuService, private repos: GenericService) {}
 
   ngOnInit() {
-    this.loadAuth();
 
     this.primengConfig.setTranslation({
       startsWith: 'Empieza con',
@@ -148,42 +147,5 @@ export class LayoutComponent {
     this.menuService.currentMenuState.subscribe(isCollapsed => {
       this.isMenuCollapsed = isCollapsed;
     });
-  }
-
-  loadAuth() {
-    if (environment.cookie){
-      this.repos.get('auth', ``, 'Authentication').subscribe({
-        next: (data: any) => {
-          console.log("data", data);
-          if (data != null) {
-            localStorage.setItem('user', JSON.stringify(data));
-          }
-        },
-        error: (err) => {
-          console.log("Error", err);
-        },
-      });
-    }else{
-      localStorage.setItem('user', `
-        {
-          "Id":"1",
-          "Alias":"CC51644243",
-          "Email":"CHARLESROCK96@GMAIL.COM",
-          "Name":"CLAUDIA MARTINEZ",
-          "State":true,
-          "roleId":1,
-          "RolCode":[
-            "Perfil PISIS Neo",
-            "SINTRA-ENT"
-          ],
-          "EnterpriseCode":"NI 800114312",
-          "EnterpriseDeptoCode":"80",
-          "EnterpriseEmail":"lidertic@saluddecaldas.gov.co",
-          "EnterpriseName":"DIRECCION TERRITORIAL DE SALUD DE CALDAS",
-          "EnterpriseIdentification":"800114312",
-          "IsMinSalud":false,
-          "IsAuth":true
-        }`);
-    }
   }
 }

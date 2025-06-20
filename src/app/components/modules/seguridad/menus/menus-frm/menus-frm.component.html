@@ -65,6 +65,27 @@
         </div>
       </div>
 
+       <!-- Tableros -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="modulo">Tableros</label>
+        </div>
+        <div class="col-md-9 p-fluid">
+          <p-dropdown
+            [(ngModel)]="selectedTablero"
+            [options]="tableros"
+            [loading]="isLoadingTableros"
+            optionLabel="titulo"
+            [filter]="true"
+            filterBy="titulo"
+            [showClear]="true"
+            id="tablero"
+            class="w-100"
+            placeholder="Seleccione">
+          </p-dropdown>
+        </div>
+      </div>
+
       <!-- Orden -->
       <div class="row align-items-center mb-3 p-fluid">
         <div class="col-md-3">

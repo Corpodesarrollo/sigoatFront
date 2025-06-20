@@ -21,7 +21,7 @@ export class AnexosService extends MethodsService {
   ) { super(repos); }
 
   async getList(): Promise<Parametricas[]> {
-    let response = await this.getAll<Anexos>('anexos', apis.Administrador);
+    let response = await this.getAll('anexos', apis.Administrador);
     if(!response?.error){
       return response?.data as Parametricas[];
     }

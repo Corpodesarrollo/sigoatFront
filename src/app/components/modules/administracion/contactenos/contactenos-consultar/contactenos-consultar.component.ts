@@ -62,7 +62,7 @@ export class ContactenosConsultarComponent {
     const page = (event.first || 0) / (event.rows || this.rowsPerPage) + 1;
     const pageSize = event.rows || this.rowsPerPage;
 
-    let menusResponse = await this.ms.getOnDemand<any>('contactenos', page, pageSize, '', apis.Administrador);
+    let menusResponse = await this.ms.getOnDemand('contactenos', page, pageSize, '', apis.Administrador);
     if (menusResponse) {
       let result: ResponseModel = menusResponse;
       if (result.error) {

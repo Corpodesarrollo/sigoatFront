@@ -50,7 +50,7 @@ export class MenusPortalConsultarComponent {
       const page = (event.first || 0) / (event.rows || this.rowsPerPage) + 1;
       const pageSize = event.rows || this.rowsPerPage;
   
-      let menusResponse = await this.ms.getOnDemand<any>('menusPortal', page, pageSize, '', apis.Seguridad);
+      let menusResponse = await this.ms.getOnDemand('menusPortal', page, pageSize, '', apis.Seguridad);
       if (menusResponse) {
         let result: ResponseModel = menusResponse;
         if (result.error) {

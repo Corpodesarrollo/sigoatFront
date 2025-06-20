@@ -17,7 +17,7 @@ export class ContactenosService extends MethodsService {
   ) { super(repos); }
 
   async getList(): Promise<Parametricas[]> {
-    let response = await this.getAll<Contactenos>('contactenos', apis.Administrador);
+    let response = await this.getAll('contactenos', apis.Administrador);
     if(!response?.error){
       return response?.data as Parametricas[];
     }

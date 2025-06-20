@@ -25,6 +25,7 @@ export class User {
 
     getData(){
         const usuarioJson = localStorage.getItem('user');
+        
         if (usuarioJson) {
             const usuarioData = JSON.parse(usuarioJson);
             this.id = usuarioData.Id;
@@ -32,7 +33,7 @@ export class User {
             this.email = usuarioData.Email;
             this.name = usuarioData.Name;
             this.state = usuarioData.State;
-            this.rolId = usuarioData.RolId;
+            this.rolId = usuarioData.roleId;
             this.rolCode = usuarioData.RolCode;
             this.enterpriseCode = usuarioData.EnterpriseCode;
             this.enterpriseDeptoCode = usuarioData.EnterpriseDeptoCode;

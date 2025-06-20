@@ -14,6 +14,8 @@ import { DialogModule } from 'primeng/dialog';
 import { ModulosService } from '../../../../../services/modulos.services';
 import { MsgBoxComponent } from "../../../../shared/msg-box/msg-box.component";
 import { MsgTipo } from '../../../../../models/msgTipo.model';
+import { TablerosService } from '../../../../../services/tableros.services';
+import { Tableros } from '../../../../../models/tableros.model';
 
 @Component({
   selector: 'app-menus-frm',
@@ -32,17 +34,21 @@ export class MenusFrmComponent {
     orden: 0,
     idMenu: 0,
     idModulo: 0,
+    idTablero: 0,
     estado: true,
   };
 
   menus: Parametricas[] = [];
   modulos: Parametricas[] = [];
+  tableros: Tableros[] = [];
 
   selectedMenu: Parametricas | undefined;
   selectedModulo: Parametricas | undefined;
+  selectedTablero: Tableros | undefined;
 
   isLoadingMenus: boolean = true;
   isLoadingModulos: boolean = true;
+  isLoadingTableros: boolean = true;
   submitted: boolean = false;
   saving: boolean = false;
   visible: boolean = false;
@@ -50,13 +56,14 @@ export class MenusFrmComponent {
   error: boolean = false;
   MsgTipo = MsgTipo;
 
-  constructor(private fb: FormBuilder, private ms: MenuService, private mls: ModulosService, private router: Router) {}
+  constructor(private fb: FormBuilder, private ms: MenuService, private mls: ModulosService, private ts: TablerosService, private router: Router) {}
 
   ngOnChanges() {
     if (this.menu) {
       this.formulario = { ...this.menu };
       this.selectedMenu = this.menus.find(m => m.id === this.formulario.idMenu);
       this.selectedModulo = this.modulos.find(m => m.id === this.formulario.idModulo);
+      this.selectedTablero = this.tableros.find(t => t.id === this.formulario.idTablero);
     } else {
       this.formulario = {
         id: 0,
@@ -65,6 +72,7 @@ export class MenusFrmComponent {
         orden: 0,
         idMenu: 0,
         idModulo: 0,
+        idTablero: 0,
         estado: true,
       };
       this.selectedMenu = undefined;
@@ -79,8 +87,12 @@ export class MenusFrmComponent {
     this.modulos = await this.mls.getList();
     this.isLoadingModulos = false;
 
+    this.tableros = await this.ts.getList();
+    this.isLoadingTableros = false;
+
     this.selectedMenu = this.menus.find(m => m.id === this.formulario.idMenu);
     this.selectedModulo = this.modulos.find(m => m.id === this.formulario.idModulo);
+    this.selectedTablero = this.tableros.find(t => t.id === this.formulario.idTablero);
   }
 
   async onSubmit() {
@@ -114,6 +126,7 @@ export class MenusFrmComponent {
   validarCamposRequeridos(): boolean {
     this.formulario.idMenu = this.selectedMenu?.id ?? 0;
     this.formulario.idModulo = this.selectedModulo?.id ?? 0;
+    this.formulario.idTablero = this.selectedTablero?.id ?? 0;
     
     let camposAValidar: (string | number | undefined)[] = [];
 

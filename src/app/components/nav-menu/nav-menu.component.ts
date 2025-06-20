@@ -6,6 +6,7 @@ import { PermisosService } from '../../services/permisos.services';
 import { PermisosRol } from '../../models/permisosRol.model';
 import { User } from '../../services/user.services';
 import { Menus } from '../../models/menus.model';
+import { AuthServices } from '../../services/auth.service';
 
 
 @Component({
@@ -20,28 +21,24 @@ export class NavMenuComponent implements OnInit {
   user = new User();
   permisos: PermisosRol[] | undefined
 
-  constructor(private service: GenericService, private router: Router, private permisosService: PermisosService, private cd: ChangeDetectorRef) {
-
+  constructor(private auth: AuthServices, private router: Router, private permisosService: PermisosService, private cd: ChangeDetectorRef) {
   }
 
   async ngOnInit() {
-    //Cordinador
-    this.user.rolId = 1;
-
-    let permisosResult = await this.permisosService.getByRol(1);
-    if (permisosResult.error) {
-      //console.error('Error al obtener los permisos:', permisosResult.error);
-    } else {
-      this.permisos = permisosResult.data;
-      let grupos = this.agruparPorGrupo(this.permisos);
-      //recorrer los grupos 
-      let itemsGrupo = grupos.map((grupo) => this.cargarPorGrupo(grupo)).flat();
-
-      this.items = itemsGrupo;
-      
-      //console.log('Permisos obtenidos2:', this.items);
-      this.cd.detectChanges();
+    await this.auth.loadPermisos();
+    this.user = new User();
+    this.permisos = this.auth.getPermisos() as PermisosRol[];
+    if (this.permisos.length === 0 || this.permisos.length === undefined) {
+      console.warn('No se encontraron permisos para el usuario actual.');
+      return;
     }
+
+    let grupos = this.agruparPorGrupo(this.permisos);
+    //recorrer los grupos 
+    let itemsGrupo = grupos.map((grupo) => this.cargarPorGrupo(grupo)).flat();
+
+    this.items = itemsGrupo;
+    this.cd.detectChanges();
   }
 
   // Cargar los permisos por grupo
@@ -68,16 +65,35 @@ export class NavMenuComponent implements OnInit {
     const permisosFiltrados = this.permisos ? this.permisos.filter(p => p.idMenuPadre === id && p.grupo === grupo) : [];
 
     for (const permiso of permisosFiltrados) {
-      items.push({
+      if (permiso.path === undefined || permiso.path === '') {
+        items.push({
           label: permiso.nombreMenu,
-          routerLink: permiso.path,
           expanded: true,
-          command: () => {
-            this.router.navigate([permiso.path]);
-          },
           items: this.construirArbolRecursivo(permiso.idMenu, grupo)
         });
-
+      } else {
+        if (permiso.tablero) {
+          items.push({
+            label: permiso.nombreMenu,
+            routerLink: permiso.path,
+            expanded: true,
+            command: () => {
+              this.router.navigate([`/tablero/${permiso.idTablero}`]);
+            },
+            items: this.construirArbolRecursivo(permiso.idMenu, grupo)
+          });
+        } else {
+          items.push({
+            label: permiso.nombreMenu,
+            routerLink: permiso.path,
+            expanded: true,
+            command: () => {
+              this.router.navigate([permiso.path]);
+            },
+            items: this.construirArbolRecursivo(permiso.idMenu, grupo)
+          });
+        }
+      }
         //console.log('Permiso procesado:', permiso.nombreMenu, 'ID:', permiso.idMenu, 'Padre ID:', permiso.idMenuPadre);
     }
 

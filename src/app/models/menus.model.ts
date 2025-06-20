@@ -4,8 +4,10 @@ export interface Menus {
     grupo?: string;
     idMenu?: number;
     Menu?: string;
-    idModulo?: number;
+    idModulo?: number;    
     Modulo?: string;
+    idTablero?: number;
+    Tablero?: string;
     orden?: number;
     estado?: boolean;
 }

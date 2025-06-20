@@ -24,7 +24,7 @@ export class MenuPortalServices extends MethodsService {
   }
 
   async getList(): Promise<Parametricas[]> {
-    let response = await this.getAll<Menus>('menusPortal', apis.Seguridad);
+    let response = await this.getAll('menusPortal', apis.Seguridad);
     if(!response?.error){
       return response?.data as Parametricas[];
     }

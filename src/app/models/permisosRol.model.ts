@@ -9,6 +9,8 @@ export interface PermisosRol {
     path?: string;
     grupo?: string;
     orden?: number;
+    idTablero?: number;
+    tablero: boolean;
     crear: boolean;
     consultar: boolean;
     editar: boolean;

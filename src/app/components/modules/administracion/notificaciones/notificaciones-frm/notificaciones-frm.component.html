@@ -1,0 +1,101 @@
+<div class="p-4">
+  <div class="container-fluid">
+        <!-- Nombre -->
+        <div class="row align-items-center mb-3 p-fluid">
+            <div class="col-md-3">
+                <label class="form-label fw-bold mb-0" for="nombre">Título</label>
+            </div>
+            <div class="col-md-9">
+                <input pInputText type="text" id="nombre" [(ngModel)]="formulario.titulo" class="w-100" />
+                <div *ngIf="submitted && (!formulario.titulo || formulario.titulo.trim() === '')" class="text-danger">
+                    Campo requerido
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contenido -->
+        <div class="row mb-3 p-fluid">
+            <div class="col-md-3">
+                <label class="form-label fw-bold mb-0" for="contenido">Contenido</label>
+            </div>
+            <div class="col-md-9">
+                <p-editor [(ngModel)]="formulario.contenido" [style]="{ height: '320px' }" />
+                <div *ngIf="submitted && (!formulario.contenido || formulario.contenido.trim() === '')" class="text-danger">
+                    Campo requerido
+                </div>
+            </div>
+        </div>
+
+        <!-- Audiencia -->
+        <div class="row align-items-center mb-3 p-fluid">
+            <div class="col-md-3">
+                <label for="menu" class="fw-bold">Audiencia</label>
+            </div>
+            <div class="col-md-9 p-fluid">
+                <p-dropdown
+                    [(ngModel)]="selectedAudiencia"
+                    [options]="audiencias"
+                    optionLabel="nombre"
+                    [filter]="true"
+                    filterBy="nombre"
+                    [showClear]="true"
+                    id="audiencia"
+                    class="w-100"
+                    placeholder="Seleccione">
+            </p-dropdown>
+            </div>
+        </div>
+
+        <!-- Fecha Inicio -->
+        <div class="row align-items-center mb-3 p-fluid">
+            <div class="col-md-3">
+                <label class="form-label fw-bold mb-0" for="fechaInicio">Fecha Inicio</label>
+            </div>
+            <div class="col-md-9">
+                <p-calendar [(ngModel)]="formulario.fechaInicio" id="fechaInicio" [showIcon]="true" class="w-100" dateFormat="dd/mm/yy"></p-calendar>
+                <div *ngIf="submitted && !formulario.fechaInicio" class="text-danger">
+                    Campo requerido
+                </div>
+            </div>
+        </div>
+
+        <!-- Fecha Fin -->
+        <div class="row align-items-center mb-3 p-fluid">
+            <div class="col-md-3">
+                <label class="form-label fw-bold mb-0" for="fechaFin">Fecha Fin</label>
+            </div>
+            <div class="col-md-9">
+                <p-calendar [(ngModel)]="formulario.fechaFin" id="fechaFin" [showIcon]="true" class="w-100" dateFormat="dd/mm/yy"></p-calendar>
+                <div *ngIf="submitted && !formulario.fechaFin" class="text-danger">
+                    Campo requerido
+                </div>
+            </div>
+        </div>
+
+        <!-- Estado -->
+        <div class="row align-items-center mb-5 p-fluid">
+            <div class="col-md-3">
+                <label class="form-label fw-bold mb-0" for="estado">Estado</label>
+            </div>
+            <div class="col-md-9">
+                <p-inputSwitch [(ngModel)]="formulario.estado" class="custom-switch" />
+            </div>
+        </div>
+
+      <!-- Botones -->
+      <div class="row mt-3">
+        <div class="col-md-12 text-end">
+          <button type="button" (click)="cancelar()" class="btn button-secondary btn-lg add-button me-2">Cancelar</button>
+          <button type="button" (click)="onSubmit()" class="btn button-success btn-lg add-button">Guardar</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<app-msg-box
+  [visible]="visible"
+  [msgTexto]="msg"
+  [msgTipo]="MsgTipo.Success"
+  [error]="error"
+  [width]="'25vw'"
+  (close)="onHide($event)">

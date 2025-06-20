@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { MsgBoxComponent } from "../../../../shared/msg-box/msg-box.component";
 import { MsgTipo } from '../../../../../models/msgTipo.model';
 import { MsgBotones } from '../../../../../models/msgBotones.model';
+import { AuthServices } from '../../../../../services/auth.service';
 
 @Component({
     selector: 'app-menus-consultar',
@@ -37,11 +38,18 @@ export class MenusConsultarComponent {
   error: boolean = false;
   idEliminar: number = 0;
 
+  permisoCrear!: Promise<boolean>;
+  permisoEditar!: Promise<boolean>;
+  permisoEliminar!: Promise<boolean>;
 
-  constructor(private messageService: MessageService, private ms: MenuService, private router: Router) {}
+
+  constructor(private auth: AuthServices, private messageService: MessageService, private ms: MenuService, private router: Router) {
+  }
 
   ngOnInit() {
-    // Carga inicial puede estar vacía o cargar primera página
+    this.permisoCrear = this.auth.tienePermiso('Menus', 'crear');
+    this.permisoEditar = this.auth.tienePermiso('Menus', 'editar');
+    this.permisoEliminar = this.auth.tienePermiso('Menus', 'eliminar');
   }
 
   async loadPages(event: TableLazyLoadEvent)  {
@@ -50,7 +58,7 @@ export class MenusConsultarComponent {
     const page = (event.first || 0) / (event.rows || this.rowsPerPage) + 1;
     const pageSize = event.rows || this.rowsPerPage;
 
-    let menusResponse = await this.ms.getOnDemand<any>('menus', page, pageSize, '', apis.Seguridad);
+    let menusResponse = await this.ms.getOnDemand('menus', page, pageSize, '', apis.Seguridad);
     if (menusResponse) {
       let result: ResponseModel = menusResponse;
       if (result.error) {

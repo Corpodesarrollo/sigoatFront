@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ContactenosFrmComponent } from './contactenos-frm.component';
+import { TablerosViewComponent } from './tableros-view.component';
 
-describe('ContactenosFrmComponent', () => {
-  let component: ContactenosFrmComponent;
-  let fixture: ComponentFixture<ContactenosFrmComponent>;
+describe('TablerosViewComponent', () => {
+  let component: TablerosViewComponent;
+  let fixture: ComponentFixture<TablerosViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ContactenosFrmComponent]
+      imports: [TablerosViewComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ContactenosFrmComponent);
+    fixture = TestBed.createComponent(TablerosViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -51,7 +51,7 @@ export class RolesConsultarComponent {
       const page = (event.first || 0) / (event.rows || this.rowsPerPage) + 1;
       const pageSize = event.rows || this.rowsPerPage;
   
-      let rolesResponse = await this.ms.getOnDemand<any>('roles', page, pageSize, '', apis.Seguridad);
+      let rolesResponse = await this.ms.getOnDemand('roles', page, pageSize, '', apis.Seguridad);
       if (rolesResponse) {
         let result: ResponseModel = rolesResponse;
         if (result.error) {

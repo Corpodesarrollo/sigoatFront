@@ -12,7 +12,7 @@ export class MethodsService {
         public repos: GenericService,
     ) { }
 
-    public async getAll<T>(endpoint: string, api: string): Promise<ResponseModel | null> {
+    public async get(endpoint: string, api: string): Promise<any | null> {
         const url = `${endpoint}`;
         return new Promise((resolve) => {
             this.repos.getWithOutParameters(url, api).subscribe({
@@ -20,14 +20,29 @@ export class MethodsService {
                     resolve(data);
                 },
                 error: (err) => {
-                    console.error(err);
+                    console.error("error API", err);
+                    resolve(null);
+                }
+            });
+        });
+    }
+
+    public async getAll(endpoint: string, api: string): Promise<ResponseModel | null> {
+        const url = `${endpoint}`;
+        return new Promise((resolve) => {
+            this.repos.getWithOutParameters(url, api).subscribe({
+                next: (data: any) => {
+                    resolve(data);
+                },
+                error: (err) => {
+                    console.error("error API", err);
                     resolve(null);
                 }
             });
         });
     }
     
-    public async getById<T>(endpoint: string, id: number, api: string): Promise<ResponseModel | null>{
+    public async getById(endpoint: string, id: number, api: string): Promise<ResponseModel | null>{
         const url = `${endpoint}/${id}`;
         return new Promise((resolve) => {
             this.repos.get(url, ``, api).subscribe({
@@ -42,7 +57,7 @@ export class MethodsService {
         });
     }
 
-    public async getOnDemand<T>(endpoint: string, page: number, pageSize: number, search: string , api: string): Promise<ResponseModel | null>{
+    public async getOnDemand(endpoint: string, page: number, pageSize: number, search: string , api: string): Promise<ResponseModel | null>{
         const url = `${endpoint}/OnDemand?page=${page}&pageSize=${pageSize}&search=${search}`;
         return new Promise((resolve) => {
             this.repos.get(url, ``, api).subscribe({

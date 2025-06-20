@@ -2,7 +2,7 @@
     <div class="header-container mb-5 align-items-center">
         <h1>Contactenos</h1>
     </div>
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-8">
         <div class="p-4">
         <div class="container-fluid">
             <!-- Nombre -->
@@ -55,12 +55,12 @@
             </div>
 
             <!-- Orden -->
-            <div class="row align-items-center mb-3 p-fluid">
+            <div class="row mb-3 p-fluid">
                 <div class="col-md-4">
                     <label class="form-label fw-bold mb-0" for="mensaje">Mensaje</label>
                 </div>
                 <div class="col-md-8">
-                    <textarea pInputText type="number" id="mensaje" [(ngModel)]="formulario.mensaje" class="w-100"></textarea>
+                    <textarea pInputText type="number" id="mensaje" [(ngModel)]="formulario.mensaje" rows="6" class="w-100"></textarea>
                     <div *ngIf="submitted && (!formulario.mensaje || formulario.mensaje.trim() === '')" class="text-danger">
                         Campo requerido
                     </div>

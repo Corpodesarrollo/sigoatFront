@@ -20,7 +20,7 @@ export class CarruselService extends MethodsService {
   ) { super(repos); }
 
   async getList(): Promise<Parametricas[]> {
-    let response = await this.getAll<Carrusel>('imagenes', apis.Seguridad);
+    let response = await this.getAll('imagenes', apis.Seguridad);
     if(!response?.error){
       return response?.data as Parametricas[];
     }

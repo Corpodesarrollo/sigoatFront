@@ -1,0 +1,36 @@
+.contenedor {
+  text-align: center;
+  margin-top: 100px;
+  padding: 20px;
+
+  .icono {
+    font-size: 4rem;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #d9534f;
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: #555;
+  }
+
+  button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}

@@ -1,0 +1,60 @@
+
+.notification-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1050;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background-color: var(--color-base);
+}
+
+.notification-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 0.75rem;
+  padding: 4px 6px;
+  border-radius: 50%;
+}
+
+.notificacion-item {
+  background-color: #f9f9f9;
+  transition: all 0.3s ease-in-out;
+}
+
+.notificacion-item:hover {
+  background-color: #eef6ff;
+  border-color: #b6d4fe;
+}
+
+.btn-outline-success {
+  color: var(--color-base);
+  border-color: var(--color-base);
+}
+
+.btn-outline-success:hover{
+  color: white;
+  background-color: var(--color-base);
+  border-color: var(--color-base);
+}
+
+.btn-outline-success:active{
+  color:var(--color-base) ;
+  background-color:white ;
+  border-color: var(--color-base);
+}
+
+.btn-outline-success:fo cus{
+  color:white;
+  background-color:var(--color-base); 
+  border-color: var(--color-base);
+  box-shadow: none;
+}

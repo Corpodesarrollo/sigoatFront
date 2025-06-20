@@ -82,7 +82,7 @@ export class DocumentosComponent {
     async ngOnInit() {
       if (this.id !== undefined) {
         this.loading = true;
-        let pagina = await this.ps.getById<Paginas>("paginas", this.id, apis.Administrador);
+        let pagina = await this.ps.getById("paginas", this.id, apis.Administrador);
         if (pagina) {
           let result: ResponseModel = pagina;
           if (result.error) {

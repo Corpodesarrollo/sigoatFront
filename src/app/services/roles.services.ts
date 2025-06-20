@@ -14,7 +14,7 @@ export class RolesService extends MethodsService {
   ) { super(repos); }
 
   async getList(): Promise<Parametricas[]> {
-    let response = await this.getAll<Roles>('roles', apis.Seguridad);
+    let response = await this.getAll('roles', apis.Seguridad);
     if(!response?.error){
       return response?.data as Parametricas[];
     }

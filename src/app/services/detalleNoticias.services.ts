@@ -19,7 +19,7 @@ export class DetalleNoticiasServices extends MethodsService {
   ) { super(repos); }
 
   async getList(): Promise<Parametricas[]> {
-    let response = await this.getAll<Noticias>('noticias', apis.Seguridad);
+    let response = await this.getAll('noticias', apis.Seguridad);
     if(!response?.error){
       return response?.data as Parametricas[];
     }

@@ -1,72 +1,65 @@
+import { CommonModule } from '@angular/common';
 import { Component, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-accesibilidad',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './accesibilidad.component.html',
   styleUrl: './accesibilidad.component.css'
 })
 export class AccesibilidadComponent {
-  constructor(private renderer: Renderer2) {}
+  visible = false;
 
-  toggleClass(className: string) {
-    document.body.classList.toggle(className);
+  togglePanel() {
+    this.visible = !this.visible;
   }
 
-  toggleContrast() {
-    this.toggleClass('high-contrast');
+  toggleContraste() {
+    document.body.classList.toggle('contraste');
   }
 
-  highlightLinks() {
-    document.querySelectorAll('a').forEach(link => {
-      (link as HTMLElement).style.backgroundColor = 'yellow';
-    });
+  resaltarEnlaces() {
+    document.body.classList.toggle('resaltar-enlaces');
   }
 
-  increaseText() {
-    this.toggleClass('large-text');
+  agrandarTexto() {
+    document.body.classList.toggle('texto-grande');
   }
 
-  adjustLetterSpacing() {
-    this.toggleClass('spacing');
+  ajustarEspaciadoTexto() {
+    document.body.classList.toggle('espaciado-texto');
   }
 
-  stopAnimations() {
-    const style = this.renderer.createElement('style');
-    style.innerText = `* { animation: none !important; transition: none !important; }`;
-    this.renderer.appendChild(document.head, style);
+  detenerAnimaciones() {
+    document.body.classList.toggle('detener-animaciones');
   }
 
-  hideImages() {
-    document.querySelectorAll('img').forEach(img => {
-      (img as HTMLElement).style.display = 'none';
-    });
+  ocultarImagenes() {
+    document.body.classList.toggle('ocultar-imagenes');
   }
 
-  toggleDyslexiaFont() {
-    this.toggleClass('dyslexia-font');
+  modoDislexia() {
+    document.body.classList.toggle('fuente-dislexia');
   }
 
-  changeCursor() {
-    document.body.style.cursor = 'url(assets/cursor.cur), auto'; // Personaliza este cursor si quieres
+  activarCursor() {
+    document.body.classList.toggle('cursor-grande');
   }
 
-  showInfo() {
-    alert("Este sitio incluye opciones de accesibilidad para mejorar la experiencia del usuario.");
+  mostrarInformacion() {
+    alert('Este panel brinda opciones de accesibilidad visual para el sitio.');
   }
 
-  adjustLineHeight() {
-    this.toggleClass('line-height');
+  ajustarAlturaLinea() {
+    document.body.classList.toggle('linea-alta');
   }
 
-  alignText() {
-    document.body.style.textAlign = 
-      document.body.style.textAlign === 'justify' ? 'left' : 'justify';
+  alinearTexto() {
+    document.body.classList.toggle('texto-justificado');
   }
 
-  adjustSaturation() {
-    const currentFilter = document.body.style.filter;
-    document.body.style.filter = currentFilter === 'grayscale(100%)' ? 'none' : 'grayscale(100%)';
+  ajustarSaturacion() {
+    document.body.classList.toggle('saturacion-baja');
   }
 }

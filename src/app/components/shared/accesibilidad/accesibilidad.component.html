@@ -1,14 +1,58 @@
 <div class="accessibility-panel">
-  <button (click)="toggleContrast()">Contraste +</button>
-  <button (click)="highlightLinks()">Resaltar enlaces</button>
-  <button (click)="increaseText()">Agrandar texto</button>
-  <button (click)="adjustLetterSpacing()">Espaciado de texto</button>
-  <button (click)="stopAnimations()">Detener animaciones</button>
-  <button (click)="hideImages()">Ocultar imágenes</button>
-  <button (click)="toggleDyslexiaFont()">Apto para dislexia</button>
-  <button (click)="changeCursor()">Cursor</button>
-  <button (click)="showInfo()">Información</button>
-  <button (click)="adjustLineHeight()">Altura de la línea</button>
-  <button (click)="alignText()">Texto alineado</button>
-  <button (click)="adjustSaturation()">Saturación</button>
+  <button class="accessibility-toggle" (click)="togglePanel()">
+    <i class="bi bi-person-wheelchair" aria-label="Accesibilidad"></i>
+  </button>
+
+  <div class="accessibility-options" *ngIf="visible">
+    <div class="accessibility-grid">
+      <button class="accessibility-btn" (click)="toggleContraste()">
+        <span class="icon">🌗</span>
+        <span>Contraste +</span>
+      </button>
+      <button class="accessibility-btn" (click)="resaltarEnlaces()">
+        <span class="icon">🔗</span>
+        <span>Resaltar enlaces</span>
+      </button>
+      <button class="accessibility-btn" (click)="agrandarTexto()">
+        <span class="icon">🔠</span>
+        <span>Agrandar texto</span>
+      </button>
+      <button class="accessibility-btn" (click)="ajustarEspaciadoTexto()">
+        <span class="icon">↔️</span>
+        <span>Espaciado de texto</span>
+      </button>
+      <button class="accessibility-btn" (click)="detenerAnimaciones()">
+        <span class="icon">⏸️</span>
+        <span>Detener animaciones</span>
+      </button>
+      <button class="accessibility-btn" (click)="ocultarImagenes()">
+        <span class="icon">🖼️❌</span>
+        <span>Ocultar imágenes</span>
+      </button>
+      <button class="accessibility-btn" (click)="modoDislexia()">
+        <span class="icon">🔤</span>
+        <span>Apto para dislexia</span>
+      </button>
+      <button class="accessibility-btn" (click)="activarCursor()">
+        <span class="icon">🖱️</span>
+        <span>Cursor</span>
+      </button>
+      <button class="accessibility-btn" (click)="mostrarInformacion()">
+        <span class="icon">ℹ️</span>
+        <span>Información</span>
+      </button>
+      <button class="accessibility-btn" (click)="ajustarAlturaLinea()">
+        <span class="icon">📏</span>
+        <span>Altura de la línea</span>
+      </button>
+      <button class="accessibility-btn" (click)="alinearTexto()">
+        <span class="icon">📑</span>
+        <span>Texto alineado</span>
+      </button>
+      <button class="accessibility-btn" (click)="ajustarSaturacion()">
+        <span class="icon">💧</span>
+        <span>Saturación</span>
+      </button>
+    </div>
+  </div>
 </div>

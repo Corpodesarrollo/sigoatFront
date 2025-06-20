@@ -16,7 +16,7 @@ export class ModulosService extends MethodsService {
   ) { super(repos); }
 
   async getList(): Promise<Parametricas[]> {
-    let response = await this.getAll<Modulos>('modulos', apis.Seguridad);
+    let response = await this.getAll('modulos', apis.Seguridad);
     if(!response?.error){
       return response?.data as Parametricas[];
     }

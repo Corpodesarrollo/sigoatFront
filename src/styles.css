@@ -172,3 +172,89 @@ SECÁNI-RQ00-HU00- Menú y Perfiles
 .card {
   overflow: visible !important;
 }
+
+.high-contrast {
+  filter: contrast(150%);
+  background-color: black !important;
+  color: white !important;
+}
+.highlight-link a {
+  background-color: yellow;
+  color: red !important;
+  font-weight: bold;
+}
+
+.contraste {
+  filter: invert(100%) hue-rotate(180deg) !important;
+  background-color: black !important;
+  color: white !important;
+}
+
+.contraste img {
+  filter: invert(100%) hue-rotate(180deg) !important;
+}
+
+/* 1. Resaltar enlaces */
+.resaltar-enlaces a {
+  background-color: yellow !important;
+  color: black !important;
+  font-weight: bold !important;
+  text-decoration: underline !important;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+/* 2. Agrandar texto */
+.texto-grande * {
+  font-size: 1.05em !important;
+}
+
+/* 3. Espaciado de texto */
+.espaciado-texto * {
+  letter-spacing: 1.5px !important;
+  word-spacing: 2px !important;
+  line-height: 1.8 !important;
+}
+
+/* 4. Detener animaciones */
+.detener-animaciones *, 
+.detener-animaciones *::before, 
+.detener-animaciones *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* 5. Ocultar imágenes */
+.ocultar-imagenes img {
+  display: none !important;
+}
+
+/* 6. Fuente dislexia */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/web/OpenDyslexic-Regular.otf') format('opentype');
+}
+.fuente-dislexia * {
+  font-family: 'OpenDyslexic', Arial, sans-serif !important;
+}
+
+/* 7. Cursor grande */
+.cursor-grande * {
+  cursor: url('https://cur.cursors-4u.net/cursors/cur-11/cur1031.cur'), auto !important;
+}
+
+/* 8. Altura de línea aumentada */
+.linea-alta * {
+  line-height: 2.2 !important;
+}
+
+/* 9. Alinear texto (justificado) */
+.texto-justificado * {
+  text-align: justify !important;
+}
+
+/* 10. Saturación baja (modo apagado) */
+.saturacion-baja {
+  filter: saturate(50%) !important;
+}
+
