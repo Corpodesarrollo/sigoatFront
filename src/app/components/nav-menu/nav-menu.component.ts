@@ -27,7 +27,7 @@ export class NavMenuComponent implements OnInit {
   async ngOnInit() {
     await this.auth.loadPermisos();
     this.user = new User();
-    this.permisos = this.auth.getPermisos() as PermisosRol[];
+    this.permisos = await this.auth.getPermisos() as PermisosRol[];
     if (this.permisos.length === 0 || this.permisos.length === undefined) {
       console.warn('No se encontraron permisos para el usuario actual.');
       return;

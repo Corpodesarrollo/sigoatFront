@@ -5,10 +5,17 @@
       </div>
     </div>
     <div class="header-container mb-2 align-items-center">
+      <div class="col-auto">
         <h1>Administración de Noticias</h1>
-        <button (click)="agregar()" class="btn button-success btn-lg add-button" type="button">
+      </div>
+      <div class="col-auto">
+        <button (click)="displayViewer = true" class="btn button-secondary btn-lg me-2" type="button" *ngIf="permisoCrear | async">
+            <i class="pi pi-eye"></i> Preview
+        </button>
+        <button (click)="agregar()" class="btn button-success btn-lg add-button" type="button" *ngIf="permisoCrear | async">
             <i class="pi pi-plus"></i> Agregar
         </button>
+      </div>
     </div>
 
     <div class="row mb-3 align-items-center">
@@ -31,7 +38,7 @@
         
     <ng-template pTemplate="header">
       <tr class="custom-header">
-        <th style="width: 200px;">Título</th>
+        <th style="width: 400px;">Título</th>
         <th>Detalle</th>
         <th class="text-center" style="width: 200px;">Fecha</th>
         <th class="text-center" style="width: 200px;">Acciones</th>
@@ -50,18 +57,26 @@
                 pTooltip="Detalles" 
                 tooltipPosition="top"></i>
             <i class="pi pi-pencil action-icon edit-icon" 
-                (click)="editar(page.id)" 
+                (click)="editar(page.id)"  *ngIf="permisoEditar | async"
                 pTooltip="Editar" 
                 tooltipPosition="top"></i>
             <i class="pi pi-trash action-icon delete-icon" 
                 (click)="confirmDelete($event, page.id)" 
-                pTooltip="Eliminar" 
+                pTooltip="Eliminar"  *ngIf="permisoEliminar | async"
                 tooltipPosition="top"></i>
           </div>
         </td>
       </tr>
     </ng-template>
   </p-table>
+</div>
+
+<div class="row">
+    <div class="col-12 text-center">
+      <button (click)="anterior()" class="btn button-secondary btn-lg add-button text-white me-2" type="button">
+        <i class="pi pi-chevron-left"></i> Anterior
+      </button>
+    </div>
 </div>
 
 <p-dialog [(visible)]="displayModal" [modal]="true" [closable]="true" header="Agregar Noticia" [style]="{ width: '500px' }">
@@ -101,6 +116,10 @@
       <i class="pi pi-plus"></i> Guardar
     </button>
   </div>
+</p-dialog>
+
+<p-dialog [(visible)]="displayViewer" [modal]="true" [closable]="true" (onHide)="displayViewer = false" header="Vista Previa" [style]="{ width: '80vw', height: '80vh' }">
+  <app-viewer [id]="this.id"></app-viewer>
 </p-dialog>
 
 <p-toast />

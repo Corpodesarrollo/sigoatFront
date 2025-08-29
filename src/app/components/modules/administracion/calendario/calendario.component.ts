@@ -169,5 +169,4 @@ cambiarMes(event: { month?: number; year?: number }): void {
     this.cdr.detectChanges(); 
   }
 }
-      
 }

@@ -1,0 +1,57 @@
+<section class="news-section mb-5">
+    <div class="row">
+          <!-- Noticia Principal -->
+        <div class="col-md-12 mb-4">
+            <div class="card-body">
+                <div class="news-meta mb-3 d-flex align-items-center">
+                    <span class="text-muted"><i class="bi bi-calendar me-1"></i>{{noticia?.fecha | date:'d \'de\' MMMM, y'}}</span>
+                </div>
+                <div *ngFor="let item of noticia?.detalles; let i = index">
+                    <div class="single-image-viewer mb-3" *ngIf="item.tipo === TipoNoticia.Imagen || item.tipo === TipoNoticia.ImagenUrl">
+                        <div class="image-container" [class.zoomed]="isZoomed" [class.fullscreen]="isFullscreen">
+                            <img [src]="cargarUrl(item.id!)"
+                                class="adaptive-image"
+                                (load)="onImageLoad()"
+                                [style.max-width]="isFullscreen ? '100vw' : '100%'"
+                                [style.max-height]="isFullscreen ? '100vh' : 'auto'">
+                            <div class="image-controls">
+                                <button class="btn btn-sm btn-control" (click)="toggleZoom()" title="Zoom">
+                                    <i class="bi" [class.bi-zoom-in]="!isZoomed" [class.bi-zoom-out]="isZoomed"></i>
+                                </button>
+                                <button class="btn btn-sm btn-control" (click)="toggleFullscreen()" title="Pantalla completa">
+                                    <i class="bi" [class.bi-fullscreen]="!isFullscreen" [class.bi-fullscreen-exit]="isFullscreen"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-text-container  word-break-fix mb-3" *ngIf="item.tipo === TipoNoticia.Texto">
+                        <span [innerHTML]="item.contenido"></span>
+                    </div>
+                    <h3 class="mb-3" *ngIf="item.tipo === TipoNoticia.Titulo">{{item.contenido}}</h3>
+                    <!-- cargar videos -->
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-12 d-flex justify-content-center" *ngIf="item.tipo === TipoNoticia.Video">
+                            <div class="video-container mb-3">
+                                <iframe
+                                    [src]="sanitizarURL(item.url || '')"
+                                    width="560"
+                                    height="315"
+                                    frameborder="0"
+                                    allowfullscreen
+                                ></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- cargar audios -->
+                    <div class="audio-container mb-3" *ngIf="item.tipo === TipoNoticia.Audio">
+                        <audio controls>
+                            <source [src]="cargarUrl(item.id!)" type="audio/mpeg">
+                            Tu navegador no soporta el elemento de audio.
+                        </audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

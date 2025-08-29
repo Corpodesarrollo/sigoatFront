@@ -38,6 +38,9 @@ import { NoAutorizadoComponent } from './components/modules/administracion/no-au
 import { NotificacionesConsultarComponent } from './components/modules/administracion/notificaciones/notificaciones-consultar/notificaciones-consultar.component';
 import { NotificacionesCrearComponent } from './components/modules/administracion/notificaciones/notificaciones-crear/notificaciones-crear.component';
 import { NotificacionesEditarComponent } from './components/modules/administracion/notificaciones/notificaciones-editar/notificaciones-editar.component';
+import { RedesSocialesConsultarComponent } from './components/modules/administracion/redes-sociales/redes-sociales-consultar/redes-sociales-consultar.component';
+import { RedesSocialesCrearComponent } from './components/modules/administracion/redes-sociales/redes-sociales-crear/redes-sociales-crear.component';
+import { RedesSocialesEditarComponent } from './components/modules/administracion/redes-sociales/redes-sociales-editar/redes-sociales-editar.component';
 
 export const routes: Routes = [
   {
@@ -48,7 +51,7 @@ export const routes: Routes = [
       { path: 'calendario', component: CalendarioComponent },
       { path: 'carrusel/:id', component: CarruselComponent },
       { path: 'contactenos', component: ContactenosConsultarComponent },
-      { path: 'detallesNoticias/:id', component: DetallesNoticiaComponent },
+      { path: 'detallesNoticias/:idNoticia/:idPagina', component: DetallesNoticiaComponent },
       { path: 'documentos/:id', component: DocumentosComponent },
       { path: 'health', component: HealthComponent },
       { path: 'home', component: HomeComponent, canActivate: [ModuloGuard], data: { modulo: 'home' } },
@@ -70,11 +73,14 @@ export const routes: Routes = [
       { path: 'paginas-crear', component: PaginasCrearComponent, canActivate: [ModuloGuard], data: { modulo: 'paginas', permiso: 'crear' } },
       { path: 'paginas-editar/:id', component: PaginasEditarComponent, canActivate: [ModuloGuard], data: { modulo: 'paginas', permiso: 'editar' } },
       { path: 'permisos', component: PermisosConsultarComponent, canActivate: [ModuloGuard], data: { modulo: 'permisos', permiso: 'consultar' } },
+      { path: 'redesSociales', component: RedesSocialesConsultarComponent, canActivate: [ModuloGuard], data: { modulo: 'redesSociales', permiso: 'consultar' } },
+      { path: 'redesSociales-crear', component: RedesSocialesCrearComponent, canActivate: [ModuloGuard], data: { modulo: 'redesSociales', permiso: 'crear' } },
+      { path: 'redesSociales-editar/:id', component: RedesSocialesEditarComponent, canActivate: [ModuloGuard], data: { modulo: 'redesSociales', permiso: 'editar' } },
       { path: 'roles', component: RolesConsultarComponent, canActivate: [ModuloGuard], data: { modulo: 'roles', permiso: 'consultar' } },
       { path: 'roles-crear', component: RolesCrearComponent, canActivate: [ModuloGuard], data: { modulo: 'roles', permiso: 'crear' } },
       { path: 'roles-editar/:id', component: RolesEditarComponent, canActivate: [ModuloGuard], data: { modulo: 'roles', permiso: 'editar' } },
-      { path: 'tablero/:id', component: TablerosViewComponent },
       { path: 'tableros', component: TablerosConsultarComponent, canActivate: [ModuloGuard], data: { modulo: 'Tableros', permiso: 'consultar' } },
+      { path: 'tablero/:id', component: TablerosViewComponent },      
       { path: 'tableros-crear', component: TablerosCrearComponent, canActivate: [ModuloGuard], data: { modulo: 'Tableros', permiso: 'crear' } },
       { path: 'tableros-editar/:id', component: TablerosEditarComponent, canActivate: [ModuloGuard], data: { modulo: 'Tableros', permiso: 'editar' } },
     ]
@@ -86,7 +92,7 @@ export const routes: Routes = [
       { path: 'consulta-ciudadana', component: ContactenosComponent },
       { path: 'noticia/:idPagina/:idNoticia', component: NoticiaComponent },
       { path: 'portal', component: PaginasComponent },
-      { path: ':id', component: PaginasComponent },
+      { path: 'portal/:id', component: PaginasComponent },
     ]
   }
 ];

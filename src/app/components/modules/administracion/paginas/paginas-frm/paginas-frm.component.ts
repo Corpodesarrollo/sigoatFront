@@ -87,6 +87,7 @@ export class PaginasFrmComponent {
         this.saving = true;
         let response;
         if (this.formulario.id === 0) {
+          this.formulario.estado = false;
           response = await this.ms.post<Paginas>('paginas', this.formulario, apis.Administrador);
         } else {
           response = await this.ms.put<Paginas>('paginas', this.formulario, apis.Administrador);
@@ -97,7 +98,7 @@ export class PaginasFrmComponent {
             const result = response.data;
             this.msg = 'La página se ha guardado correctamente.';
             if (this.formulario.id === 0) {
-              this.router.navigate([`/carrusel/${result.id}`]);
+              this.router.navigate([`/carrusel/${result}`]);
             } else {
               this.router.navigate([`/carrusel/${this.formulario.id}`]);
             }

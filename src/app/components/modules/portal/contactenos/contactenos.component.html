@@ -70,10 +70,18 @@
             <!-- Botones -->
             <div class="row mt-3">
                 <div class="col-md-12 text-end">
-                <button type="button" (click)="onSubmit()" class="btn button-success btn-lg add-button">Envias</button>
+                <button type="button" (click)="onSubmit()" class="btn button-success btn-lg add-button">Enviar</button>
                 </div>
             </div>
             </div>
         </div>
     </div>
 </div>
+
+<app-msg-box
+  [visible]="visible"
+  [msgTexto]="msg"
+  [msgTipo]="MsgTipo.Info"
+  [msgBotones]="MsgBotones.Aceptar"
+  [width]="'25vw'"
+  (close)="onHide($event)">

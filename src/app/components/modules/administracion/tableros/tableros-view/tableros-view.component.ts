@@ -49,6 +49,7 @@ export class TablerosViewComponent {
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       this.id = idParam ? +idParam : undefined;
+      this.ngOnInit();
     });
   }
 

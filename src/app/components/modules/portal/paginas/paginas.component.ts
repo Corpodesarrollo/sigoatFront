@@ -4,6 +4,7 @@ import { AccesibilidadComponent } from "../../../shared/accesibilidad/accesibili
 import { CarruselComponent } from '../../../shared/carrusel/carrusel.component';
 import { DocumentosComponent } from "../../../shared/documentos/documentos.component";
 import { MainSectionComponent } from "../../../shared/main-section/main-section.component";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-paginas',
@@ -14,36 +15,10 @@ import { MainSectionComponent } from "../../../shared/main-section/main-section.
 })
 export class PaginasComponent {
   id: number = 1;
-  documents = [
-    { id: '01', name: 'Afiliación', format: 'docx' },
-    { id: '02', name: 'Certificado', format: 'pdf' }
-  ];
+  documents = [];
+  images = [];
 
-  images = [
-    {
-      url: 'img/portal/medicamentos.png',
-      alt: 'Imagen de muestra 1',
-      title: 'Título de la imagen 1',
-      description: 'Descripción detallada de la primera imagen'
-    },
-    // Puedes agregar más imágenes si necesitas
-    {
-      url: 'img/portal/medicamentos.png',
-      alt: 'Imagen de muestra 2',
-      title: 'Título de la imagen 2',
-      description: 'Descripción detallada de la segunda imagen'
-    }
-  ];
-
-  card = {
-    title: 'Nuevos tratamientos para hepatitis C',
-    image: 'img/portal/medicamentos.png',
-    date: new Date('2023-06-15'),
-    summary: 'El Ministerio de Salud anunció la llegada de 2,610 nuevos tratamientos...',
-    badge: 'Nuevo',
-    loaded: false,
-    focusPoint: 'center top' // Punto de enfoque personalizado
-  };
+  card = {};
 
   currentImageIndex = 0;
   get currentImage() {
@@ -54,6 +29,13 @@ export class PaginasComponent {
   isFullscreen = false;
   showOverlay = true;
   imageLoaded = false;
+
+  constructor(private route: ActivatedRoute) {
+    this.route.paramMap.subscribe(params => {
+      const idParam = params.get('id');
+      this.id = idParam ? +idParam : 1;
+    });
+  }
 
   ngOnInit() {
     // Carga inicial

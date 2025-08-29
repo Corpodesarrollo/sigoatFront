@@ -30,7 +30,7 @@
     </button>
   </div>
 
-  <div class="mt-2 text-body" [innerHTML]="noti.contenido"></div>
+  <div class="mt-2" [innerHTML]="sanitizarHtml(noti.contenido || '')"></div>
 
   <div class="mt-2">
     <small class="text-muted">

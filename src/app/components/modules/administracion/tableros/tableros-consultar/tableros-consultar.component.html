@@ -1,7 +1,7 @@
 <div class="p-5">
     <div class="header-container mb-5 align-items-center">
         <h1>Administración de Tableros</h1>
-        <button (click)="agregar()" class="btn button-success btn-lg add-button">
+        <button (click)="agregar()" class="btn button-success btn-lg add-button" *ngIf="permisoCrear | async">
             <i class="pi pi-plus"></i> Agregar
         </button>
     </div>
@@ -38,16 +38,16 @@
         <td>
           <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
             <i class="pi pi-pencil action-icon edit-icon" 
-              (click)="edit(page)" 
+              (click)="edit(page)" *ngIf="permisoEditar | async"
               pTooltip="Editar" 
               tooltipPosition="top"></i>
             
             <i class="pi pi-trash action-icon delete-icon" 
-              (click)="confirmDelete($event, page.id)" 
+              (click)="confirmDelete($event, page.id)" *ngIf="permisoEliminar | async"
               pTooltip="Eliminar" 
               tooltipPosition="top"></i>
 
-            <p-inputSwitch [(ngModel)]="page.estado" class="custom-switch" pTooltip="{{validarEstado(page.estado)}}" tooltipPosition="left"
+            <p-inputSwitch [(ngModel)]="page.estado" class="custom-switch" pTooltip="{{validarEstado(page.estado)}}" tooltipPosition="left" *ngIf="permisoEditar | async"
                           (onChange)="onToggleChange(page)" />
           </div>
         </td>

@@ -116,7 +116,7 @@ export class MainSectionComponent {
   }
 
   noticia(id: number | undefined) {
-    this.router.navigate(['/noticias']);
+    this.router.navigate(['/noticia/', this.id, id]);
   }
 
   onImageLoad() {

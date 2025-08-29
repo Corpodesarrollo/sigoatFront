@@ -29,9 +29,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { NavMenuPortalComponent } from "./components/nav-menu-portal/nav-menu-portal.component";
 import { AccesibilidadComponent } from "./components/shared/accesibilidad/accesibilidad.component";
-import { appConfig } from './services/app.configCalendario'; 
 import { MsalModule, MsalService  } from '@azure/msal-angular';
-import { MSALInstanceFactory } from './services/app.configCalendario';
 import { InteractionType } from '@azure/msal-browser';
 import { CalendarioComponent } from './components/modules/administracion/calendario/calendario.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -72,20 +70,10 @@ import { NotificacionesComponent } from "./components/modules/administracion/not
     NavMenuPortalComponent,
     ReactiveFormsModule,
     AccesibilidadComponent,
-    MsalModule.forRoot(MSALInstanceFactory(), {
-        interactionType: InteractionType.Redirect,
-        authRequest: {
-            scopes: ['user.read']
-        }
-    }, {
-        interactionType: InteractionType.Redirect,
-        protectedResourceMap: new Map()
-    }),
     NotificacionesComponent
 ],
 
   providers: [
-    ...appConfig, 
     DialogService,
     { provide: HTTP_INTERCEPTORS, useClass: HealthCheckInterceptor, multi: true }
   ],

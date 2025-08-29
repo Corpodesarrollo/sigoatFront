@@ -17,6 +17,7 @@ import { MsgBoxComponent } from "../../../../shared/msg-box/msg-box.component";
 import { MsgTipo } from '../../../../../models/msgTipo.model';
 import { MsgBotones } from '../../../../../models/msgBotones.model';
 import { AuthServices } from '../../../../../services/auth.service';
+import { permiso } from '../../../../../models/permiso';
 
 @Component({
     selector: 'app-menus-consultar',
@@ -41,15 +42,16 @@ export class MenusConsultarComponent {
   permisoCrear!: Promise<boolean>;
   permisoEditar!: Promise<boolean>;
   permisoEliminar!: Promise<boolean>;
+  modulo: string = 'Menus';
 
 
   constructor(private auth: AuthServices, private messageService: MessageService, private ms: MenuService, private router: Router) {
   }
 
   ngOnInit() {
-    this.permisoCrear = this.auth.tienePermiso('Menus', 'crear');
-    this.permisoEditar = this.auth.tienePermiso('Menus', 'editar');
-    this.permisoEliminar = this.auth.tienePermiso('Menus', 'eliminar');
+    this.permisoCrear = this.auth.tienePermiso(this.modulo, permiso.crear);
+    this.permisoEditar = this.auth.tienePermiso(this.modulo, permiso.editar);
+    this.permisoEliminar = this.auth.tienePermiso(this.modulo, permiso.eliminar);
   }
 
   async loadPages(event: TableLazyLoadEvent)  {

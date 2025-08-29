@@ -6,7 +6,7 @@
     </div>
     <div class="header-container mb-2 align-items-center">
         <h1>Administración Detalles de Noticia</h1>
-        <button (click)="agregar()" class="btn button-success btn-lg add-button" type="button">
+        <button (click)="agregar()" class="btn button-success btn-lg add-button" type="button" *ngIf="permisoCrear | async">
             <i class="pi pi-plus"></i> Agregar
         </button>
     </div>
@@ -79,7 +79,7 @@
           <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
             <i 
               class="pi pi-chevron-up action-icon text-warning fw-bold" 
-              (click)="cambiarOrden(page.id, 'up')" 
+              (click)="cambiarOrden(page.id, 'up')" *ngIf="permisoEditar | async"
               pTooltip="Subir" 
               tooltipPosition="top"
               [ngClass]="{'disabled-icon': pages[0].id === page.id}"
@@ -89,7 +89,7 @@
             
             <i 
               class="pi pi-chevron-down action-icon text-warning fw-bold" 
-              (click)="cambiarOrden(page.id, 'down')" 
+              (click)="cambiarOrden(page.id, 'down')" *ngIf="permisoEditar | async"
               pTooltip="Bajar" 
               tooltipPosition="top"
               [ngClass]="{'disabled-icon': pages[pages.length - 1].id === page.id}"
@@ -98,7 +98,7 @@
             ></i>
 
             <i class="pi pi-trash action-icon delete-icon" 
-              (click)="confirmDelete($event, page.id)" 
+              (click)="confirmDelete($event, page.id)" *ngIf="permisoEliminar | async"
               pTooltip="Eliminar" 
               tooltipPosition="top"></i>
           </div>

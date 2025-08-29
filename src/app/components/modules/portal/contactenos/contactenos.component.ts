@@ -12,6 +12,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { MsgBoxComponent } from '../../../shared/msg-box/msg-box.component';
+import { MsgBotones } from '../../../../models/msgBotones.model';
 
 @Component({
   selector: 'app-contactenos',
@@ -35,6 +36,7 @@ export class ContactenosComponent {
   msg: string = '';
   error: boolean = false;
   MsgTipo = MsgTipo;
+  MsgBotones = MsgBotones;
 
   constructor(private fb: FormBuilder, private ms: ContactenosService, private router: Router) {}
 
@@ -50,9 +52,9 @@ export class ContactenosComponent {
       }
 
       if (!result?.error) {
-        this.msg = 'El formulario se ha guardado correctamente.';
+        this.msg = 'Su mensaje se ha enviado correctamente.';
       } else {
-        this.msg = 'Error al guardar el formulario. Por favor, inténtelo de nuevo.';
+        this.msg = 'Error al enviar el mensaje. Por favor, inténtelo de nuevo más tarde.';
         console.log(result.dataError);
       }
 
@@ -80,8 +82,6 @@ export class ContactenosComponent {
     for (const campo of camposAValidar) {
       pos++;
       if (!campo || campo.toString().trim() === '' || campo.toString() === '0') {
-        console.log('Campo requerido vacío:', campo);
-        console.log('Posición:', pos);
         return false;
       }
     }

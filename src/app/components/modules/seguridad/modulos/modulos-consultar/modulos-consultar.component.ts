@@ -17,6 +17,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MsgBoxComponent } from '../../../../shared/msg-box/msg-box.component';
 import { Modulos } from '../../../../../models/modulos.model';
 import { ModulosService } from '../../../../../services/modulos.services';
+import { permiso } from '../../../../../models/permiso';
+import { AuthServices } from '../../../../../services/auth.service';
 
 @Component({
   selector: 'app-modulos-consultar',
@@ -28,22 +30,28 @@ import { ModulosService } from '../../../../../services/modulos.services';
 })
 export class ModulosConsultarComponent {
   pages: Modulos[] = [];
-    totalRecords: number = 0;
-    rowsPerPage: number = 10;
-    loading: boolean = true;
-    visible: boolean = false;
-    msg: string = '';
-    MsgTipo = MsgTipo;
-    MsgBotones = MsgBotones;
-    error: boolean = false;
-    idEliminar: number = 0;
+  totalRecords: number = 0;
+  rowsPerPage: number = 10;
+  loading: boolean = true;
+  visible: boolean = false;
+  msg: string = '';
+  MsgTipo = MsgTipo;
+  MsgBotones = MsgBotones;
+  error: boolean = false;
+  idEliminar: number = 0;
+
+  permisoCrear!: Promise<boolean>;
+  permisoEditar!: Promise<boolean>;
+  permisoEliminar!: Promise<boolean>;
+  modulo: string = 'Modulos';
   
-  
-    constructor(private confirmationService: ConfirmationService, private messageService: MessageService, private ms: ModulosService, private router: Router) {}
+    constructor(private auth: AuthServices, private confirmationService: ConfirmationService, private messageService: MessageService, private ms: ModulosService, private router: Router) {}
   
     ngOnInit() {
-      // Carga inicial puede estar vacía o cargar primera página
-    }
+        this.permisoCrear = this.auth.tienePermiso(this.modulo, permiso.crear);
+        this.permisoEditar = this.auth.tienePermiso(this.modulo, permiso.editar);
+        this.permisoEliminar = this.auth.tienePermiso(this.modulo, permiso.eliminar);
+      }
   
     async loadPages(event: TableLazyLoadEvent)  {
       this.loading = true;

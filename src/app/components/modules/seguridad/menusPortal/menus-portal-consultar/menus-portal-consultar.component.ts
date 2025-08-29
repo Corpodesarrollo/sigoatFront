@@ -16,6 +16,8 @@ import { MsgTipo } from '../../../../../models/msgTipo.model';
 import { ResponseModel } from '../../../../../models/response.model';
 import { MsgBoxComponent } from '../../../../shared/msg-box/msg-box.component';
 import { MenuPortalServices } from '../../../../../services/menuPortal.services';
+import { AuthServices } from '../../../../../services/auth.service';
+import { permiso } from '../../../../../models/permiso';
 
 @Component({
   selector: 'app-menus-portal-consultar',
@@ -37,11 +39,17 @@ export class MenusPortalConsultarComponent {
   error: boolean = false;
   idEliminar: number = 0;
   
+  permisoCrear!: Promise<boolean>;
+  permisoEditar!: Promise<boolean>;
+  permisoEliminar!: Promise<boolean>;
+  modulo: string = 'MenusPortal';
   
-    constructor(private messageService: MessageService, private ms: MenuPortalServices, private router: Router) {}
+    constructor(private auth: AuthServices, private messageService: MessageService, private ms: MenuPortalServices, private router: Router) {}
   
     ngOnInit() {
-      // Carga inicial puede estar vacía o cargar primera página
+      this.permisoCrear = this.auth.tienePermiso(this.modulo, permiso.crear);
+      this.permisoEditar = this.auth.tienePermiso(this.modulo, permiso.editar);
+      this.permisoEliminar = this.auth.tienePermiso(this.modulo, permiso.eliminar);
     }
   
     async loadPages(event: TableLazyLoadEvent)  {

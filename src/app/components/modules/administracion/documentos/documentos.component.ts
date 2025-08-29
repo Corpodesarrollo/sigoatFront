@@ -24,12 +24,15 @@ import { Anexos } from '../../../../models/anexos.model';
 import { AnexosService } from '../../../../services/anexoss.services';
 import { StepsComponent } from "../../../shared/steps/steps.component";
 import { environment } from '../../../../../environments/environment';
+import { permiso } from '../../../../models/permiso';
+import { AuthServices } from '../../../../services/auth.service';
+import { ViewerComponent } from "../../../shared/viewer/viewer.component";
 
 @Component({
   selector: 'app-documentos',
   standalone: true,
   imports: [TableModule, ButtonModule, TooltipModule, CommonModule, ConfirmDialogModule, ToastModule,
-  InputSwitchModule, FormsModule, MsgBoxComponent, DialogModule, FileUploadModule, InputTextModule, StepsComponent],
+    InputSwitchModule, FormsModule, MsgBoxComponent, DialogModule, FileUploadModule, InputTextModule, StepsComponent, ViewerComponent],
   providers: [ConfirmationService, MessageService],
   templateUrl: './documentos.component.html',
   styleUrl: './documentos.component.css'
@@ -71,8 +74,13 @@ export class DocumentosComponent {
     mensajeError: string = '';
     nombre: string = '';
     archivoSeleccionado: Attachment | null = null;
+    displayViewer: boolean = false;
+    permisoCrear!: Promise<boolean>;
+    permisoEditar!: Promise<boolean>;
+    permisoEliminar!: Promise<boolean>;
+    modulo: string = 'Documentos';
       
-    constructor(private messageService: MessageService, private ms: AnexosService, private ps: PaginasService, private route: ActivatedRoute, private router: Router) {
+    constructor(private auth: AuthServices, private messageService: MessageService, private ms: AnexosService, private ps: PaginasService, private route: ActivatedRoute, private router: Router) {
       this.route.paramMap.subscribe(params => {
         const idParam = params.get('id');
         this.id = idParam ? +idParam : undefined;
@@ -80,6 +88,10 @@ export class DocumentosComponent {
     }
   
     async ngOnInit() {
+      this.permisoCrear = this.auth.tienePermiso(this.modulo, permiso.crear);
+      this.permisoEditar = this.auth.tienePermiso(this.modulo, permiso.editar);
+      this.permisoEliminar = this.auth.tienePermiso(this.modulo, permiso.eliminar);
+
       if (this.id !== undefined) {
         this.loading = true;
         let pagina = await this.ps.getById("paginas", this.id, apis.Administrador);
@@ -112,6 +124,25 @@ export class DocumentosComponent {
         }
       }
       this.loading = false;
+
+      this.limpiar();
+    }
+
+    limpiar() {
+      this.formulario = {
+        id: 0,
+        codigo: '',
+        nombre: '',
+        idPagina: 0,
+        idArchivo: 0,
+        archivo: null,
+        mimeType: ''
+      };
+      this.archivoSeleccionado = null;
+      this.mensajeError = '';
+      this.nombre = '';
+      this.submitted = false;
+      this.saving = false;
     }
   
     agregar() {

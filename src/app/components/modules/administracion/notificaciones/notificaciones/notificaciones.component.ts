@@ -10,6 +10,7 @@ import { MenuService } from '../../../../../services/menu.services';
 import { NotificacionesServices } from '../../../../../services/notificaciones.services';
 import { User } from '../../../../../services/user.services';
 import { ResponseModel } from '../../../../../models/response.model';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-notificaciones',
@@ -26,7 +27,7 @@ export class NotificacionesComponent {
 
   notificaciones: Notificacion[] = [];
 
-  constructor(private auth: AuthServices, private messageService: MessageService, private mn: NotificacionesServices, private router: Router) {}
+  constructor(private auth: AuthServices, private messageService: MessageService, private mn: NotificacionesServices, private router: Router, private sanitizer: DomSanitizer) {}
 
   async ngOnInit() {
     let response = await this.mn.obtenerNotificaciones(Number(this.user.id ?? 0));
@@ -75,5 +76,9 @@ export class NotificacionesComponent {
 
   get cantidadNoLeidas(): number {
     return this.notificaciones.filter(n => !n.leido).length;
+  }
+
+  sanitizarHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 }

@@ -18,6 +18,8 @@ import { AuthServices } from '../../../../../services/auth.service';
 import { MenuService } from '../../../../../services/menu.services';
 import { MsgBoxComponent } from '../../../../shared/msg-box/msg-box.component';
 import { Notificacion } from '../../../../../models/notificaciones.model';
+import { permiso } from '../../../../../models/permiso';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-notificaciones-consultar',
@@ -29,29 +31,29 @@ import { Notificacion } from '../../../../../models/notificaciones.model';
 })
 export class NotificacionesConsultarComponent {
   pages: Notificacion[] = [];
-    totalRecords: number = 0;
-    rowsPerPage: number = 10;
-    loading: boolean = true;
-    visible: boolean = false;
-    msg: string = '';
-    MsgTipo = MsgTipo;
-    MsgBotones = MsgBotones;
-    error: boolean = false;
-    idEliminar: number = 0;
+  totalRecords: number = 0;
+  rowsPerPage: number = 10;
+  loading: boolean = true;
+  visible: boolean = false;
+  msg: string = '';
+  MsgTipo = MsgTipo;
+  MsgBotones = MsgBotones;
+  error: boolean = false;
+  idEliminar: number = 0;
   
-    permisoCrear!: Promise<boolean>;
-    permisoEditar!: Promise<boolean>;
-    permisoEliminar!: Promise<boolean>;
-  
-  
-    constructor(private auth: AuthServices, private messageService: MessageService, private ms: MenuService, private router: Router) {
-    }
-  
-    ngOnInit() {
-      this.permisoCrear = this.auth.tienePermiso('notificaciones', 'crear');
-      this.permisoEditar = this.auth.tienePermiso('notificaciones', 'editar');
-      this.permisoEliminar = this.auth.tienePermiso('notificaciones', 'eliminar');
-    }
+  permisoCrear!: Promise<boolean>;
+  permisoEditar!: Promise<boolean>;
+  permisoEliminar!: Promise<boolean>;
+  modulo: string = 'Notificaciones';
+    
+  constructor(private auth: AuthServices, private messageService: MessageService, private ms: MenuService, private router: Router, private sanitizer: DomSanitizer) {
+  }
+
+  ngOnInit() {
+    this.permisoCrear = this.auth.tienePermiso(this.modulo, permiso.crear);
+    this.permisoEditar = this.auth.tienePermiso(this.modulo, permiso.editar);
+    this.permisoEliminar = this.auth.tienePermiso(this.modulo, permiso.eliminar);
+  }
   
     async loadPages(event: TableLazyLoadEvent)  {
       this.loading = true;
@@ -130,6 +132,10 @@ export class NotificacionesConsultarComponent {
           }
         });
       }
+    }
+
+    sanitizarHtml(html: string): SafeHtml {
+      return this.sanitizer.bypassSecurityTrustHtml(html);
     }
 
 }

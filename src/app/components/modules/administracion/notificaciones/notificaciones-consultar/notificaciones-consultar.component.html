@@ -23,6 +23,7 @@
         <th>Contenido</th>
         <th class="text-center" style="width: 120px;">Fecha Inicio</th>
         <th class="text-center" style="width: 120px;">Fecha Fin</th>
+        <th class="text-center" style="width: 120px;">Tipo de Evento</th>
         <th class="text-center" style="width: 120px;">Audiencia</th>
         <th class="text-center" style="width: 120px;">Estado</th>
         <th class="text-center" style="width: 150px;">Acciones</th>
@@ -32,9 +33,20 @@
     <ng-template pTemplate="body" let-page>
       <tr class="custom-row">
         <td>{{ page.titulo }}</td>
-        <td><div [innerHTML]="page.contenido" style="width: 100%; height: auto; overflow: auto; word-break: break-word;"></div></td>
+        <td><div [innerHTML]="sanitizarHtml(page.contenido)" style="width: 100%; height: auto; overflow: auto; word-break: break-word;"></div></td>
         <td class="text-center">{{ page.fechaInicio | date: 'dd/MM/yyyy' }}</td>
         <td class="text-center">{{ page.fechaFin | date: 'dd/MM/yyyy' }}</td>
+        <td class="text-center">
+          <ng-container *ngIf="page.tipoEvento == 0">
+            Actualización
+          </ng-container>
+          <ng-container *ngIf="page.tipoEvento == 1">
+            Mantenimiento
+          </ng-container>
+          <ng-container *ngIf="page.tipoEvento == 2">
+            Novedad
+          </ng-container>
+        </td>
         <td class="text-center">
           <ng-container *ngIf="page.audiencia == 0">
             Ambos

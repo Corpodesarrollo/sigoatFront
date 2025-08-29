@@ -51,7 +51,7 @@
               pTooltip="Eliminar" 
               tooltipPosition="top"></i>
 
-            <p-inputSwitch [(ngModel)]="page.estado" class="custom-switch" pTooltip="{{validarEstado(page.estado)}}" tooltipPosition="left"
+            <p-inputSwitch [(ngModel)]="page.estado" class="custom-switch" pTooltip="{{validarEstado(page.estado)}}" tooltipPosition="left" *ngIf="permisoEditar | async"
                           (onChange)="onToggleChange(page)" />
           </div>
         </td>

@@ -36,11 +36,21 @@ export class NotificacionesFrmComponent {
       id: 0,
       titulo: '',
       contenido: '',
+      tipoEvento: undefined,
       audiencia: undefined,
       fechaInicio: null,
       fechaFin: null,
       estado: true,
     };
+
+    //tipo de evento (actualización, mantenimiento, novedad)
+    tipoEvento: Parametricas[] = [
+      { id: 0, nombre: 'Actualización' },
+      { id: 1, nombre: 'Mantenimiento' },
+      { id: 2, nombre: 'Novedad' }
+    ];
+    selectedTipoEvento: Parametricas | undefined;
+    isLoadingTipoEvento: boolean = true;
 
     audiencias: Parametricas[] = [{ id: 0, nombre: 'Ambos' }, { id: 1, nombre: 'Internos' }, { id: 2, nombre: 'Externos' }];
     selectedAudiencia: Parametricas | undefined;
@@ -58,6 +68,7 @@ export class NotificacionesFrmComponent {
     ngOnChanges() {
       if (this.notificacion) {
         this.formulario = { ...this.notificacion };
+        this.selectedTipoEvento = this.tipoEvento.find(te => te.id === this.formulario.tipoEvento);
         this.selectedAudiencia = this.audiencias.find(a => a.id === this.formulario.audiencia);
         this.formulario.fechaInicio = this.formulario.fechaInicio ? new Date(this.formulario.fechaInicio) : null;
         this.formulario.fechaFin = this.formulario.fechaFin ? new Date(this.formulario.fechaFin) : null;
@@ -66,6 +77,7 @@ export class NotificacionesFrmComponent {
           id: 0,
           titulo: '',
           contenido: '',
+          tipoEvento: undefined,
           audiencia: undefined,
           fechaInicio: null,
           fechaFin: null,
@@ -113,12 +125,18 @@ export class NotificacionesFrmComponent {
       } else {
         this.formulario.audiencia = undefined;
       }
+      if (this.selectedTipoEvento) {
+        this.formulario.tipoEvento = this.selectedTipoEvento.id;
+      } else {
+        this.formulario.tipoEvento = undefined;
+      }
       console.log('Audiencia seleccionada:', this.formulario.audiencia);
       console.log('Formulario antes de la validación:', this.formulario);
   
       camposAValidar = [
         this.formulario.titulo,
         this.formulario.contenido,
+        this.formulario.tipoEvento,
         this.formulario.audiencia,
         this.formulario.fechaInicio,
         this.formulario.fechaFin,

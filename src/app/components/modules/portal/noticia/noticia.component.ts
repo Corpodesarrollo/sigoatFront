@@ -1,19 +1,26 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, SimpleChanges } from '@angular/core';
 import { AccesibilidadComponent } from '../../../shared/accesibilidad/accesibilidad.component';
 import { MainSectionComponent } from '../../../shared/main-section/main-section.component';
-import { CarruselComponent } from '../../administracion/carrusel/carrusel.component';
 import { DocumentosComponent } from '../../administracion/documentos/documentos.component';
+import { NoticeSectionComponent } from "../../../shared/notice-section/notice-section.component";
+import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { NoticiasServices } from '../../../../services/noticias.services';
+import { CarruselComponent } from '../../../shared/carrusel/carrusel.component';
 
 @Component({
   selector: 'app-noticia',
   standalone: true,
-  imports: [CommonModule, AccesibilidadComponent, CarruselComponent, DocumentosComponent, MainSectionComponent],
+  imports: [CommonModule, AccesibilidadComponent, CarruselComponent, DocumentosComponent, MainSectionComponent, NoticeSectionComponent],
   templateUrl: './noticia.component.html',
-  styleUrl: './noticia.component.css'
+  styleUrl: './noticia.component.css',
+  providers: [ConfirmationService, MessageService],
 })
 export class NoticiaComponent {
-  id: number = 1;
+  id: number = 0;
+  idNoticia: number = 0;
   documents = [
     { id: '01', name: 'Afiliación', format: 'docx' },
     { id: '02', name: 'Certificado', format: 'pdf' }
@@ -54,6 +61,16 @@ export class NoticiaComponent {
   isFullscreen = false;
   showOverlay = true;
   imageLoaded = false;
+
+  constructor(private messageService: MessageService, private ns: NoticiasServices, private route: ActivatedRoute, private router: Router, private sanitizer: DomSanitizer) {
+    this.route.paramMap.subscribe(params => {
+      const idParam = params.get('idNoticia');
+      this.idNoticia = idParam ? +idParam : 0;
+
+      const idPaginaParam = params.get('idPagina');
+      this.id = idPaginaParam ? +idPaginaParam : 0;
+    });
+  }
 
   ngOnInit() {
     // Carga inicial

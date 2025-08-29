@@ -26,12 +26,15 @@ import { Noticias } from '../../../../models/noticias.model';
 import { NoticiasServices } from '../../../../services/noticias.services';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { permiso } from '../../../../models/permiso';
+import { AuthServices } from '../../../../services/auth.service';
+import { ViewerComponent } from "../../../shared/viewer/viewer.component";
 
 @Component({
   selector: 'app-noticias',
   standalone: true,
   imports: [TableModule, ButtonModule, TooltipModule, CommonModule, ConfirmDialogModule, ToastModule,
-  InputSwitchModule, FormsModule, MsgBoxComponent, DialogModule, FileUploadModule, InputTextModule, StepsComponent, CalendarModule, InputTextareaModule],
+    InputSwitchModule, FormsModule, MsgBoxComponent, DialogModule, FileUploadModule, InputTextModule, StepsComponent, CalendarModule, InputTextareaModule, ViewerComponent],
   providers: [ConfirmationService, MessageService],
   templateUrl: './noticias.component.html',
   styleUrl: './noticias.component.css'
@@ -52,7 +55,7 @@ export class NoticiasComponent {
   tituloPagina: string = '';
   submitted: boolean = false;
   saving: boolean = false;
-
+  displayViewer: boolean = false;
   displayModal: boolean = false;
   imageUrl = '';
   fileToUpload: File | null = null;
@@ -69,8 +72,13 @@ export class NoticiasComponent {
   mensajeError: string = '';
   nombre: string = '';
   archivoSeleccionado: Attachment | null = null;
-    
-  constructor(private messageService: MessageService, private ms: NoticiasServices, private ps: PaginasService, private route: ActivatedRoute, private router: Router) {
+
+  permisoCrear!: Promise<boolean>;
+  permisoEditar!: Promise<boolean>;
+  permisoEliminar!: Promise<boolean>;
+  modulo: string = 'Noticias';
+
+  constructor(private auth: AuthServices, private messageService: MessageService, private ms: NoticiasServices, private ps: PaginasService, private route: ActivatedRoute, private router: Router) {
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       this.id = idParam ? +idParam : undefined;
@@ -78,6 +86,10 @@ export class NoticiasComponent {
   }
 
   async ngOnInit() {
+    this.permisoCrear = this.auth.tienePermiso(this.modulo, permiso.crear);
+    this.permisoEditar = this.auth.tienePermiso(this.modulo, permiso.editar);
+    this.permisoEliminar = this.auth.tienePermiso(this.modulo, permiso.eliminar);
+    
     if (this.id !== undefined) {
       this.loading = true;
       let pagina = await this.ps.getById("paginas", this.id, apis.Administrador);
@@ -109,6 +121,26 @@ export class NoticiasComponent {
       }
     }
     this.loading = false;
+
+    this.limpiar();
+  }
+
+  limpiar() {
+    this.formulario = {
+      id: 0,
+      titulo: '',
+      detalle: '',
+      fecha: null
+    };
+    this.submitted = false;
+    this.saving = false;
+    this.displayModal = false;
+    this.imageUrl = '';
+    this.fileToUpload = null;
+    this.imagePreview = null;
+    this.mensajeError = '';
+    this.nombre = '';
+    this.archivoSeleccionado = null;
   }
 
   agregar() {
@@ -117,7 +149,7 @@ export class NoticiasComponent {
   }
 
   detalles(id:number) {
-    this.router.navigate(['detallesNoticias', id]);  
+    this.router.navigate([`detallesNoticias/${id}/${this.id}`]);
   }
 
   async editar(id:number) {
@@ -190,6 +222,10 @@ export class NoticiasComponent {
       }
     }
     this.saving = false;
+  }
+
+  anterior(): void {
+    this.router.navigate([`/documentos/${this.id}`]);
   }
 
   validarCamposRequeridos(): boolean {

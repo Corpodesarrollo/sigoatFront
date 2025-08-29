@@ -24,7 +24,6 @@ export class AuthServices extends MethodsService {
   }
 
   async loadPermisos() {
-
     if (environment.cookie) {
       let response = await this.getUser();
       if (!response) {
@@ -37,30 +36,29 @@ export class AuthServices extends MethodsService {
         console.error('Error loading permissions:', result.dataError);
         return;
       }
-      
-      this.setUser(result.data);
     }
     else {
+      console.warn('Environment cookie is disabled, using default user data');
       localStorage.setItem('user', `
-        {
-          "Id":"1",
-          "Alias":"CC51644243",
-          "Email":"CHARLESROCK96@GMAIL.COM",
-          "Name":"CLAUDIA MARTINEZ",
-          "State":true,
-          "roleId":1,
-          "RolCode":[
-            "Perfil PISIS Neo",
-            "SINTRA-ENT"
-          ],
-          "EnterpriseCode":"NI 800114312",
-          "EnterpriseDeptoCode":"80",
-          "EnterpriseEmail":"lidertic@saluddecaldas.gov.co",
-          "EnterpriseName":"DIRECCION TERRITORIAL DE SALUD DE CALDAS",
-          "EnterpriseIdentification":"800114312",
-          "IsMinSalud":false,
-          "IsAuth":true
-        }`);
+      {
+        "Id":"1",
+        "Alias":"CC51644243",
+        "Email":"CHARLESROCK96@GMAIL.COM",
+        "Name":"CLAUDIA MARTINEZ",
+        "State":true,
+        "roleId":1,
+        "RolCode":[
+          "Perfil PISIS Neo",
+          "SINTRA-ENT"
+        ],
+        "EnterpriseCode":"NI 800114312",
+        "EnterpriseDeptoCode":"80",
+        "EnterpriseEmail":"lidertic@saluddecaldas.gov.co",
+        "EnterpriseName":"DIRECCION TERRITORIAL DE SALUD DE CALDAS",
+        "EnterpriseIdentification":"800114312",
+        "IsMinSalud":false,
+        "IsAuth":true
+      }`);
     }
   }
 
@@ -69,7 +67,7 @@ export class AuthServices extends MethodsService {
   }
 
   async setPermisos() {
-    let permisosResult = await this.permisosService.getByRol(this.user.rolId as number);
+    let permisosResult = await this.permisosService.getByRol(this.user.rolId as number ?? 0);
     if (permisosResult) {
       let result = permisosResult as ResponseModel;
       if (result.error) {
@@ -86,17 +84,35 @@ export class AuthServices extends MethodsService {
     }
   }
 
-  getPermisos() {
+  async getPermisos() {
+    //valida si la variable user existe en localStorage
+    if (!localStorage.getItem('user')) {
+      await this.loadPermisos();
+    } 
+
     return JSON.parse(localStorage.getItem('permisos')!);
   }
 
   async tienePermiso(modulo: string, permiso: 'crear' | 'consultar' | 'editar' | 'eliminar'): Promise<boolean> {
     await this.setPermisos();
-    this.permisos = this.getPermisos();
+    this.permisos = await this.getPermisos();
     let mod = this.permisos && Array.isArray(this.permisos)
       ? this.permisos.find((m: any) => m.path.toLowerCase() === modulo.toLowerCase())
       : undefined;
     return !!mod?.[permiso];
+  }
+  
+  async obtenerPermisos(modulo: string): Promise<{ crear: boolean, editar: boolean, eliminar: boolean }> {
+    await this.setPermisos();
+    this.permisos = await this.getPermisos();
+    let mod = this.permisos && Array.isArray(this.permisos)
+      ? this.permisos.find((m: any) => m.path.toLowerCase() === modulo.toLowerCase())
+      : undefined;
+    return {
+      crear: !!mod?.crear,
+      editar: !!mod?.editar,
+      eliminar: !!mod?.eliminar
+    };
   }
   
   async getUser(): Promise<any | null> {

@@ -29,6 +29,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { Parametricas } from '../../../../models/parametricas.model';
 import { EditorModule } from 'primeng/editor';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { permiso } from '../../../../models/permiso';
+import { AuthServices } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-detalles-noticia',
@@ -61,7 +63,8 @@ export class DetallesNoticiaComponent {
   imageUrl = '';
   fileToUpload: File | null = null;
   imagePreview: string | ArrayBuffer | null = null;
-  id: number | undefined;
+  idPagina: number | undefined;
+  idNoticia: number | undefined;
   TipoNoticia = TipoNoticia;
   
   formulario: DetallesNoticias = {
@@ -91,18 +94,32 @@ export class DetallesNoticiaComponent {
   mensajeError: string = '';
   nombre: string = '';
   archivoSeleccionado: Attachment | null = null;
+
+  permisoCrear!: Promise<boolean>;
+  permisoEditar!: Promise<boolean>;
+  permisoEliminar!: Promise<boolean>;
+  modulo: string = 'DetallesNoticias';
     
-  constructor(private messageService: MessageService, private ms: DetalleNoticiasServices, private ps: NoticiasServices, private route: ActivatedRoute, private router: Router, private sanitizer: DomSanitizer) {
+  constructor(private auth: AuthServices, private messageService: MessageService, private ms: DetalleNoticiasServices, private ps: NoticiasServices, private route: ActivatedRoute, private router: Router, private sanitizer: DomSanitizer) {
     this.route.paramMap.subscribe(params => {
-      const idParam = params.get('id');
-      this.id = idParam ? +idParam : undefined;
+      const idPaginaParam = params.get('idPagina');
+      this.idPagina = idPaginaParam ? +idPaginaParam : undefined;
+      this.idPagina = this.idPagina || 0; // Asegurarse
+      
+      const idNoticiaParam = params.get('idNoticia');
+      this.idNoticia = idNoticiaParam ? +idNoticiaParam : undefined;
+      this.idNoticia = this.idNoticia || 0; // Asegurarse
     });
   }
 
   async ngOnInit() {
-    if (this.id !== undefined) {
+    this.permisoCrear = this.auth.tienePermiso(this.modulo, permiso.crear);
+    this.permisoEditar = this.auth.tienePermiso(this.modulo, permiso.editar);
+    this.permisoEliminar = this.auth.tienePermiso(this.modulo, permiso.eliminar);
+
+    if (this.idNoticia !== undefined) {
       this.loading = true;
-      let pagina = await this.ps.getById("noticias", this.id, apis.Administrador);
+      let pagina = await this.ps.getById("noticias", this.idNoticia, apis.Administrador);
       if (pagina) {
         let result: ResponseModel = pagina;
         if (result.error) {
@@ -114,7 +131,7 @@ export class DetallesNoticiaComponent {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cargar la página.' });
       }
 
-      let detalle = await this.ms.getAllById("noticiasDetalles", this.id, apis.Administrador);
+      let detalle = await this.ms.getAllById("noticiasDetalles", this.idNoticia, apis.Administrador);
       if (detalle) {
         let result: ResponseModel = detalle;
         if (result.error) {
@@ -130,6 +147,33 @@ export class DetallesNoticiaComponent {
       }
     }
     this.loading = false;
+
+    this.limpiar();
+  }
+
+  limpiar() {
+    this.formulario = {
+      id: 0,
+      idNoticia: 0,
+      tipo: null,
+      contenido: null,
+      url: null,
+      idArchivo: null,
+      archivo: null,
+      mimeType: null,
+      orden: null
+    };
+    this.seletedTipo = null;
+    this.imagenPreview = null;
+    this.urlImagen = '';
+    this.mensajeError = '';
+    this.nombre = '';
+    this.archivoSeleccionado = null;
+    this.displayModal = false;
+    this.submitted = false;
+    this.saving = false;
+    this.error = false;
+    this.idEliminar = 0;
   }
 
   agregar() {
@@ -195,7 +239,8 @@ export class DetallesNoticiaComponent {
 
   validarCamposRequeridos(): boolean {
     let camposAValidar: (string | TipoNoticia | Attachment | null | undefined)[] = [];
-    this.formulario.idNoticia = this.id ?? null;
+    this.formulario.idNoticia = this.idNoticia ?? null;
+    console.log('ID Noticia:', this.formulario.idNoticia);
     this.formulario.archivo = this.archivoSeleccionado ?? null;
     this.formulario.mimeType = this.archivoSeleccionado?.fileExtension ?? null;
 
@@ -273,7 +318,7 @@ export class DetallesNoticiaComponent {
   async subirArchivo(): Promise<void> {
     console.log('Subir archivo:', this.archivoSeleccionado);
     this.formulario.id = 0;
-    this.formulario.idNoticia = this.id || 0; // Asegurarse de que idNoicia tenga un valor válido
+    this.formulario.idNoticia = this.idNoticia || 0; // Asegurarse de que idNoicia tenga un valor válido
 
     if (this.archivoSeleccionado){
       this.formulario.archivo = this.archivoSeleccionado;
@@ -343,10 +388,10 @@ export class DetallesNoticiaComponent {
   }
 
   continuar(): void {
-    this.router.navigate([`/documentos/${this.id}`]);
+    this.router.navigate([`/documentos/${this.idNoticia}`]);
   }
 
   anterior(): void {
-    this.router.navigate([`/noticias/${this.id}`]);
+    this.router.navigate([`/noticias/${this.idPagina}`]);
   }
 }

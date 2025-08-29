@@ -9,7 +9,7 @@
             </div>
             <div class="card-body">
                 <div *ngFor="let item of noticia1.detalles; let i = index">
-                    <div class="single-image-viewer" *ngIf="item.tipo === TipoNoticia.Imagen && i < 3">
+                    <div class="single-image-viewer" *ngIf="(item.tipo === TipoNoticia.Imagen || item.tipo === TipoNoticia.ImagenUrl) && i < 3">
                         <div class="image-container" [class.zoomed]="isZoomed" [class.fullscreen]="isFullscreen">
                             <img [src]="cargarUrl(item.id!)"
                                 class="adaptive-image"
@@ -32,7 +32,7 @@
                     <h3 class="mb-0" *ngIf="item.tipo === TipoNoticia.Titulo && i < 3">{{item.contenido}}</h3>
                 </div>
                 <div class="text-center mt-3">
-                    <a href="#" class="btn btn-sm btn-outline-secondary" (click)="noticia(noticia1.idNoticia)">Leer más</a>
+                    <a class="btn btn-sm btn-outline-secondary" (click)="noticia(noticia1.idNoticia)">Leer más</a>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
             <div class="card mb-3 horizontal-card news-side-card" *ngIf="noticia2">
                 <div class="row g-0">
                     <!-- Contenido de texto a la derecha -->
-                    <div class="col-md-4" *ngIf="noticia2.detalles && noticia2.detalles.length > 0 && noticia2.detalles[0].tipo === TipoNoticia.Imagen">
+                    <div class="col-md-4" *ngIf="noticia2.detalles && noticia2.detalles.length > 0 && ( noticia2.detalles[0].tipo === TipoNoticia.Imagen || noticia2.detalles[0].tipo === TipoNoticia.ImagenUrl)">
                         <div class="card-image-container">
                             <img [src]="cargarUrl(noticia2.detalles[0].id!)"
                                 class="card-img-left">
@@ -52,7 +52,7 @@
                             <h5 class="card-title">{{ noticia2.titulo}}</h5>
                             <p class="card-text text-muted small">{{noticia2.fecha | date:'d \'de\' MMMM, y'}}</p>
                             <p class="card-text">{{ noticia2.detalle }}</p>
-                            <a href="#" class="btn btn-sm btn-outline-secondary">Ver detalles</a>
+                            <a class="btn btn-sm btn-outline-secondary" (click)="noticia(noticia2.idNoticia)">Ver detalles</a>
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                             <h5 class="card-title">{{ noticia3.titulo}}</h5>
                             <p class="card-text text-muted small">{{noticia3.fecha | date:'d \'de\' MMMM, y'}}</p>
                             <p class="card-text">{{ noticia3.detalle }}</p>
-                            <a href="#" class="btn btn-sm btn-outline-secondary">Ver detalles</a>
+                            <a class="btn btn-sm btn-outline-secondary" (click)="noticia(noticia3.idNoticia)">Ver detalles</a>
                         </div>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                             <h5 class="card-title">{{ noticia4.titulo}}</h5>
                             <p class="card-text text-muted small">{{noticia4.fecha | date:'d \'de\' MMMM, y'}}</p>
                             <p class="card-text">{{ noticia4.detalle }}</p>
-                            <a href="#" class="btn btn-sm btn-outline-secondary">Ver detalles</a>
+                            <a class="btn btn-sm btn-outline-secondary" (click)="noticia(noticia4.idNoticia)">Ver detalles</a>
                         </div>
                     </div>
                 </div>

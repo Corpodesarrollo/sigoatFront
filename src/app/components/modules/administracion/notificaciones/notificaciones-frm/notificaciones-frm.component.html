@@ -26,6 +26,26 @@
             </div>
         </div>
 
+        <!-- Tipo de Evento -->
+        <div class="row align-items-center mb-3 p-fluid">
+            <div class="col-md-3">
+                <label for="menu" class="fw-bold">Tipo de Evento</label>
+            </div>
+            <div class="col-md-9 p-fluid">
+                <p-dropdown
+                    [(ngModel)]="selectedTipoEvento"
+                    [options]="tipoEvento"
+                    optionLabel="nombre"
+                    [filter]="true"
+                    filterBy="nombre"
+                    [showClear]="true"
+                    id="tipoEvento"
+                    class="w-100"
+                    placeholder="Seleccione">
+            </p-dropdown>
+            </div>
+        </div>
+
         <!-- Audiencia -->
         <div class="row align-items-center mb-3 p-fluid">
             <div class="col-md-3">

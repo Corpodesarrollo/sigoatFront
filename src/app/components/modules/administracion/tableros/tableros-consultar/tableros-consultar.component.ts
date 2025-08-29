@@ -17,6 +17,8 @@ import { ResponseModel } from '../../../../../models/response.model';
 import { MenuService } from '../../../../../services/menu.services';
 import { MsgBoxComponent } from '../../../../shared/msg-box/msg-box.component';
 import { Tableros } from '../../../../../models/tableros.model';
+import { permiso } from '../../../../../models/permiso';
+import { AuthServices } from '../../../../../services/auth.service';
 
 @Component({
   selector: 'app-tableros-consultar',
@@ -37,12 +39,18 @@ export class TablerosConsultarComponent {
     MsgBotones = MsgBotones;
     error: boolean = false;
     idEliminar: number = 0;
+
+    permisoCrear!: Promise<boolean>;
+    permisoEditar!: Promise<boolean>;
+    permisoEliminar!: Promise<boolean>;
+    modulo: string = 'Tableros';
   
-  
-    constructor(private messageService: MessageService, private ms: MenuService, private router: Router) {}
+    constructor(private auth: AuthServices, private messageService: MessageService, private ms: MenuService, private router: Router) {}
   
     ngOnInit() {
-      // Carga inicial puede estar vacía o cargar primera página
+      this.permisoCrear = this.auth.tienePermiso(this.modulo, permiso.crear);
+      this.permisoEditar = this.auth.tienePermiso(this.modulo, permiso.editar);
+      this.permisoEliminar = this.auth.tienePermiso(this.modulo, permiso.eliminar);
     }
   
     async loadPages(event: TableLazyLoadEvent)  {

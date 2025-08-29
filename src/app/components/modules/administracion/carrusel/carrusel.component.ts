@@ -24,12 +24,15 @@ import { PaginasService } from '../../../../services/paginas.services';
 import { Paginas } from '../../../../models/paginas.model';
 import { Attachment } from '../../../../models/attachment.model';
 import { StepsComponent } from "../../../shared/steps/steps.component";
+import { permiso } from '../../../../models/permiso';
+import { AuthServices } from '../../../../services/auth.service';
+import { ViewerComponent } from "../../../shared/viewer/viewer.component";
 
 @Component({
   selector: 'app-carrusel',
   standalone: true,
   imports: [TableModule, ButtonModule, TooltipModule, CommonModule, ConfirmDialogModule, ToastModule,
-    InputSwitchModule, FormsModule, MsgBoxComponent, DialogModule, FileUploadModule, InputTextModule, StepsComponent],
+    InputSwitchModule, FormsModule, MsgBoxComponent, DialogModule, FileUploadModule, InputTextModule, StepsComponent, ViewerComponent],
   providers: [ConfirmationService, MessageService],
   templateUrl: './carrusel.component.html',
   styleUrl: './carrusel.component.css'
@@ -49,7 +52,7 @@ export class CarruselComponent {
   error: boolean = false;
   idEliminar: number = 0;
   tituloPagina: string = '';
-
+  displayViewer: boolean = false;
   displayModal: boolean = false;
   imageUrl = '';
   fileToUpload: File | null = null;
@@ -71,8 +74,13 @@ export class CarruselComponent {
   mensajeError: string = '';
   nombre: string = '';
   archivoSeleccionado: Attachment | null = null;
+
+  permisoCrear!: Promise<boolean>;
+  permisoEditar!: Promise<boolean>;
+  permisoEliminar!: Promise<boolean>;
+  modulo: string = 'Carrusel';
     
-  constructor(private messageService: MessageService, private ms: CarruselService, private ps: PaginasService, private route: ActivatedRoute, private router: Router) {
+  constructor(private auth: AuthServices, private messageService: MessageService, private ms: CarruselService, private ps: PaginasService, private route: ActivatedRoute, private router: Router) {
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       this.id = idParam ? +idParam : undefined;
@@ -80,6 +88,10 @@ export class CarruselComponent {
   }
 
   async ngOnInit() {
+    this.permisoCrear = this.auth.tienePermiso(this.modulo, permiso.crear);
+    this.permisoEditar = this.auth.tienePermiso(this.modulo, permiso.editar);
+    this.permisoEliminar = this.auth.tienePermiso(this.modulo, permiso.eliminar);
+
     if (this.id !== undefined) {
       this.loading = true;
       let pagina = await this.ps.getById("paginas", this.id, apis.Administrador);
@@ -110,6 +122,25 @@ export class CarruselComponent {
       }
     }
     this.loading = false;
+
+    this.limpiar();
+  }
+
+  limpiar() {
+    this.carrusel = {
+      id: null,
+      idPagina: null,
+      idArchivo: null,
+      archivo: null,
+      mimeType: null,
+      url: null,
+      orden: null
+    };
+    this.imagenPreview = null;
+    this.urlImagen = '';
+    this.mensajeError = '';
+    this.nombre = '';
+    this.archivoSeleccionado = null;
   }
 
   agregar() {
