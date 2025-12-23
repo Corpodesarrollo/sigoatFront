@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { apis } from '../../../../../models/apis.model';
 import { ResponseModel } from '../../../../../models/response.model';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
-import { RedesSociales } from '../../../../../models/redes-sociales';
+import { RedesSociales } from '../../../../../models/redes-sociales.model';
 import { AuthServices } from '../../../../../services/auth.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { MenuService } from '../../../../../services/menu.services';
+import { MenuService } from '../../../../../services/menu.service';
 import { Router } from '@angular/router';
 import { Menus } from '../../../../../models/menus.model';
 import { permiso } from '../../../../../models/permiso';
@@ -20,7 +20,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MsgBoxComponent } from '../../../../shared/msg-box/msg-box.component';
 import { MsgBotones } from '../../../../../models/msgBotones.model';
 import { MsgTipo } from '../../../../../models/msgTipo.model';
-import { RedesSocialesService } from '../../../../../services/redesSociales.services';
+import { RedesSocialesService } from '../../../../../services/redesSociales.service';
+import { redesSociales } from '../../../../../models/redesSociales';
 
 @Component({
   selector: 'app-redes-sociales-consultar',
@@ -31,6 +32,7 @@ import { RedesSocialesService } from '../../../../../services/redesSociales.serv
   providers: [ConfirmationService, MessageService]
 })
 export class RedesSocialesConsultarComponent {
+
   pages: RedesSociales[] = [];
   totalRecords: number = 0;
   rowsPerPage: number = 10;
@@ -62,7 +64,8 @@ export class RedesSocialesConsultarComponent {
     const page = (event.first || 0) / (event.rows || this.rowsPerPage) + 1;
     const pageSize = event.rows || this.rowsPerPage;
 
-    let menusResponse = await this.ms.getOnDemand('redesSociales', page, pageSize, '', apis.Seguridad);
+    let menusResponse = await this.ms.getOnDemand('redesSociales', page, pageSize, '', apis.Administrador);
+    console.log(menusResponse);
     if (menusResponse) {
       let result: ResponseModel = menusResponse;
       if (result.error) {
@@ -82,7 +85,7 @@ export class RedesSocialesConsultarComponent {
   }
 
   cargarUrl(id: number): string {
-      return `${environment.urlMSAdministracion}Imagenes/GetImg/${id}`;
+      return `${environment.urlMSAdministracion}RedesSociales/GetImg/${id}`;
   }
 
   validarEstado(estado: boolean): string {
@@ -98,7 +101,6 @@ export class RedesSocialesConsultarComponent {
   }
 
   async onToggleChange(data: any) {
-    let redesSociales: RedesSociales = data;
     let responseActivation = await this.ms.putActivateDeactivate('redesSociales', data.id, apis.Seguridad);
     if (responseActivation) {
       let result: ResponseModel = responseActivation;
@@ -131,5 +133,10 @@ export class RedesSocialesConsultarComponent {
         }
       });
     }
+  }
+
+  cargarData(arg0: number): string {
+    const redSocial = redesSociales.find((item: { id: number; }) => item.id === arg0);
+    return redSocial ? redSocial.nombre.toLowerCase() : '';
   }
 }

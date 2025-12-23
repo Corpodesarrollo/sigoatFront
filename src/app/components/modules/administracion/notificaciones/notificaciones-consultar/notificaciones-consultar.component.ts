@@ -15,7 +15,7 @@ import { MsgBotones } from '../../../../../models/msgBotones.model';
 import { MsgTipo } from '../../../../../models/msgTipo.model';
 import { ResponseModel } from '../../../../../models/response.model';
 import { AuthServices } from '../../../../../services/auth.service';
-import { MenuService } from '../../../../../services/menu.services';
+import { MenuService } from '../../../../../services/menu.service';
 import { MsgBoxComponent } from '../../../../shared/msg-box/msg-box.component';
 import { Notificacion } from '../../../../../models/notificaciones.model';
 import { permiso } from '../../../../../models/permiso';

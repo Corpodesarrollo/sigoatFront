@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { GenericService } from '../../services/generic.services';
+import { GenericService } from '../../services/generic.service';
 import { Router } from '@angular/router';
-import { PermisosService } from '../../services/permisos.services';
+import { PermisosService } from '../../services/permisos.service';
 import { PermisosRol } from '../../models/permisosRol.model';
-import { User } from '../../services/user.services';
+import { User } from '../../services/user';
 import { Menus } from '../../models/menus.model';
 import { AuthServices } from '../../services/auth.service';
 
@@ -28,7 +28,7 @@ export class NavMenuComponent implements OnInit {
     await this.auth.loadPermisos();
     this.user = new User();
     this.permisos = await this.auth.getPermisos() as PermisosRol[];
-    if (this.permisos.length === 0 || this.permisos.length === undefined) {
+    if (!this.permisos || this.permisos.length === 0) {
       console.warn('No se encontraron permisos para el usuario actual.');
       return;
     }

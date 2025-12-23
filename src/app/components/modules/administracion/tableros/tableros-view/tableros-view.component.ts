@@ -10,13 +10,13 @@ import { InputTextModule } from 'primeng/inputtext';
 import { apis } from '../../../../../models/apis.model';
 import { MsgTipo } from '../../../../../models/msgTipo.model';
 import { Tableros } from '../../../../../models/tableros.model';
-import { MenuService } from '../../../../../services/menu.services';
-import { ModulosService } from '../../../../../services/modulos.services';
+import { MenuService } from '../../../../../services/menu.service';
+import { ModulosService } from '../../../../../services/modulos.service';
 import { MsgBoxComponent } from '../../../../shared/msg-box/msg-box.component';
 import * as pbi from 'powerbi-client';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { User } from '../../../../../services/user.services';
-import { TablerosService } from '../../../../../services/tableros.services';
+import { User } from '../../../../../services/user';
+import { TablerosService } from '../../../../../services/tableros.service';
 import { ResponseModel } from '../../../../../models/response.model';
 
 @Component({
@@ -49,7 +49,6 @@ export class TablerosViewComponent {
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       this.id = idParam ? +idParam : undefined;
-      this.ngOnInit();
     });
   }
 

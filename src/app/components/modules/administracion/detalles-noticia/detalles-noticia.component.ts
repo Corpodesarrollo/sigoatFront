@@ -22,8 +22,8 @@ import { MsgBoxComponent } from '../../../shared/msg-box/msg-box.component';
 import { StepsComponent } from '../../../shared/steps/steps.component';
 import { DetallesNoticias } from '../../../../models/detallesNoticias.model';
 import { Noticias } from '../../../../models/noticias.model';
-import { NoticiasServices } from '../../../../services/noticias.services';
-import { DetalleNoticiasServices } from '../../../../services/detalleNoticias.services';
+import { NoticiasServices } from '../../../../services/noticias.service';
+import { DetalleNoticiasServices } from '../../../../services/detalleNoticias.service';
 import { TipoNoticia } from '../../../../models/tipoNoticia.model';
 import { DropdownModule } from 'primeng/dropdown';
 import { Parametricas } from '../../../../models/parametricas.model';
@@ -31,6 +31,8 @@ import { EditorModule } from 'primeng/editor';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { permiso } from '../../../../models/permiso';
 import { AuthServices } from '../../../../services/auth.service';
+import { Tableros } from '../../../../models/tableros.model';
+import { TablerosService } from '../../../../services/tableros.service';
 
 @Component({
   selector: 'app-detalles-noticia',
@@ -72,6 +74,7 @@ export class DetallesNoticiaComponent {
     idNoticia: 0,
     tipo: null,
     contenido: null,
+    idTablero: null,
     url: null,
     idArchivo: null,
     archivo: null,
@@ -84,11 +87,15 @@ export class DetallesNoticiaComponent {
     { id: 1, nombre: 'Texto enriquecido' },
     { id: 2, nombre: 'Imagen' },
     { id: 3, nombre: 'Imagen Url' },
+    { id: 4, nombre: 'Tablero' },
     { id: 5, nombre: 'Video' },
     { id: 6, nombre: 'Audio' }
   ];
-  
+
+  tableros: Tableros[] = [];
+  selectedTablero: Tableros | undefined;
   seletedTipo: Parametricas | null = null;
+  isLoadingTableros: boolean = true;
   imagenPreview: string | null = null;
   urlImagen: string = '';
   mensajeError: string = '';
@@ -100,7 +107,7 @@ export class DetallesNoticiaComponent {
   permisoEliminar!: Promise<boolean>;
   modulo: string = 'DetallesNoticias';
     
-  constructor(private auth: AuthServices, private messageService: MessageService, private ms: DetalleNoticiasServices, private ps: NoticiasServices, private route: ActivatedRoute, private router: Router, private sanitizer: DomSanitizer) {
+  constructor(private auth: AuthServices, private messageService: MessageService, private ms: DetalleNoticiasServices, private ps: NoticiasServices, private ts: TablerosService, private route: ActivatedRoute, private router: Router, private sanitizer: DomSanitizer) {
     this.route.paramMap.subscribe(params => {
       const idPaginaParam = params.get('idPagina');
       this.idPagina = idPaginaParam ? +idPaginaParam : undefined;
@@ -138,6 +145,9 @@ export class DetallesNoticiaComponent {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: result.dataError.message });
           return;
         }
+
+      this.tableros = await this.ts.getList();
+      this.isLoadingTableros = false;
         
         console.log('Detalles de la noticia:', result.data);
         this.pages = result.data;
@@ -157,6 +167,7 @@ export class DetallesNoticiaComponent {
       idNoticia: 0,
       tipo: null,
       contenido: null,
+      idTablero: null,
       url: null,
       idArchivo: null,
       archivo: null,
@@ -243,16 +254,22 @@ export class DetallesNoticiaComponent {
     console.log('ID Noticia:', this.formulario.idNoticia);
     this.formulario.archivo = this.archivoSeleccionado ?? null;
     this.formulario.mimeType = this.archivoSeleccionado?.fileExtension ?? null;
+    this.formulario.idTablero = this.selectedTablero?.id ?? null;
 
     if (this.formulario.tipo === TipoNoticia.Titulo || this.formulario.tipo === TipoNoticia.Texto) {
       camposAValidar = [
         this.formulario.tipo,
         this.formulario.contenido,
       ];
-    } else if (this.formulario.tipo === TipoNoticia.Imagen || this.formulario.tipo === TipoNoticia.Anexo) {
+    } else if (this.formulario.tipo === TipoNoticia.Imagen) {
       camposAValidar = [
         this.formulario.tipo,
         this.formulario.archivo,
+      ];
+    } else if (this.formulario.tipo === TipoNoticia.Tablero) {
+      camposAValidar = [
+        this.formulario.tipo,
+        this.formulario.idTablero,
       ];
     } else if (this.formulario.tipo === TipoNoticia.Video || this.formulario.tipo === TipoNoticia.Audio || this.formulario.tipo === TipoNoticia.ImagenUrl) {
       camposAValidar = [

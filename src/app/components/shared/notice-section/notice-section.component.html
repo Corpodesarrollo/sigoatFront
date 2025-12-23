@@ -7,22 +7,10 @@
                     <span class="text-muted"><i class="bi bi-calendar me-1"></i>{{noticia?.fecha | date:'d \'de\' MMMM, y'}}</span>
                 </div>
                 <div *ngFor="let item of noticia?.detalles; let i = index">
-                    <div class="single-image-viewer mb-3" *ngIf="item.tipo === TipoNoticia.Imagen || item.tipo === TipoNoticia.ImagenUrl">
-                        <div class="image-container" [class.zoomed]="isZoomed" [class.fullscreen]="isFullscreen">
-                            <img [src]="cargarUrl(item.id!)"
-                                class="adaptive-image"
-                                (load)="onImageLoad()"
-                                [style.max-width]="isFullscreen ? '100vw' : '100%'"
-                                [style.max-height]="isFullscreen ? '100vh' : 'auto'">
-                            <div class="image-controls">
-                                <button class="btn btn-sm btn-control" (click)="toggleZoom()" title="Zoom">
-                                    <i class="bi" [class.bi-zoom-in]="!isZoomed" [class.bi-zoom-out]="isZoomed"></i>
-                                </button>
-                                <button class="btn btn-sm btn-control" (click)="toggleFullscreen()" title="Pantalla completa">
-                                    <i class="bi" [class.bi-fullscreen]="!isFullscreen" [class.bi-fullscreen-exit]="isFullscreen"></i>
-                                </button>
-                            </div>
-                        </div>
+                    <div class="single-image-viewer text-center mb-3" *ngIf="item.tipo === TipoNoticia.Imagen || item.tipo === TipoNoticia.ImagenUrl">
+                        <img [src]="cargarUrl(item.id!)"
+                            class="adaptive-image mx-auto d-block"
+                            (load)="onImageLoad()">
                     </div>
                     <div class="card-text-container  word-break-fix mb-3" *ngIf="item.tipo === TipoNoticia.Texto">
                         <span [innerHTML]="item.contenido"></span>
@@ -42,7 +30,7 @@
                             </div>
                         </div>
                     </div>
-                    
+                    <app-viewerPBI *ngIf="item.tipo === TipoNoticia.Tablero && item.idTablero !== null" [id]="item.idTablero!"></app-viewerPBI>
                     <!-- cargar audios -->
                     <div class="audio-container mb-3" *ngIf="item.tipo === TipoNoticia.Audio">
                         <audio controls>

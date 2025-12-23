@@ -1,0 +1,15 @@
+import { Injectable } from '@angular/core';
+import { GenericService } from './generic.service';
+import { apis } from '../models/apis.model';
+import { MethodsService } from './methods.service';
+import { Parametricas } from '../models/parametricas.model';
+import { Roles } from '../models/roles.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ConfiguracionService extends MethodsService {
+  constructor(
+    public override repos: GenericService,
+  ) { super(repos); }
+}

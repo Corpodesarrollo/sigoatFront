@@ -6,16 +6,32 @@
           <label for="menu" class="fw-bold">Red Social</label>
         </div>
         <div class="col-md-9 p-fluid">
-          <p-dropdown
+          <p-dropdown 
+            [options]="tiposRedesSociales" 
             [(ngModel)]="selectedRedSocial"
-            [options]="tiposRedesSociales"
             optionLabel="nombre"
             [filter]="true"
             filterBy="nombre"
             [showClear]="true"
-            id="menu"
             class="w-100"
-            placeholder="Seleccione">
+            placeholder="Seleccione"
+            placeholder="Selecciona una red social">
+            <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" *ngIf="selectedRedSocial" style="display: flex; align-items: center;">
+                    <img [src]="'img/icons/icons8-' + selectedRedSocial.nombre?.toLowerCase() + '-24.png'" 
+                        [alt]="selectedRedSocial.nombre"
+                        style="width: 18px; height: 18px; object-fit: contain; margin-right: 8px;">
+                    <div>{{ selectedRedSocial.nombre }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-redSocial pTemplate="item">
+                <div class="flex align-items-center gap-2" style="display: flex; align-items: center;">
+                    <img [src]="'img/icons/icons8-' + redSocial.nombre.toLowerCase() + '-24.png'" 
+                        [alt]="redSocial.nombre"
+                        style="width: 18px; height: 18px; object-fit: contain; margin-right: 8px;">
+                    <div>{{ redSocial.nombre }}</div>
+                </div>
+            </ng-template>
           </p-dropdown>
           <div *ngIf="submitted && (!selectedRedSocial)" class="text-danger">
               Campo requerido
@@ -47,7 +63,7 @@
             [auto]="true"
             [maxFileSize]="1000000"
             [accept]="'.png,.jpg,.jpeg'"
-            (onSelect)="onFileSelect($event)"
+            (onSelect)="onArchivoSeleccionado($event)"
             [showUploadButton]="false"
             [showCancelButton]="false"
             [chooseLabel]="'Seleccionar Imagen'"

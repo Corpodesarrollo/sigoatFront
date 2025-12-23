@@ -1,0 +1,22 @@
+<h1 class="mb-4"><i class="bi bi-people me-2"></i>Redes Sociales</h1>
+<div class="container-grid mb-3">
+  <!-- Iteración de las redes -->
+  <ng-container *ngFor="let red of redes">
+    <a [href]="red.url || '#'" target="_blank" class="card">
+      <!-- Header con ícono + nombre -->
+      <div class="card-header">
+        <img [src]="'img/icons/icons8-' + cargarData(red.idTipoRedSocial) + '-24.png'"
+                style="width: 18px; height: 18px; object-fit: contain; margin-right: 8px;">
+        <span class="title">{{ cargarData(red.idTipoRedSocial).toUpperCase() }}</span>
+      </div>
+
+      <!-- Contenido según tipo -->
+      <div class="card-body">
+        <img
+              [src]="cargarUrl(red.idImagen ?? 0)"
+              alt="Red Social"
+            />
+      </div>
+    </a>
+  </ng-container>
+</div>

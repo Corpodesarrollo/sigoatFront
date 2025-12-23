@@ -4,7 +4,7 @@ import { Notificacion } from '../../../../../models/notificaciones.model';
 import { ActivatedRoute } from '@angular/router';
 import { apis } from '../../../../../models/apis.model';
 import { Menus } from '../../../../../models/menus.model';
-import { MenuService } from '../../../../../services/menu.services';
+import { MenuService } from '../../../../../services/menu.service';
 
 @Component({
   selector: 'app-notificaciones-editar',

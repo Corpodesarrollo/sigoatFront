@@ -1,7 +1,11 @@
 <div class="container-fluid p-0">
-  <app-carrusel [id]="id"></app-carrusel>
-  <div class="container mt-3">
+  <app-en-mantenimiento *ngIf="enMantenimiento"></app-en-mantenimiento>
+  <app-carrusel [id]="id" *ngIf="!enMantenimiento"></app-carrusel>
+  <div class="container mt-3" *ngIf="!enMantenimiento">
     <app-main-section [id]="id"></app-main-section>
     <app-documentos [id]="id"></app-documentos>
+  </div>
+  <div class="container mt-3" style="display: var(--ver-redes);">
+    <app-viewerRedesSociales />
   </div>
 </div>

@@ -45,6 +45,7 @@
             <ng-container *ngIf="page.tipo === TipoNoticia.Texto">Texto</ng-container>
             <ng-container *ngIf="page.tipo === TipoNoticia.Imagen">Imagen</ng-container>
             <ng-container *ngIf="page.tipo === TipoNoticia.ImagenUrl">Imagen Url</ng-container>
+            <ng-container *ngIf="page.tipo === TipoNoticia.Tablero">Tablero</ng-container>
             <ng-container *ngIf="page.tipo === TipoNoticia.Video">Video</ng-container>
             <ng-container *ngIf="page.tipo === TipoNoticia.Audio">Audio</ng-container>
         </td>
@@ -58,6 +59,9 @@
             <ng-container *ngIf="page.tipo === TipoNoticia.Imagen || page.tipo === TipoNoticia.ImagenUrl">
                 <img *ngIf="page.idArchivo" [src]="cargarUrl(page.id)" alt="Imagen" class="img-thumbnail" />
                 <img *ngIf="page.url" [src]="page.url" alt="Imagen" class="img-thumbnail" />
+            </ng-container>
+            <ng-container *ngIf="page.tipo === TipoNoticia.Tablero">
+                <img [src]="'/img/icons/icons8-power-bi-2021-160.png'" alt="Imagen" width="40" />
             </ng-container>
             <ng-container *ngIf="page.tipo === TipoNoticia.Video">
                 <a [href]="page.url" target="_blank">
@@ -176,20 +180,21 @@
                 </div>
             </ng-container>
             <!-- Anexo -->
-            <ng-container *ngIf="formulario.tipo === TipoNoticia.Anexo">
-                <p-fileUpload 
-                    name="myFile" 
-                    accept=".pdf,.doc,.docx,.xls,.xlsx"
-                    maxFileSize="10485760"
-                    [auto]="true"
-                    [showUploadButton]="false"
-                    [showCancelButton]="false"
-                    [mode]="'advanced'"
-                    (onSelect)="onArchivoSeleccionado($event)"
-                    class="w-100">
-                </p-fileUpload>
-                <div *ngIf="submitted && !archivoSeleccionado" class="text-danger">
-                    Debe seleccionar un archivo.
+            <ng-container *ngIf="formulario.tipo === TipoNoticia.Tablero">
+                <div class="row align-items-center mb-3 p-fluid">
+                    <p-dropdown
+                        [(ngModel)]="selectedTablero"
+                        [options]="tableros"
+                        [loading]="isLoadingTableros"
+                        optionLabel="titulo"
+                        [filter]="true"
+                        filterBy="titulo"
+                        [showClear]="true"
+                        id="tablero"
+                        class="w-100"
+                        appendTo="body"
+                        placeholder="Seleccione">
+                    </p-dropdown>
                 </div>
             </ng-container>
             <!-- Video, Audio, ImagenUrl -->

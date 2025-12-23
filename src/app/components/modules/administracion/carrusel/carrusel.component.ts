@@ -17,10 +17,10 @@ import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import { Carrusel } from '../../../../models/carrusel.model';
 import { InputTextModule } from 'primeng/inputtext';
-import { CarruselService } from '../../../../services/carrusel.services';
+import { CarruselService } from '../../../../services/carrusel.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
-import { PaginasService } from '../../../../services/paginas.services';
+import { PaginasService } from '../../../../services/paginas.service';
 import { Paginas } from '../../../../models/paginas.model';
 import { Attachment } from '../../../../models/attachment.model';
 import { StepsComponent } from "../../../shared/steps/steps.component";
@@ -264,6 +264,10 @@ export class CarruselComponent {
 
   async validarImagen(url: string): Promise<void> {
     try {
+      if (!url) {
+        return;
+      }
+
       const res = await fetch(url, { method: 'GET' });
 
       const tipo = res.headers.get('Content-Type');

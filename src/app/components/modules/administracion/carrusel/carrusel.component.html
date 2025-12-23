@@ -125,7 +125,7 @@
         <div class="archivo-section">
             <label class="btn-archivo">
                 <i class="pi pi-folder-open"></i> Seleccione archivo
-                <input id="archivo" type="file" (change)="onArchivoSeleccionado($event)" #fileInput style="display: none;" accept=".pdf, .doc, .docx, .xls, .xlsx, .jpg, .jpeg" />
+                <input id="archivo" type="file" (change)="onArchivoSeleccionado($event)" #fileInput style="display: none;" accept=".jpg, .jpeg, .png, .gif" />
             </label>
 
             <button class="btn-subir" (click)="subirArchivo()" [disabled]="!archivoSeleccionado && !urlImagen">

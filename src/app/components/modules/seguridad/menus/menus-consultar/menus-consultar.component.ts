@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
-import { MenuService } from '../../../../../services/menu.services';
+import { MenuService } from '../../../../../services/menu.service';
 import { Menus } from '../../../../../models/menus.model';
 import { apis } from '../../../../../models/apis.model';
 import { ButtonModule } from 'primeng/button';

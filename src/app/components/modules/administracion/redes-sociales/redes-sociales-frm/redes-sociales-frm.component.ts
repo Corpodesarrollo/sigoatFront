@@ -12,12 +12,13 @@ import { Menus } from '../../../../../models/menus.model';
 import { MsgTipo } from '../../../../../models/msgTipo.model';
 import { Parametricas } from '../../../../../models/parametricas.model';
 import { FileUploadModule } from 'primeng/fileupload';
-import { MenuService } from '../../../../../services/menu.services';
-import { ModulosService } from '../../../../../services/modulos.services';
-import { TablerosService } from '../../../../../services/tableros.services';
+import { MenuService } from '../../../../../services/menu.service';
+import { ModulosService } from '../../../../../services/modulos.service';
+import { TablerosService } from '../../../../../services/tableros.service';
 import { MsgBoxComponent } from '../../../../shared/msg-box/msg-box.component';
-import { RedesSociales } from '../../../../../models/redes-sociales';
 import { Attachment } from '../../../../../models/attachment.model';
+import { redesSociales } from '../../../../../models/redesSociales';
+import { RedesSociales } from '../../../../../models/redes-sociales.model';
 
 @Component({
   selector: 'app-redes-sociales-frm',
@@ -38,21 +39,7 @@ export class RedesSocialesFrmComponent {
     imagen: undefined, // Assuming Attachment is defined elsewhere
   };
 
-  tiposRedesSociales: Parametricas[] = [
-    { id: 1, nombre: 'Facebook' },
-    { id: 2, nombre: 'Flickr' },
-    { id: 3, nombre: 'Instagram' },
-    { id: 4, nombre: 'LinkedIn' },
-    { id: 5, nombre: 'Pinterest' },
-    { id: 6, nombre: 'Reddit' },
-    { id: 7, nombre: 'Snapchat' },
-    { id: 8, nombre: 'TikTok' },
-    { id: 9, nombre: 'Tumblr' },
-    { id: 10, nombre: 'Twitter' },
-    { id: 11, nombre: 'Vimeo' },
-    { id: 12, nombre: 'YouTube' }
-  ];
-
+  tiposRedesSociales: Parametricas[] = redesSociales;
   selectedRedSocial: Parametricas | undefined;
   mensajeError: string = '';
   nombre: string = '';
@@ -69,6 +56,7 @@ export class RedesSocialesFrmComponent {
   ngOnChanges() {
     if (this.red) {
       this.formulario = { ...this.red };
+      this.selectedRedSocial = this.tiposRedesSociales.find(trs => trs.id === this.red?.idTipoRedSocial);
     } else {
       this.formulario = {
         id: 0,
@@ -90,9 +78,9 @@ export class RedesSocialesFrmComponent {
       this.saving = true;
       let result;
       if (this.formulario.id === 0) {
-        result = await this.ms.post<RedesSociales>('redesSociales', this.formulario, apis.Seguridad);
+        result = await this.ms.post<RedesSociales>('redesSociales', this.formulario, apis.Administrador);
       } else {
-        result = await this.ms.put<RedesSociales>('redesSociales', this.formulario, apis.Seguridad);
+        result = await this.ms.put<RedesSociales>('redesSociales', this.formulario, apis.Administrador);
       }
 
       if (!result?.error) {
@@ -113,11 +101,12 @@ export class RedesSocialesFrmComponent {
   }
 
   validarCamposRequeridos(): boolean {
-    
     let camposAValidar: (string | number | null | undefined)[] = [];
+    this.formulario.idTipoRedSocial = this.selectedRedSocial?.id ?? 0;
+    this.formulario.imagen = this.archivoSeleccionado;
 
     camposAValidar = [
-      this.formulario.tipoRedSocial,
+      this.formulario.idTipoRedSocial,
       this.formulario.url
     ];
     
@@ -137,17 +126,6 @@ export class RedesSocialesFrmComponent {
   cancelar(): void {
     this.router.navigate([`/redesSociales`]);
   }
-
-  onFileSelect(event: any) {
-      if (event.files && event.files.length > 0) {
-        const file = event.files[0];
-        this.formulario.idImagen = file.size; // Assuming idImagen is used to store the file size temporarily
-        this.formulario.imagen = file; // Assuming Attachment is defined elsewhere
-      } else {
-        this.formulario.idImagen = 0;
-        this.formulario.imagen = undefined;
-      }
-    }
 
   async onArchivoSeleccionado(event: any): Promise<void> {
     this.nombre = '';

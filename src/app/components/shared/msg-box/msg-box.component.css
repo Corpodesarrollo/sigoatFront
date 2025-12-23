@@ -1,3 +1,15 @@
 .add-button {
   width: 180px;
 }
+
+.dialog-footer.nowrap {
+  display: flex;
+  justify-content: flex-end; /* o center si prefieres */
+  gap: 0.75rem;
+  flex-wrap: nowrap;   /* 🚫 nunca permitir salto de línea */
+}
+
+.dialog-footer.nowrap .p-button {
+  min-width: 120px; /* todos con mismo ancho */
+  white-space: nowrap; /* 🚫 el texto del botón no hace salto */
+}

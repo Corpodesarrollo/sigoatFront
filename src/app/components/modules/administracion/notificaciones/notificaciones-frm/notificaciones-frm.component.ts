@@ -12,14 +12,14 @@ import { Menus } from '../../../../../models/menus.model';
 import { MsgTipo } from '../../../../../models/msgTipo.model';
 import { Parametricas } from '../../../../../models/parametricas.model';
 import { Tableros } from '../../../../../models/tableros.model';
-import { MenuService } from '../../../../../services/menu.services';
-import { ModulosService } from '../../../../../services/modulos.services';
-import { TablerosService } from '../../../../../services/tableros.services';
+import { MenuService } from '../../../../../services/menu.service';
+import { ModulosService } from '../../../../../services/modulos.service';
+import { TablerosService } from '../../../../../services/tableros.service';
 import { MsgBoxComponent } from '../../../../shared/msg-box/msg-box.component';
 import { Notificacion } from '../../../../../models/notificaciones.model';
 import { CalendarModule } from 'primeng/calendar';
 import { EditorModule } from 'primeng/editor';
-import { NotificacionesServices } from '../../../../../services/notificaciones.services';
+import { NotificacionesServices } from '../../../../../services/notificaciones.service';
 import { AudienciaTipo } from '../../../../../models/audienciaTipo.model';
 
 @Component({

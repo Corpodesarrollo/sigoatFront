@@ -11,11 +11,11 @@ import { apis } from '../../../../../models/apis.model';
 import { Menus } from '../../../../../models/menus.model';
 import { MsgTipo } from '../../../../../models/msgTipo.model';
 import { Parametricas } from '../../../../../models/parametricas.model';
-import { MenuService } from '../../../../../services/menu.services';
-import { ModulosService } from '../../../../../services/modulos.services';
+import { MenuService } from '../../../../../services/menu.service';
+import { ModulosService } from '../../../../../services/modulos.service';
 import { MsgBoxComponent } from '../../../../shared/msg-box/msg-box.component';
-import { MenuPortalServices } from '../../../../../services/menuPortal.services';
-import { PaginasService } from '../../../../../services/paginas.services';
+import { MenuPortalServices } from '../../../../../services/menuPortal.service';
+import { PaginasService } from '../../../../../services/paginas.service';
 import { Paginas } from '../../../../../models/paginas.model';
 
 @Component({

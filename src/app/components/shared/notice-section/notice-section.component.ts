@@ -7,13 +7,14 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { environment } from '../../../../environments/environment';
 import { PaginaNoticia } from '../../../models/paginaNoticia.model';
 import { TipoNoticia } from '../../../models/tipoNoticia.model';
-import { NoticiasServices } from '../../../services/noticias.services';
+import { NoticiasServices } from '../../../services/noticias.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ViewerPBIComponent } from "../viewerPBI/viewerPBI.component";
 
 @Component({
   selector: 'app-notice-section',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ViewerPBIComponent],
   templateUrl: './notice-section.component.html',
   styleUrl: './notice-section.component.css',
   providers: [ConfirmationService, MessageService],

@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { Anexos } from '../../../models/anexos.model';
-import { AnexosService } from '../../../services/anexoss.services';
+import { AnexosService } from '../../../services/anexoss.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { apis } from '../../../models/apis.model';
 import { ResponseModel } from '../../../models/response.model';
-import { PaginasService } from '../../../services/paginas.services';
+import { PaginasService } from '../../../services/paginas.service';
 import { environment } from '../../../../environments/environment';
 
 @Component({

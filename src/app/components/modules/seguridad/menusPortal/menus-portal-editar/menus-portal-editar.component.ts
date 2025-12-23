@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { apis } from '../../../../../models/apis.model';
 import { Menus } from '../../../../../models/menus.model';
-import { MenuService } from '../../../../../services/menu.services';
+import { MenuService } from '../../../../../services/menu.service';
 import { MenusFrmComponent } from '../../menus/menus-frm/menus-frm.component';
 import { MenusPortalFrmComponent } from "../menus-portal-frm/menus-portal-frm.component";
 

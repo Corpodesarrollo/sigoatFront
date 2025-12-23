@@ -5,11 +5,16 @@ import { CarruselComponent } from '../../../shared/carrusel/carrusel.component';
 import { DocumentosComponent } from "../../../shared/documentos/documentos.component";
 import { MainSectionComponent } from "../../../shared/main-section/main-section.component";
 import { ActivatedRoute } from '@angular/router';
+import { ViewerRedesSocialesComponent } from "../../../shared/viewerRedesSociales/viewerRedesSociales.component";
+import { PaginasService } from '../../../../services/paginas.service';
+import { Paginas } from '../../../../models/paginas.model';
+import { apis } from '../../../../models/apis.model';
+import { EnMantenimientoComponent } from "../../administracion/en-mantenimiento/en-mantenimiento.component";
 
 @Component({
   selector: 'app-paginas',
   standalone: true,
-  imports: [CommonModule, AccesibilidadComponent, CarruselComponent, DocumentosComponent, MainSectionComponent],
+  imports: [CommonModule, AccesibilidadComponent, CarruselComponent, DocumentosComponent, MainSectionComponent, ViewerRedesSocialesComponent, EnMantenimientoComponent],
   templateUrl: './paginas.component.html',
   styleUrl: './paginas.component.css'
 })
@@ -29,17 +34,21 @@ export class PaginasComponent {
   isFullscreen = false;
   showOverlay = true;
   imageLoaded = false;
+  enMantenimiento = false;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private paginasService: PaginasService) {
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       this.id = idParam ? +idParam : 1;
     });
   }
 
-  ngOnInit() {
-    // Carga inicial
-    this.imageLoaded = false;
+  async ngOnInit() {
+    let response = await this.paginasService.getById("paginas", this.id, apis.Administrador);
+    if (response && response.ok) {
+      let pagina = response.data as Paginas;
+      this.enMantenimiento = !pagina.estado;
+    }
   }
 
   changeImage(index: number) {

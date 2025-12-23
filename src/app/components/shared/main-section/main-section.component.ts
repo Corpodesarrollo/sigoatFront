@@ -5,17 +5,18 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { environment } from '../../../../environments/environment';
 import { apis } from '../../../models/apis.model';
 import { ResponseModel } from '../../../models/response.model';
-import { AnexosService } from '../../../services/anexoss.services';
-import { PaginasService } from '../../../services/paginas.services';
-import { NoticiasServices } from '../../../services/noticias.services';
+import { AnexosService } from '../../../services/anexoss.service';
+import { PaginasService } from '../../../services/paginas.service';
+import { NoticiasServices } from '../../../services/noticias.service';
 import { PaginaNoticia } from '../../../models/paginaNoticia.model';
 import { TipoNoticia } from '../../../models/tipoNoticia.model';
 import { Noticias } from '../../../models/noticias.model';
+import { ViewerPBIComponent } from "../viewerPBI/viewerPBI.component";
 
 @Component({
   selector: 'app-main-section',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ViewerPBIComponent],
   templateUrl: './main-section.component.html',
   styleUrl: './main-section.component.css',
   providers: [ConfirmationService, MessageService],

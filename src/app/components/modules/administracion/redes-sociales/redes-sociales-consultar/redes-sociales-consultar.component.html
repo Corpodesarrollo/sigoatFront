@@ -28,10 +28,12 @@
     
     <ng-template pTemplate="body" let-page>
       <tr class="custom-row">
-        <td>{{page.nombre}}</td>
-        <td>{{page.Url}}</td>
+        <td><img [src]="'img/icons/icons8-' + cargarData(page.idTipoRedSocial) + '-24.png'" 
+                [alt]="page.nombre"
+                style="width: 18px; height: 18px; object-fit: contain; margin-right: 8px;"> {{cargarData(page.idTipoRedSocial)}}</td>
+        <td>{{page.url}}</td>
         <td>
-          <img *ngIf="!page.url" [src]="cargarUrl(page.id)" alt="Imagen" class="img-thumbnail" />
+          <img [src]="cargarUrl(page.idImagen)" alt="Imagen" class="img-thumbnail" />
         </td>
         
         <td>
@@ -45,9 +47,6 @@
               (click)="confirmDelete($event, page.id)" *ngIf="permisoEliminar | async"
               pTooltip="Eliminar" 
               tooltipPosition="top"></i>
-
-            <p-inputSwitch [(ngModel)]="page.estado" class="custom-switch" pTooltip="{{validarEstado(page.estado)}}" tooltipPosition="left" *ngIf="permisoEditar | async"
-                          (onChange)="onToggleChange(page)" />
           </div>
         </td>
       </tr>

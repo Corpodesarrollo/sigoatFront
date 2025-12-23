@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { environment } from '../../environments/environment';
-import { GenericService } from '../services/generic.services';
-import { MenuService } from '../services/menu.services';
+import { GenericService } from '../services/generic.service';
+import { MenuService } from '../services/menu.service';
 
 @Component({
     selector: 'app-layout',

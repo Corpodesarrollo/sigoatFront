@@ -1,5 +1,5 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { CarruselService } from '../../../services/carrusel.services';
+import { CarruselService } from '../../../services/carrusel.service';
 import { apis } from '../../../models/apis.model';
 import { ResponseModel } from '../../../models/response.model';
 import { Carrusel } from '../../../models/carrusel.model';

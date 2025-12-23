@@ -18,7 +18,7 @@
      [ngClass]="{ 'bg-light': noti.leido, 'bg-white': !noti.leido }">
 
   <div class="d-flex justify-content-between">
-    <h6 [ngClass]="{ 'text-muted': noti.leido }" class="fw-bold mb-1">
+    <h6 [ngClass]="{ 'text-muted': noti.leido }" class="fw-bold mb-1 text-break">
       {{ noti.titulo }}
     </h6>
 
@@ -30,7 +30,7 @@
     </button>
   </div>
 
-  <div class="mt-2" [innerHTML]="sanitizarHtml(noti.contenido || '')"></div>
+  <div class="mt-2 html-content-container" [innerHTML]="sanitizarHtml(noti.contenido || '')"></div>
 
   <div class="mt-2">
     <small class="text-muted">

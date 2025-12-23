@@ -56,8 +56,7 @@
               pTooltip="Eliminar" 
               tooltipPosition="top"></i>
 
-            <p-inputSwitch [(ngModel)]="page.estado" class="custom-switch" pTooltip="{{validarEstado(page.estado)}}" tooltipPosition="left"  *ngIf="permisoEditar | async"
-                          (onChange)="onToggleChange(page)" />
+            <img id="icono-{{page.id}}" [src]="cargarIcono(page.estado)" style="width: 48px; cursor: pointer;" (click)="onToggleChange(page)" pTooltip="{{validarEstado(!page.estado)}}" tooltipPosition="top" />
           </div>
         </td>
       </tr>
@@ -71,7 +70,7 @@
 <app-msg-box
   [visible]="visible"
   [msgTexto]="msg"
-  [msgTipo]="MsgTipo.Question"
-  [msgBotones]="MsgBotones.EliminarCancelar"
+  [msgTipo]="msgTipo"
+  [msgBotones]="msgBotones"
   [width]="'25vw'"
   (close)="onHide($event)">

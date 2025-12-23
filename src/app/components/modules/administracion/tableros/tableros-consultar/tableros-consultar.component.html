@@ -29,7 +29,9 @@
     <ng-template pTemplate="body" let-page>
       <tr class="custom-row">
         <td>{{page.titulo}}</td>
-        <td>{{page.url}}</td>
+        <td>
+          <span style="word-break: break-all;">{{page.url}}</span>
+        </td>
         <td class="text-center">
           <span [class]="'status-badge status-' + (page.estado ? 'activo' : 'inactivo')">
             {{page.estado ? '● Activo' : '● Inactivo'}}

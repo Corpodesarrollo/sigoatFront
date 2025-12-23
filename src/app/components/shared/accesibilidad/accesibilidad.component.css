@@ -97,6 +97,61 @@
 }
 
 .accessibility-btn span {
-  font-size: 14px;
+  font-size: 10px;
   color: #333;
+}
+
+/* Modificaciones responsive: ajustar ancho del panel y mostrar botones 3 por fila en pantallas pequeñas */
+@media (max-width: 1024px) {
+  .accessibility-panel {
+    right: 1.5rem;
+    top: 1rem;
+  }
+  .accessibility-options {
+    width: 360px; /* mayor ancho horizontal en tablets/pequeñas pantallas */
+    right: 0.75rem;
+  }
+  .accessibility-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 botones por fila */
+    gap: 0.75rem;
+  }
+  .accessibility-btn {
+    padding: 1.25rem 0.75rem; /* botones ligeramente más grandes */
+  }
+}
+
+@media (max-width: 768px) {
+  .accessibility-panel {
+    right: 1rem;
+    top: 0.75rem;
+  }
+  .accessibility-options {
+    width: 92vw; /* ocupa más del ancho disponible en móviles */
+    max-width: 520px;
+    right: 0.5rem;
+    padding: 1rem;
+  }
+  .accessibility-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 botones por fila en móviles */
+    gap: 0.5rem;
+  }
+  .accessibility-btn {
+    padding: 1rem 0.5rem;
+    border-radius: 10px;
+  }
+}
+
+/* Para pantallas 1280x720 (y resoluciones similares): mostrar botones en filas de 3 y aumentar ancho horizontal */
+@media (width: 1280px) and (height: 720px), (min-width: 1200px) and (max-width: 1280px) {
+  .accessibility-options {
+    width: 420px;
+    right: 1rem;
+  }
+  .accessibility-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+  .accessibility-btn {
+    padding: 1.1rem 0.6rem;
+  }
 }

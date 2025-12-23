@@ -10,10 +10,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { apis } from '../../../../../models/apis.model';
 import { MsgTipo } from '../../../../../models/msgTipo.model';
 import { Tableros } from '../../../../../models/tableros.model';
-import { MenuService } from '../../../../../services/menu.services';
-import { ModulosService } from '../../../../../services/modulos.services';
+import { MenuService } from '../../../../../services/menu.service';
+import { ModulosService } from '../../../../../services/modulos.service';
 import { MsgBoxComponent } from '../../../../shared/msg-box/msg-box.component';
-import { TablerosService } from '../../../../../services/tableros.services';
+import { TablerosService } from '../../../../../services/tableros.service';
 import { TablerosFrmComponent } from "../tableros-frm/tableros-frm.component";
 
 @Component({

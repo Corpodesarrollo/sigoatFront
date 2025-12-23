@@ -2,8 +2,8 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { PermisosRol } from '../../models/permisosRol.model';
-import { GenericService } from '../../services/generic.services';
-import { PermisosService } from '../../services/permisos.services';
+import { GenericService } from '../../services/generic.service';
+import { PermisosService } from '../../services/permisos.service';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { MenubarModule } from 'primeng/menubar';
 

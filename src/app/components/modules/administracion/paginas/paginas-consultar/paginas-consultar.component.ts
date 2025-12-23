@@ -13,7 +13,7 @@ import { apis } from '../../../../../models/apis.model';
 import { MsgBotones } from '../../../../../models/msgBotones.model';
 import { MsgTipo } from '../../../../../models/msgTipo.model';
 import { ResponseModel } from '../../../../../models/response.model';
-import { MenuService } from '../../../../../services/menu.services';
+import { MenuService } from '../../../../../services/menu.service';
 import { MsgBoxComponent } from '../../../../shared/msg-box/msg-box.component';
 import { Paginas } from '../../../../../models/paginas.model';
 import { Menu, MenuModule } from 'primeng/menu';
@@ -31,6 +31,7 @@ import { AuthServices } from '../../../../../services/auth.service';
 export class PaginasConsultarComponent {
   @ViewChild('menu') menu!: Menu;
   pages: Paginas[] = [];
+  pagina: Paginas | null = null;
   totalRecords: number = 0;
   rowsPerPage: number = 10;
   loading: boolean = true;
@@ -38,11 +39,14 @@ export class PaginasConsultarComponent {
   msg: string = '';
   MsgTipo = MsgTipo;
   MsgBotones = MsgBotones;
+  msgTipo: MsgTipo = MsgTipo.Question;
+  msgBotones: MsgBotones = MsgBotones.EliminarCancelar;
   error: boolean = false;
   idEliminar: number = 0;
   items: MenuItem[] = [];
   idSeleccionado: number = 0;
-
+  estado: boolean = false;
+  value: boolean = false;
   permisoCrear!: Promise<boolean>;
   permisoEditar!: Promise<boolean>;
   permisoEliminar!: Promise<boolean>;
@@ -93,7 +97,7 @@ export class PaginasConsultarComponent {
   }
 
   validarEstado(estado: boolean): string {
-    return !estado ? 'Activar' : 'Inactivar';
+    return estado ? 'Activar' : 'Inactivar';
   }
 
   agregar() {
@@ -105,44 +109,65 @@ export class PaginasConsultarComponent {
   }
 
   async onToggleChange(data: any) {
-    let pagina: Paginas = data;
-    let responseActivation = await this.ms.putActivateDeactivate('paginas', data.id, apis.Administrador);
-    if (responseActivation) {
-      let result: ResponseModel = responseActivation;
-      if (result.error) {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: result.dataError.message });
-        return;
-      } else if (result.data) {
-        if (!pagina.estado) {
-          this.messageService.add({ severity: 'error', summary: 'Éxito', detail: 'Registro inactivado correctamente' });
-        } else {
-          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro activado correctamente' });
-        }
-      }
-    }
+    this.pagina = data;
+    this.msgTipo = MsgTipo.Question;
+    this.msgBotones = MsgBotones.AceptarCancelar;
+    this.msg = `¿Desea ${this.validarEstado(!data.estado)} este registro?`;
+    this.visible = true;
+    this.idEliminar = 0;
   }
 
   confirmDelete(event: Event, id: number) {
     this.visible = true;
+    this.msgTipo = MsgTipo.Question;
+    this.msgBotones = MsgBotones.EliminarCancelar;
     this.msg = '¿Desea eliminar este registro?';
     this.idEliminar = id;
   }
 
-  onHide(event: any): void {
-    console.log('Dialog closed', event);
+  async onHide(event: any): Promise<void> {
     this.visible = false;
     if (event == true) {
-      this.ms.delete('paginas', this.idEliminar, apis.Administrador).then((response) => {
-        if (response) {
-          let result: ResponseModel = response;
+      if(this.idEliminar == 0){
+        let responseActivation = await this.ms.putActivateDeactivate('paginas', this.pagina?.id ?? 0, apis.Administrador);
+        if (responseActivation) {
+          let result: ResponseModel = responseActivation;
           if (result.error) {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: result.dataError.message });
-          } else {
-            this.loadPages({ first: 0, rows: this.rowsPerPage } as TableLazyLoadEvent);
-            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado correctamente' });
+            return;
+          } else if (result.data) {
+            if(this.pagina?.estado == true){
+              const icono = document.getElementById(`icono-${this.pagina?.id}`) as HTMLImageElement;
+              icono.src = 'iconos/enabled.png';
+              this.messageService.add({ severity: 'error', summary: 'Éxito', detail: 'Registro inactivado correctamente' });
+            } else {
+              const icono = document.getElementById(`icono-${this.pagina?.id}`) as HTMLImageElement;
+              icono.src = 'iconos/disabled.png';
+              this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro activado correctamente' });
+            }
           }
         }
-      });
+      } else {
+        this.ms.delete('paginas', this.idEliminar, apis.Administrador).then((response) => {
+          if (response) {
+            let result: ResponseModel = response;
+            if (result.error) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: result.dataError.message });
+            } else {
+              this.loadPages({ first: 0, rows: this.rowsPerPage } as TableLazyLoadEvent);
+              this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado correctamente' });
+            }
+          }
+        });
+      }
+    } else {
+      if(this.idEliminar == 0){
+        this.loadPages({ first: 0, rows: this.rowsPerPage } as TableLazyLoadEvent);
+      }
     }
+  }
+
+  cargarIcono(estado: boolean): string {
+    return estado ? 'iconos/enabled.png' : 'iconos/disabled.png';
   }
 }

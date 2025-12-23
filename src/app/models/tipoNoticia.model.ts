@@ -3,7 +3,7 @@ export enum TipoNoticia {
     Texto = 1, // Texto simple
     Imagen = 2, // Imagen
     ImagenUrl = 3, // Imagen
-    Anexo = 4, // Archivo adjunto
+    Tablero = 4, // Archivo adjunto
     Video = 5, // Video
     Audio = 6 // Audio
 }

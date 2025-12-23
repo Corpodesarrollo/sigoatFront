@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { RedesSociales } from '../../../../../models/redes-sociales';
+import { RedesSociales } from '../../../../../models/redes-sociales.model';
 import { ActivatedRoute } from '@angular/router';
 import { apis } from '../../../../../models/apis.model';
 import { Menus } from '../../../../../models/menus.model';
-import { RedesSocialesService } from '../../../../../services/redesSociales.services';
+import { RedesSocialesService } from '../../../../../services/redesSociales.service';
 import { RedesSocialesFrmComponent } from "../redes-sociales-frm/redes-sociales-frm.component";
+import { ResponseModel } from '../../../../../models/response.model';
 
 @Component({
   selector: 'app-redes-sociales-editar',
@@ -29,13 +30,17 @@ export class RedesSocialesEditarComponent {
       console.error('ID de la red no proporcionado o inválido');
       return;
     }
-    
-    let respose = await this.ms.getById('menus', this.id, apis.Seguridad);
-    if(respose?.error) {
-      console.error('Error al obtener la red:', respose.error);
-      return;
-    } else {
-      this.red = respose?.data as RedesSociales;
-    }
+
+    this.ms.getById('redesSociales', this.id, apis.Administrador).then((response) => {
+      if (response) {
+        let result: ResponseModel = response;
+        if (result.error) {
+          console.error('Error al obtener la red:', result.error);
+          return;
+        } else {
+          this.red = result?.data as RedesSociales;
+        }
+      }
+    });
   }
 }

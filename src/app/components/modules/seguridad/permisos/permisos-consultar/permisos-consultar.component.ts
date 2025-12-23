@@ -9,7 +9,7 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { MsgBoxComponent } from '../../../../shared/msg-box/msg-box.component';
-import { PermisosService } from '../../../../../services/permisos.services';
+import { PermisosService } from '../../../../../services/permisos.service';
 import { Router } from '@angular/router';
 import { MsgTipo } from '../../../../../models/msgTipo.model';
 import { MsgBotones } from '../../../../../models/msgBotones.model';

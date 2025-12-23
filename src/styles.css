@@ -14,6 +14,11 @@
 
 :root {
     --color-base: #73b7ad; /* Reemplaza este valor por tu color */
+    --color-header-govco: #3366cc;
+    --color-principal: #a4a4a4;
+    --logo-left: url('/img/colombiaPotenciaVida.png');
+    --logo-right: url('/img/minSalud.png');
+    --ver-redes: none;
 }
 
 body,

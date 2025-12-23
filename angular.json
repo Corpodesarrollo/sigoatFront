@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/secani-front",
+            "outputPath": "dist/sigoat-front",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -92,8 +92,11 @@
         "serve": {
           "options":{
             "ssl": false,
-            "sslKey": "certificados/localhost.key",
-            "sslCert": "certificados/localhost.crt"
+            "sslKey": "certificados/localhost+2-key.pem",
+            "sslCert": "certificados/localhost+2.pem",
+            "allowedHosts": [
+              "localhost",
+              "sigoatsf.sispropreprod.gov.co"]
           },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {

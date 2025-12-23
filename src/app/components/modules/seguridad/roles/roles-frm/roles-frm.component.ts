@@ -3,7 +3,7 @@ import { Roles } from '../../../../../models/roles.model';
 import { Router } from '@angular/router';
 import { apis } from '../../../../../models/apis.model';
 import { MsgTipo } from '../../../../../models/msgTipo.model';
-import { RolesService } from '../../../../../services/roles.services';
+import { RolesService } from '../../../../../services/roles.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';

@@ -1,20 +1,20 @@
 import { Injectable } from "@angular/core";
-import { MethodsService } from "./methods.services";
+import { MethodsService } from "./methods.service";
 import { Parametricas } from "../models/parametricas.model";
 import { apis } from "../models/apis.model";
 import { ResponseModel } from "../models/response.model";
 import { environment } from "../../environments/environment";
 import { PermisosRol } from "../models/permisosRol.model";
-import { GenericService } from './generic.services';
-import { User } from "./user.services";
-import { PermisosService } from "./permisos.services";
+import { GenericService } from './generic.service';
+import { User } from "./user";
+import { PermisosService } from "./permisos.service";
 import { Router } from "@angular/router";
 
 @Injectable({ providedIn: 'root' })
 export class AuthServices extends MethodsService {
   private permisos: PermisosRol[] | null = [];
   private user = new User();
-
+  hasAccess: boolean = false;
   constructor(private permisosService: PermisosService, public override repos: GenericService, private router: Router) {
     super(repos); 
     const permisosGuardados = localStorage.getItem('permisos');
@@ -24,42 +24,60 @@ export class AuthServices extends MethodsService {
   }
 
   async loadPermisos() {
+    if (this.hasAccess) { return; }
+
+    let jsonUsuario = {
+      id: 1,
+      rolId: 1,
+      alias: 'CC51644243',
+      email: 'fermanjarres3@gmail.com',
+      name: 'TRES FERNANDO MANJARRES',
+      state: true,
+      rolCode: ['Perfil PISIS Neo','SINTRA-ENT','SECANI-CoordinadorAdmin'],
+      enterpriseCode: 'CC 3216549873',
+      enterpriseDeptoCode: '',
+      enterpriseEmail: 'fermanjarres3@gmail.com',
+      enterpriseName: 'TRES FERNANDO MANJARRES',
+      enterpriseIdentification: '3216549873',
+      isMinSalud: false,
+      isCoordinadorAdmin: false,
+      isAgenteSeguimiento: false, 
+      isCuidador: true,
+      isET: false,
+      isEAPB: false
+    };
+
+    localStorage.setItem('user', JSON.stringify(jsonUsuario));
+
     if (environment.cookie) {
-      let response = await this.getUser();
-      if (!response) {
-        console.error('Error loading user data');
-        this.setUser({});
-        return;
+      try {
+        const data = await this.getUser();
+
+        if (data) {
+          jsonUsuario = data;
+          this.hasAccess = true;
+          localStorage.setItem('user', JSON.stringify(jsonUsuario));
+          console.log('✅ Usuario autenticado:', jsonUsuario);
+        }
+      } catch (error: any) {
+        if (error.code === 401) {
+          console.log('⛔ Usuario no autenticado, redirigiendo al login...');
+          window.location.href = environment.url_Sispro;
+        } else {
+          console.error('⚠️ Otro error:', error);
+        }
       }
-      let result = response as ResponseModel;
-      if (result.error) {
-        console.error('Error loading permissions:', result.dataError);
-        return;
+
+      if (this.hasAccess) {
+        console.log('✅ Acceso concedido');
       }
+    } else {
+      console.log('✅ Acceso concedido por ModuloGuard (sin cookie)');
+      this.hasAccess = true;
+      return;
     }
-    else {
-      console.warn('Environment cookie is disabled, using default user data');
-      localStorage.setItem('user', `
-      {
-        "Id":"1",
-        "Alias":"CC51644243",
-        "Email":"CHARLESROCK96@GMAIL.COM",
-        "Name":"CLAUDIA MARTINEZ",
-        "State":true,
-        "roleId":1,
-        "RolCode":[
-          "Perfil PISIS Neo",
-          "SINTRA-ENT"
-        ],
-        "EnterpriseCode":"NI 800114312",
-        "EnterpriseDeptoCode":"80",
-        "EnterpriseEmail":"lidertic@saluddecaldas.gov.co",
-        "EnterpriseName":"DIRECCION TERRITORIAL DE SALUD DE CALDAS",
-        "EnterpriseIdentification":"800114312",
-        "IsMinSalud":false,
-        "IsAuth":true
-      }`);
-    }
+
+    console.log('⛔ Acceso denegado por ModuloGuard');
   }
 
   setUser(data: any) {
@@ -67,6 +85,12 @@ export class AuthServices extends MethodsService {
   }
 
   async setPermisos() {
+    await this.loadPermisos();
+    let userData = localStorage.getItem('user');
+    if (!userData) {
+      console.error('No user data found in localStorage');
+    }
+    this.user = JSON.parse(userData!) as User;
     let permisosResult = await this.permisosService.getByRol(this.user.rolId as number ?? 0);
     if (permisosResult) {
       let result = permisosResult as ResponseModel;

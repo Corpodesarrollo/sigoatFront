@@ -16,7 +16,7 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { MsgBoxComponent } from '../../../../shared/msg-box/msg-box.component';
 import { Modulos } from '../../../../../models/modulos.model';
-import { ModulosService } from '../../../../../services/modulos.services';
+import { ModulosService } from '../../../../../services/modulos.service';
 import { permiso } from '../../../../../models/permiso';
 import { AuthServices } from '../../../../../services/auth.service';
 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MenusFrmComponent } from "../menus-frm/menus-frm.component";
 import { ActivatedRoute } from '@angular/router';
-import { MenuService } from '../../../../../services/menu.services';
+import { MenuService } from '../../../../../services/menu.service';
 import { apis } from '../../../../../models/apis.model';
 import { Menus } from '../../../../../models/menus.model';
 

@@ -9,7 +9,7 @@
             </div>
             <div class="card-body">
                 <div *ngFor="let item of noticia1.detalles; let i = index">
-                    <div class="single-image-viewer" *ngIf="(item.tipo === TipoNoticia.Imagen || item.tipo === TipoNoticia.ImagenUrl) && i < 3">
+                    <div class="single-image-viewer mb-3" *ngIf="(item.tipo === TipoNoticia.Imagen || item.tipo === TipoNoticia.ImagenUrl) && i < 3">
                         <div class="image-container" [class.zoomed]="isZoomed" [class.fullscreen]="isFullscreen">
                             <img [src]="cargarUrl(item.id!)"
                                 class="adaptive-image"

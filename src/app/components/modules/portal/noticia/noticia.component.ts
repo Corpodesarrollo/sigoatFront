@@ -7,7 +7,7 @@ import { NoticeSectionComponent } from "../../../shared/notice-section/notice-se
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { NoticiasServices } from '../../../../services/noticias.services';
+import { NoticiasServices } from '../../../../services/noticias.service';
 import { CarruselComponent } from '../../../shared/carrusel/carrusel.component';
 
 @Component({

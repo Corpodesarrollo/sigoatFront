@@ -1,0 +1,90 @@
+<div class="p-4">
+  <div class="container-fluid">
+      
+      <!-- Nombre -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="nombre">Nombre</label>
+        </div>
+        <div class="col-md-9">
+          <input pInputText type="text" id="nombre" [(ngModel)]="formulario.name" class="w-100" />
+          <div *ngIf="submitted && (!formulario.name || formulario.name.trim() === '')" class="text-danger">
+              Campo requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="nombre">Email</label>
+        </div>
+        <div class="col-md-9">
+          <input pInputText type="text" id="nombre" [(ngModel)]="formulario.email" class="w-100" />
+          <div *ngIf="submitted && (!formulario.email || formulario.email.trim() === '')" class="text-danger">
+              Campo requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="nombre">Rol</label>
+        </div>
+        <div class="col-md-9">
+          <p-dropdown
+            [(ngModel)]="selectedRol"
+            [options]="roles"
+            [loading]="isLoadingRoles"
+            optionLabel="nombre"
+            [filter]="true"
+            filterBy="nombre"
+            [showClear]="true"
+            id="rol"
+            class="w-100"
+            placeholder="Seleccione">
+          </p-dropdown>
+          <div *ngIf="submitted && (!selectedRol)" class="text-danger">
+              Campo requerido
+          </div>
+        </div>
+      </div>
+      
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="codigo">Alias</label>
+        </div>
+        <div class="col-md-9">
+          <input pInputText type="text" id="codigo" [(ngModel)]="formulario.alias" class="w-100" />
+          <div *ngIf="submitted && (!formulario.alias || formulario.alias.trim() === '')" class="text-danger">
+              Campo requerido
+          </div>
+        </div>
+      </div>
+
+      <!-- Estado -->
+      <div class="row align-items-center mb-5 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="estado">Estado</label>
+        </div>
+        <div class="col-md-9">
+          <p-inputSwitch [(ngModel)]="formulario.estado" class="custom-switch" />
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="row mt-3">
+        <div class="col-md-12 text-end">
+          <button type="button" (click)="cancelar()" class="btn button-secondary btn-lg add-button me-2">Cancelar</button>
+          <button type="button" (click)="onSubmit()" class="btn button-success btn-lg add-button">Guardar</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<app-msg-box
+  [visible]="visible"
+  [msgTexto]="msg"
+  [msgTipo]="MsgTipo.Success"
+  [error]="error"
+  [width]="'25vw'"
+  (close)="onHide($event)">

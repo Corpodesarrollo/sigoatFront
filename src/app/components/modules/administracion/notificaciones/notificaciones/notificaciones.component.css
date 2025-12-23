@@ -58,3 +58,30 @@
   border-color: var(--color-base);
   box-shadow: none;
 }
+
+.html-content-container {
+  max-width: 100%;
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+
+.html-content-container * {
+  max-width: 100% !important;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.html-content-container img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+.html-content-container table {
+  max-width: 100% !important;
+  table-layout: auto;
+}
+
+.html-content-container pre {
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+}

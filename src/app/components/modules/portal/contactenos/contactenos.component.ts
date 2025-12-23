@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { apis } from '../../../../models/apis.model';
 import { MsgTipo } from '../../../../models/msgTipo.model';
 import { Contactenos } from '../../../../models/contactenos.model';
-import { ContactenosService } from '../../../../services/contactenos.services';
+import { ContactenosService } from '../../../../services/contactenos.service';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -18,7 +18,7 @@ import { MsgBotones } from '../../../../models/msgBotones.model';
   selector: 'app-contactenos',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, InputTextModule, ButtonModule, DropdownModule, InputSwitchModule, DialogModule, MsgBoxComponent],
-  templateUrl: './contactenos.component.html',
+  template: '', // No template loaded
   styleUrl: './contactenos.component.css'
 })
 export class ContactenosComponent {
@@ -39,6 +39,13 @@ export class ContactenosComponent {
   MsgBotones = MsgBotones;
 
   constructor(private fb: FormBuilder, private ms: ContactenosService, private router: Router) {}
+
+  ngOnInit(): void {
+    window.open('https://www.minsalud.gov.co/atencion/Paginas/Atencion_al_Ciudadano.aspx', '_blank');
+    setTimeout(() => {
+      this.router.navigate(['/portal']);
+    }, 300); // 0.3s de delay
+  }
 
   async onSubmit() {
     this.submitted = true;

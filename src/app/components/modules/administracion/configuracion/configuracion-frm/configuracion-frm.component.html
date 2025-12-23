@@ -1,0 +1,95 @@
+<div class="p-4">
+  <div class="container-fluid">
+      <!-- ColorGovCo -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-5">
+          <label class="form-label fw-bold mb-0" for="colorGovCo">Color GovCo</label>
+        </div>
+        <div class="col-md-7">
+          <input type="color" id="colorGovCo" [(ngModel)]="formulario.colorGovCo" />
+        </div>
+      </div>
+
+      <!-- ColorPrincipal -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-5">
+          <label class="form-label fw-bold mb-0" for="colorPrincipal">Color Principal</label>
+        </div>
+        <div class="col-md-7">
+          <input type="color" id="colorPrincipal" [(ngModel)]="formulario.colorPrincipal" />
+        </div>
+      </div>
+
+      <div class="row mb-3 p-fluid">
+        <div class="col-md-5">
+          <label class="form-label fw-bold mb-0" for="imagen">Imagen Logo Izquierdo</label>
+        </div>
+        <div class="col-md-7">
+          <p-fileUpload
+            name="imagen"
+            [auto]="true"
+            [maxFileSize]="1000000"
+            [accept]="'.png,.jpg,.jpeg'"
+            (onSelect)="onArchivoSeleccionado($event, 1)"
+            [showUploadButton]="false"
+            [showCancelButton]="false"
+            [chooseLabel]="'Seleccionar Imagen'"
+            [style]="{'width': '100%'}"
+            [styleClass]="'w-100'">
+          </p-fileUpload>
+          <div *ngIf="submitted && (!formulario.idLogoIzquierdo && !archivoSeleccionadoLogoIzquierdo)" class="text-danger">
+              Campo requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3 p-fluid">
+        <div class="col-md-5">
+          <label class="form-label fw-bold mb-0" for="imagen">Imagen Logo Derecho</label>
+        </div>
+        <div class="col-md-7">
+          <p-fileUpload
+            name="imagen"
+            [auto]="true"
+            [maxFileSize]="1000000"
+            [accept]="'.png,.jpg,.jpeg'"
+            (onSelect)="onArchivoSeleccionado($event, 2)"
+            [showUploadButton]="false"
+            [showCancelButton]="false"
+            [chooseLabel]="'Seleccionar Imagen'"
+            [style]="{'width': '100%'}"
+            [styleClass]="'w-100'">
+          </p-fileUpload>
+          <div *ngIf="submitted && (!formulario.idLogoDerecho && !archivoSeleccionadoLogoDerecho)" class="text-danger">
+              Campo requerido
+          </div>
+        </div>
+      </div>
+      
+      <!-- Redes Sociales -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-5">
+          <label class="form-label fw-bold mb-0" for="redesSociales">Mostrar Redes Sociales</label>
+        </div>
+        <div class="col-md-7">
+          <p-inputSwitch [(ngModel)]="formulario.redesSociales" class="custom-switch" tooltipPosition="left" />
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="row mt-5">
+        <div class="col-md-12 text-end">
+          <button type="button" (click)="cancelar()" class="btn button-secondary btn-lg add-button me-2">Cancelar</button>
+          <button type="button" (click)="onSubmit()" class="btn button-success btn-lg add-button">Guardar</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<app-msg-box
+  [visible]="visible"
+  [msgTexto]="msg"
+  [msgTipo]="MsgTipo.Success"
+  [error]="error"
+  [width]="'25vw'"
+  (close)="onHide($event)">

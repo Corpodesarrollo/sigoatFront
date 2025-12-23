@@ -15,7 +15,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { MsgBoxComponent } from '../../../../shared/msg-box/msg-box.component';
-import { RolesService } from '../../../../../services/roles.services';
+import { RolesService } from '../../../../../services/roles.service';
 import { Roles } from '../../../../../models/roles.model';
 import { AuthServices } from '../../../../../services/auth.service';
 import { permiso } from '../../../../../models/permiso';

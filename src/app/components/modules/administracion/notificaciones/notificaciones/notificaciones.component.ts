@@ -6,9 +6,9 @@ import { Notificacion } from '../../../../../models/notificaciones.model';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthServices } from '../../../../../services/auth.service';
-import { MenuService } from '../../../../../services/menu.services';
-import { NotificacionesServices } from '../../../../../services/notificaciones.services';
-import { User } from '../../../../../services/user.services';
+import { MenuService } from '../../../../../services/menu.service';
+import { NotificacionesServices } from '../../../../../services/notificaciones.service';
+import { User } from '../../../../../services/user';
 import { ResponseModel } from '../../../../../models/response.model';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
