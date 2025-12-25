@@ -96,7 +96,7 @@ export const routes: Routes = [
     component: LayoutSecondaryComponent,
     children: [
       { path: 'consulta-ciudadana', component: ContactenosComponent },
-      { path: 'noticia/:idPagina/:idNoticia', component: NoticiaComponent },
+      { path: 'portal/noticia/:idPagina/:idNoticia', component: NoticiaComponent },
       { path: 'portal', component: PaginasComponent },
       { path: 'portal/:id', component: PaginasComponent },
     ]

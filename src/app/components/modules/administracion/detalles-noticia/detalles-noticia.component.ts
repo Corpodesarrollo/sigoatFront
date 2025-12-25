@@ -226,9 +226,9 @@ export class DetallesNoticiaComponent {
       this.saving = true;
       let response;
       if (this.formulario.id === 0) {
-        response = await this.ms.post<Noticias>('noticiasDetalles', this.formulario, apis.Administrador);
+        response = await this.ms.post<DetallesNoticias>('noticiasDetalles', this.formulario, apis.Administrador);
       } else {
-        response = await this.ms.put<Noticias>('noticiasDetalles', this.formulario, apis.Administrador);
+        response = await this.ms.put<DetallesNoticias>('noticiasDetalles', this.formulario, apis.Administrador);
       }
       if (response) {
         if (!response.error) {

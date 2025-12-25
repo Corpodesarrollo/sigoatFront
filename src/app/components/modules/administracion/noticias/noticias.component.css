@@ -47,6 +47,15 @@
     background-color: #FEE2E2; /* Fondo rojo claro */
 }
 
+/* Indicador de posición (círculo azul/rojo) */
+.position-indicator {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  cursor: default;
+}
+
 /* Estilos para la tabla */
 .p-datatable {
   margin-top: 20px;
@@ -116,8 +125,9 @@
 
 .info-carga {
   display: flex;
-  justify-content: space-between;
-  align-items: start;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .info-carga p {
@@ -144,6 +154,37 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* Botón de subir imagen con estilo warning */
+.btn-subir {
+  background-color: #f39200;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Ocultar los radios nativos (mantener bindings) */
+.btn-group input[type="radio"], .btn-group-vertical input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  font-weight: bold;
+}
+
+/* Asegurar que el botón de subir se vea bien y esté centrado */
+.info-carga .btn-subir {
+  margin-top: 8px;
+}
+
+/* Asegurar que el modal use la fuente global cargada en estilos principales */
+::ng-deep .p-dialog {
+  font-family: inherit !important;
+}
+::ng-deep .p-dialog *:not([class*="pi"]) {
+  font-family: inherit !important;
 }
 
 .input-url {
@@ -182,7 +223,9 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
+  width: 100%;
 }
 
 .lista-validaciones {
@@ -223,4 +266,23 @@
 }
 .create-icon:hover {
   background-color: rgba(16, 185, 129, 0.1);
+}
+
+.preview-imagen {
+  height: 150px;
+  width: 240px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f3f4f6; /* Gris */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.preview-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }

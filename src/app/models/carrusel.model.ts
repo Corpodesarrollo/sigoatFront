@@ -8,4 +8,7 @@ export interface Carrusel {
     mimeType?: string | null;
     url?: string | null;
     orden?: number | null;
+    texto?: string | null;
+    tipoContenido?: number | null;
+    estado?: boolean | null;
 }

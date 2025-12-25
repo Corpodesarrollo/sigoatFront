@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DialogModule } from 'primeng/dialog';
 import { environment } from '../../../../environments/environment';
 import { apis } from '../../../models/apis.model';
 import { ResponseModel } from '../../../models/response.model';
@@ -16,7 +18,7 @@ import { ViewerPBIComponent } from "../viewerPBI/viewerPBI.component";
 @Component({
   selector: 'app-main-section',
   standalone: true,
-  imports: [CommonModule, ViewerPBIComponent],
+  imports: [CommonModule, ViewerPBIComponent, DialogModule],
   templateUrl: './main-section.component.html',
   styleUrl: './main-section.component.css',
   providers: [ConfirmationService, MessageService],
@@ -24,11 +26,10 @@ import { ViewerPBIComponent } from "../viewerPBI/viewerPBI.component";
 export class MainSectionComponent {
   @Input() id: number = 1;
   noticias: PaginaNoticia[] = [];
-  noticia1?: PaginaNoticia;
-  noticia2?: PaginaNoticia;
-  noticia3?: PaginaNoticia;
-  noticia4?: PaginaNoticia;
+  ultimasNoticias: PaginaNoticia[] = [];  // posicion = 1
+  informacionDestacada: PaginaNoticia[] = [];  // posicion = 2
   TipoNoticia = TipoNoticia;
+  apiUrl = apis.Administrador;
 
   images = [
     {
@@ -50,8 +51,13 @@ export class MainSectionComponent {
   isFullscreen = false;
   showOverlay = true;
   imageLoaded = false;
+  
+  // Modal de video
+  displayVideoModal = false;
+  currentVideoUrl: SafeResourceUrl | null = null;
+  currentVideoTitle = '';
 
-  constructor(private messageService: MessageService, private ns: NoticiasServices, private route: ActivatedRoute, private router: Router) {}
+  constructor(private messageService: MessageService, private ns: NoticiasServices, private route: ActivatedRoute, private router: Router, private sanitizer: DomSanitizer) {}
   
   ngOnChanges(changes: SimpleChanges) {
     if (changes['id']) {
@@ -71,22 +77,13 @@ export class MainSectionComponent {
       
       this.noticias = result.data;
       console.log('Noticias cargadas:', this.noticias);
-      if (this.noticias.length > 0) {
-        console.log('Noticias1:', this.noticias[0]);
-        this.noticia1 = this.noticias[0];
-      }
-      if (this.noticias.length > 1) {
-        console.log('Noticias2:', this.noticias[1]);
-        this.noticia2 = this.noticias[1];
-      }
-      if (this.noticias.length > 2) {
-        console.log('Noticias3:', this.noticias[2]);
-        this.noticia3 = this.noticias[2];
-      }
-      if (this.noticias.length > 3) {
-        console.log('Noticias4:', this.noticias[3]);
-        this.noticia4 = this.noticias[3];
-      }
+      
+      // Filtrar por posición: 1 = Últimas Noticias, 2 = Información Destacada
+      this.ultimasNoticias = this.noticias.filter(n => n.posicion === 1);
+      this.informacionDestacada = this.noticias.filter(n => n.posicion === 2);
+      
+      console.log('Últimas Noticias:', this.ultimasNoticias);
+      console.log('Información Destacada:', this.informacionDestacada);
 
     } else {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cargar los documentos.' });
@@ -95,6 +92,53 @@ export class MainSectionComponent {
 
   cargarUrl(id: number): string {
     return `${environment.urlMSAdministracion}NoticiasDetalles/GetImg/${id}`;
+  }
+
+  getImagenUrl(noticia: PaginaNoticia): string {
+    if (noticia.imagen && noticia.imagen.file && noticia.mimeType) {
+      return `data:${noticia.mimeType};base64,${noticia.imagen.file}`;
+    } else if (noticia.idImagen) {
+      return `${environment.urlMSAdministracion}Archivos/GetImg/${noticia.idImagen}`;
+    }
+    return 'https://via.placeholder.com/140x90';
+  }
+
+  getVideoEmbedUrl(urlRecurso: string | null | undefined): SafeResourceUrl | null {
+    if (!urlRecurso) return null;
+    // Convertir URL de YouTube a embed
+    const youtubeMatch = urlRecurso.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
+    if (youtubeMatch) {
+      return this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${youtubeMatch[1]}`);
+    }
+    return this.sanitizer.bypassSecurityTrustResourceUrl(urlRecurso);
+  }
+
+  getVideoThumbnail(urlRecurso: string | null | undefined): string {
+    if (!urlRecurso) return 'https://via.placeholder.com/320x180?text=Video';
+    // Obtener miniatura de YouTube
+    const youtubeMatch = urlRecurso.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
+    if (youtubeMatch) {
+      return `https://img.youtube.com/vi/${youtubeMatch[1]}/mqdefault.jpg`;
+    }
+    return 'https://via.placeholder.com/320x180?text=Video';
+  }
+
+  abrirVideo(info: PaginaNoticia): void {
+    if (info.target === '_blank') {
+      // Abrir en nueva pestaña
+      window.open(info.urlRecurso || '', '_blank');
+    } else {
+      // Abrir en modal
+      this.currentVideoUrl = this.getVideoEmbedUrl(info.urlRecurso);
+      this.currentVideoTitle = info.titulo || 'Video';
+      this.displayVideoModal = true;
+    }
+  }
+
+  cerrarVideoModal(): void {
+    this.displayVideoModal = false;
+    this.currentVideoUrl = null;
+    this.currentVideoTitle = '';
   }
 
   descargar(id: number): void {
@@ -116,8 +160,13 @@ export class MainSectionComponent {
     }
   }
 
-  noticia(id: number | undefined) {
-    this.router.navigate(['/noticia/', this.id, id]);
+  verNoticia(noticia: PaginaNoticia) {
+    const url = `/portal/noticia/${this.id}/${noticia.idNoticia}`;
+    if (noticia.target === '_blank') {
+      window.open(url, '_blank');
+    } else {
+      this.router.navigate(['/portal/noticia/', this.id, noticia.idNoticia]);
+    }
   }
 
   onImageLoad() {

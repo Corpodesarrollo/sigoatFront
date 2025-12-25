@@ -1,7 +1,8 @@
+
 <section class="news-section mb-5">
     <div class="row">
-          <!-- Noticia Principal -->
-        <div class="col-md-12 mb-4">
+        <!-- Noticia Principal -->
+        <div class="col-lg-8 col-12 mb-4">
             <div class="card-body">
                 <div class="news-meta mb-3 d-flex align-items-center">
                     <span class="text-muted"><i class="bi bi-calendar me-1"></i>{{noticia?.fecha | date:'d \'de\' MMMM, y'}}</span>
@@ -12,7 +13,7 @@
                             class="adaptive-image mx-auto d-block"
                             (load)="onImageLoad()">
                     </div>
-                    <div class="card-text-container  word-break-fix mb-3" *ngIf="item.tipo === TipoNoticia.Texto">
+                    <div class="card-text-container word-break-fix mb-3" *ngIf="item.tipo === TipoNoticia.Texto">
                         <span [innerHTML]="item.contenido"></span>
                     </div>
                     <h3 class="mb-3" *ngIf="item.tipo === TipoNoticia.Titulo">{{item.contenido}}</h3>
@@ -41,5 +42,66 @@
                 </div>
             </div>
         </div>
+
+        <!-- Columna Información Destacada (oculta en móviles) -->
+        <div class="col-lg-4 col-12 mt-4 mt-lg-0 d-none d-lg-block">
+            <h3 class="section-title mb-3">Información Destacada</h3>
+
+            <div *ngFor="let info of informacionDestacada" class="side-card mb-3">
+                <h6 class="side-card-title">{{ info.titulo }}</h6>
+
+                <!-- VIDEO: Miniatura con botón -->
+                <div *ngIf="info.urlRecurso" class="video-thumbnail-container mb-2" (click)="abrirVideo(info)">
+                    <img [src]="getVideoThumbnail(info.urlRecurso)" [alt]="info.titulo" class="video-thumbnail" />
+                    <div class="video-play-overlay">
+                        <i class="pi pi-play-circle"></i>
+                    </div>
+                </div>
+                <a *ngIf="info.urlRecurso" class="btn btn-outline-primary w-100 mb-2" (click)="abrirVideo(info)" style="cursor: pointer;">
+                    <i class="pi pi-play me-2"></i> Ver video
+                </a>
+
+                <!-- IMAGEN si no tiene video pero tiene imagen -->
+                <img *ngIf="!info.urlRecurso && info.idImagen"
+                    [src]="getImagenUrl(info)"
+                    [alt]="info.titulo"
+                    class="img-fluid rounded mb-2"
+                />
+
+                <p *ngIf="info.resumen" class="small text-muted">
+                    {{ info.resumen }}
+                </p>
+
+                <a *ngIf="info.enlace && !info.urlRecurso" [href]="info.enlace" [target]="info.target || '_self'" class="btn btn-outline-primary w-100">
+                    Más información
+                </a>
+                <a *ngIf="!info.enlace && !info.urlRecurso" (click)="verNoticia(info.idNoticia)" class="btn btn-outline-primary w-100" style="cursor: pointer;">
+                    Ver detalles
+                </a>
+            </div>
+
+            <div *ngIf="informacionDestacada.length === 0" class="text-muted">
+                No hay información destacada disponible.
+            </div>
+        </div>
     </div>
 </section>
+
+<!-- Modal para reproducir video -->
+<p-dialog 
+    [(visible)]="displayVideoModal" 
+    [modal]="true" 
+    [closable]="true" 
+    [header]="currentVideoTitle"
+    [style]="{ width: '80vw', maxWidth: '900px' }"
+    (onHide)="cerrarVideoModal()">
+    <div class="video-modal-content">
+        <iframe 
+            *ngIf="currentVideoUrl"
+            [src]="currentVideoUrl"
+            class="w-100"
+            style="aspect-ratio: 16/9; border: none;"
+            allowfullscreen>
+        </iframe>
+    </div>
+</p-dialog>

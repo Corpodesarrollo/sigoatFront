@@ -27,11 +27,12 @@ import { StepsComponent } from "../../../shared/steps/steps.component";
 import { permiso } from '../../../../models/permiso';
 import { AuthServices } from '../../../../services/auth.service';
 import { ViewerComponent } from "../../../shared/viewer/viewer.component";
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 @Component({
   selector: 'app-carrusel',
   standalone: true,
-  imports: [TableModule, ButtonModule, TooltipModule, CommonModule, ConfirmDialogModule, ToastModule,
+  imports: [TableModule, ButtonModule, TooltipModule, CommonModule, ConfirmDialogModule, ToastModule, RadioButtonModule,
     InputSwitchModule, FormsModule, MsgBoxComponent, DialogModule, FileUploadModule, InputTextModule, StepsComponent, ViewerComponent],
   providers: [ConfirmationService, MessageService],
   templateUrl: './carrusel.component.html',
@@ -47,14 +48,17 @@ export class CarruselComponent {
   visible2: boolean = false;
   display: boolean = false;
   msg: string = '';
-  MsgTipo = MsgTipo;
-  MsgBotones = MsgBotones;
+  msgTipo: MsgTipo = MsgTipo.Question;
+  msgBotones: MsgBotones = MsgBotones.EliminarCancelar;
   error: boolean = false;
   idEliminar: number = 0;
   tituloPagina: string = '';
   displayViewer: boolean = false;
   displayModal: boolean = false;
   imageUrl = '';
+  texto = '';
+  tipoContenido: number = 0;
+  estado = false;
   fileToUpload: File | null = null;
   imagePreview: string | ArrayBuffer | null = null;
   id: number | undefined;
@@ -66,7 +70,10 @@ export class CarruselComponent {
     archivo: null,
     mimeType: null,
     url: null,
-    orden: null
+    orden: null,
+    texto: null,
+    tipoContenido: null,
+    estado: null
   }
     
   imagenPreview: string | null = null;
@@ -144,6 +151,10 @@ export class CarruselComponent {
   }
 
   agregar() {
+    if (this.pages.length >= 7) {
+      this.messageService.add({ severity: 'warn', summary: 'Advertencia', detail: 'No se pueden agregar más de 7 imágenes al carrusel.' });
+      return;
+    }
     this.displayModal = true;
     console.log('Abrir modal para agregar nueva página');
   }
@@ -154,21 +165,42 @@ export class CarruselComponent {
     this.idEliminar = id;
   }
 
-  onHide(event: any): void {
-    console.log('Dialog closed', event);
+  async onHide(event: any): Promise<void> {
     this.visible = false;
     if (event == true) {
-      this.ms.delete('imagenes', this.idEliminar, apis.Administrador).then((response) => {
-        if (response) {
-          let result: ResponseModel = response;
+      if(this.idEliminar == 0){
+        let responseActivation = await this.ms.putActivateDeactivate('imagenes', this.carrusel?.id ?? 0, apis.Administrador);
+        if (responseActivation) {
+          let result: ResponseModel = responseActivation;
           if (result.error) {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: result.dataError.message });
-          } else {
-            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado correctamente' });
+            return;
+          } else if (result.data) {
+            if(this.carrusel?.estado == true){
+              const icono = document.getElementById(`icono-${this.carrusel?.id}`) as HTMLImageElement;
+              icono.src = 'iconos/enabled.png';
+              this.messageService.add({ severity: 'error', summary: 'Éxito', detail: 'Registro inactivado correctamente' });
+            } else {
+              const icono = document.getElementById(`icono-${this.carrusel?.id}`) as HTMLImageElement;
+              icono.src = 'iconos/disabled.png';
+              this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro activado correctamente' });
+            }
             this.ngOnInit();
           }
         }
-      });
+      } else {
+        this.ms.delete('imagenes', this.idEliminar, apis.Administrador).then((response) => {
+          if (response) {
+            let result: ResponseModel = response;
+            if (result.error) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: result.dataError.message });
+            } else {
+              this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado correctamente' });
+              this.ngOnInit();
+            }
+          }
+        });
+      }
     }
   }
 
@@ -223,12 +255,13 @@ export class CarruselComponent {
     this.carrusel.id = 0;
     this.carrusel.idPagina = this.id;
     this.carrusel.url = this.urlImagen;
+    this.carrusel.texto = this.texto;
+    this.carrusel.tipoContenido = this.tipoContenido;
 
     if (this.archivoSeleccionado){
       this.carrusel.archivo = this.archivoSeleccionado;
       this.carrusel.mimeType = this.archivoSeleccionado.fileExtension;
     }
-    
 
     let response = await this.ms.post('imagenes', this.carrusel, apis.Administrador);
     if (response) {
@@ -295,5 +328,22 @@ export class CarruselComponent {
 
   anterior(): void {
     this.router.navigate([`/paginas`]);
+  }
+
+  cargarIcono(estado: boolean): string {
+    return estado ? 'iconos/enabled.png' : 'iconos/disabled.png';
+  }
+
+  async onToggleChange(data: any) {
+    this.carrusel = data;
+    this.msgTipo = MsgTipo.Question;
+    this.msgBotones = MsgBotones.AceptarCancelar;
+    this.msg = `¿Desea ${this.validarEstado(!data.estado)} este registro?`;
+    this.visible = true;
+    this.idEliminar = 0;
+  }
+
+  validarEstado(estado: boolean): string {
+    return estado ? 'Activar' : 'Inactivar';
   }
 }

@@ -38,20 +38,54 @@
         
     <ng-template pTemplate="header">
       <tr class="custom-header">
-        <th style="width: 400px;">Título</th>
-        <th>Detalle</th>
-        <th class="text-center" style="width: 200px;">Fecha</th>
+        <th style="width: 80px;" class="text-center">Imagen</th>
+        <th style="width: 250px;">Título</th>
+        <th>Resumen</th>
+        <th class="text-center" style="width: 80px;">Posición</th>
+        <th class="text-center" style="width: 120px;">Fecha</th>
         <th class="text-center" style="width: 200px;">Acciones</th>
       </tr>
     </ng-template>
     
     <ng-template pTemplate="body" let-page>
       <tr class="custom-row">
+        <td class="text-center">
+          <img *ngIf="page.idImagen" [src]="getImagenUrl(page.idImagen)" alt="Imagen" class="img-thumbnail" style="max-width: 60px; max-height: 60px;" />
+          <span *ngIf="!page.idImagen" class="text-muted">-</span>
+        </td>
         <td>{{ page.titulo }}</td>
-        <td>{{ page.detalle }}</td>
+        <td class="text-truncate" style="max-width: 300px;">{{ page.resumen }}</td>
+        <td class="text-center">
+          <span 
+            class="position-indicator" 
+            [ngClass]="page.posicion === 1 ? 'bg-primary' : 'bg-danger'"
+            [pTooltip]="page.posicion === 1 ? 'Noticias' : 'Información Destacada'"
+            tooltipPosition="top">
+          </span>
+        </td>
         <td class="text-center">{{ page.fecha | date: 'dd/MM/yyyy' }}</td>
         <td>
           <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
+            <i 
+              class="pi pi-chevron-up action-icon text-warning fw-bold" 
+              (click)="cambiarOrden(page.id, 'up')" *ngIf="permisoEditar | async"
+              pTooltip="Subir" 
+              tooltipPosition="top"
+              [ngClass]="{'disabled-icon': pages[0].id === page.id}"
+              [style.pointerEvents]="pages[0].id === page.id ? 'none' : 'auto'"
+              [style.opacity]="pages[0].id === page.id ? 0.5 : 1"
+            ></i>
+            
+            <i 
+              class="pi pi-chevron-down action-icon text-warning fw-bold" 
+              (click)="cambiarOrden(page.id, 'down')" *ngIf="permisoEditar | async"
+              pTooltip="Bajar" 
+              tooltipPosition="top"
+              [ngClass]="{'disabled-icon': pages[pages.length - 1].id === page.id}"
+              [style.pointerEvents]="pages[pages.length - 1].id === page.id ? 'none' : 'auto'"
+              [style.opacity]="pages[pages.length - 1].id === page.id ? 0.5 : 1"
+            ></i>
+
             <i class="pi pi-book action-icon create-icon text-primary" 
                 (click)="detalles(page.id)" 
                 pTooltip="Detalles" 
@@ -79,34 +113,91 @@
     </div>
 </div>
 
-<p-dialog [(visible)]="displayModal" [modal]="true" [closable]="true" header="Agregar Noticia" [style]="{ width: '500px' }">
-  <div class="row mb-3 align-items-center">
-    <div class="col-3">
-      <label class="form-label fw-bold mb-0" for="titulo">Título</label>
-    </div>
-    <div class="col-9 p-fluid">
-      <input pInputText type="text" id="titulo" [(ngModel)]="formulario.titulo" class="w-100" />
-      <div *ngIf="submitted && (formulario.titulo === '')" class="text-danger">
-          Campo requerido
+<p-dialog [(visible)]="displayModal" [modal]="true" [closable]="true" header="Agregar Noticia" [style]="{ width: '800px' }">
+  <div class="row">
+    <div class="col-4">
+      <div class="info-carga mb-3">
+        <div class="preview-imagen">
+          <img *ngIf="imagenPreview" [src]="imagenPreview" alt="Vista previa" />
+        </div>
+        <div class="mt-2 w-100">
+          <input type="file" id="fileInput" accept="image/*" (change)="onImageSelected($event)" hidden />
+          <label for="fileInput" class="btn btn-warning btn-subir">
+            <i class="pi pi-upload"></i>
+            Cargar Imagen
+          </label>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="row mb-3">
-    <div class="col-3">
-      <label class="form-label fw-bold mb-0" for="detalle">Detalle</label>
-    </div>
-    <div class="col-9 p-fluid">
-      <textarea pInputTextarea id="detalle" [(ngModel)]="formulario.detalle" rows="2" class="w-100"></textarea>
-    </div>
-  </div>
-  <div class="row mb-3 align-items-center">
-    <div class="col-3">
-      <label class="form-label fw-bold mb-0" for="fecha">Fecha</label>
-    </div>
-    <div class="col-9 p-fluid">
-      <p-calendar id="fecha" appendTo="body" [(ngModel)]="formulario.fecha" dateFormat="dd/mm/yy" class="w-100"></p-calendar>
-      <div *ngIf="submitted && (formulario.fecha === null)" class="text-danger">
-          Campo requerido
+    <div class="col-8">
+        <div class="row mb-3 align-items-center">
+          <div class="col-12 p-fluid">
+            <label class="form-label fw-bold mb-0" for="posicion">Posición</label>
+            <div class="btn-group btn-group-lg w-100" role="group" aria-label="Posición">
+              <label class="btn btn-outline-primary" [class.active]="formulario.posicion == 1" [class.fw-bold]="formulario.posicion == 1">
+                <input type="radio" name="posicionOptions" [(ngModel)]="formulario.posicion" [value]="1" autocomplete="off" /> Noticias
+              </label>
+              <label class="btn btn-outline-danger" [class.active]="formulario.posicion == 2" [class.fw-bold]="formulario.posicion == 2">
+                <input type="radio" name="posicionOptions" [(ngModel)]="formulario.posicion" [value]="2" autocomplete="off" /> Información Destacada
+              </label>
+            </div>
+          </div>
+        </div>
+      <div class="row mb-3 align-items-center">
+        <div class="col-12 p-fluid">
+          <label class="form-label fw-bold mb-0" for="titulo">Título</label>
+          <input pInputText type="text" id="titulo" [(ngModel)]="formulario.titulo" class="w-100" />
+          <div *ngIf="submitted && (formulario.titulo === '')" class="text-danger">
+            Campo requerido
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3 align-items-center">
+        <div class="col-12 p-fluid">
+          <label class="form-label fw-bold mb-0" for="resumen">Resumen</label>
+          <textarea pInputTextarea id="resumen" [(ngModel)]="formulario.resumen" rows="2" class="w-100"></textarea>
+        </div>
+      </div>
+      <div class="row mb-3 align-items-center">
+        <div class="col-9 p-fluid">
+          <label class="form-label fw-bold mb-0" for="fecha">Fecha</label>
+          <p-calendar id="fecha" [(ngModel)]="formulario.fecha" appendTo="body" dateFormat="dd/mm/yy" class="w-100"></p-calendar>
+        </div>
+        <div class="col-3 p-fluid">
+          <label class="form-label fw-bold mb-0" for="orden">Orden</label>
+          <input type="number" id="orden" [(ngModel)]="formulario.orden" class="form-control w-100" min="0" />
+        </div>
+      </div>
+
+      <div class="row mb-3 align-items-center">
+        <div class="col-12 p-fluid">
+          <label class="form-label fw-bold mb-0" for="enlace">Enlace a noticia externa</label>
+          <div class="d-flex gap-2">
+            <input pInputText type="url" id="enlace" [(ngModel)]="formulario.enlace" class="w-100" placeholder="https://ejemplo.com/noticia" (blur)="validarEnlace()" />
+            <button type="button" class="btn btn-outline-secondary btn-sm" (click)="validarEnlace()" [disabled]="validandoEnlace">
+              <i class="pi" [ngClass]="validandoEnlace ? 'pi-spin pi-spinner' : 'pi-link'"></i>
+            </button>
+          </div>
+          <div *ngIf="enlaceError" class="text-danger mt-1">{{ enlaceError }}</div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-12 p-fluid">
+          <label class="form-label fw-bold mb-0" for="urlRecurso">Url Video</label>
+          <div class="d-flex gap-2">
+            <input pInputText type="url" id="urlRecurso" [(ngModel)]="formulario.urlRecurso" class="w-100" placeholder="https://youtube.com/watch?v=..." (blur)="validarUrlRecurso()" />
+            <button type="button" class="btn btn-outline-secondary btn-sm" (click)="validarUrlRecurso()" [disabled]="validandoUrlRecurso">
+              <i class="pi" [ngClass]="validandoUrlRecurso ? 'pi-spin pi-spinner' : 'pi-link'"></i>
+            </button>
+          </div>
+          <div *ngIf="urlRecursoError" class="text-danger mt-1">{{ urlRecursoError }}</div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-12 p-fluid d-flex align-items-center">
+          <p-checkbox [(ngModel)]="targetNewTab" inputId="targetNewTab" [binary]="true" class="me-2"></p-checkbox>
+          <label for="targetNewTab">Abrir enlaces en una pestaña nueva</label>
+        </div>
       </div>
     </div>
   </div>

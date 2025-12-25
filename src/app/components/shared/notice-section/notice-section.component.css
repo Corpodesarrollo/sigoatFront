@@ -1,3 +1,34 @@
+/* Fuente base para el portal de noticias - tamaño cómodo para lectura */
+:host {
+  font-size: 20px;
+  line-height: 1.8;
+}
+
+.card-text-container {
+  font-size: 1.3rem;
+  line-height: 1.9;
+  color: #333;
+}
+
+/* Sobreescribir estilos inline del texto enriquecido de p-editor */
+::ng-deep .card-text-container,
+::ng-deep .card-text-container * {
+  text-align: left !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  hyphens: none !important;
+  -webkit-hyphens: none !important;
+  -ms-hyphens: none !important;
+}
+
+::ng-deep .card-text-container p,
+::ng-deep .card-text-container span,
+::ng-deep .card-text-container div {
+  text-align: left !important;
+  display: block;
+  white-space: normal !important;
+}
+
 .single-image-viewer {
   .image-container {
     position: relative;
@@ -154,7 +185,7 @@
     }
     
     .card-text {
-      text-align: justify;
+      text-align: left;
       margin-bottom: 1.5rem;
       color: #555;
     }
@@ -226,15 +257,17 @@
 
 .card-text-container,
 .card-text-container * {
-  overflow-wrap: break-word;
-  word-break: break-word;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
   white-space: normal;
   max-width: 100%;
+  text-align: left;
 }
 .word-break-fix {
-  overflow-wrap: break-word;
-  word-break: break-word;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
   white-space: normal;
+  text-align: left;
 }
 
 @media (max-width: 768px) {
@@ -281,7 +314,7 @@
     }
     
     .card-text {
-      text-align: justify;
+      text-align: left;
       margin-bottom: 1.5rem;
       color: #555;
     }
@@ -333,4 +366,81 @@
         width: 100%;
         height: 100%;
     }
+}
+
+/* COLUMNA INFORMACIÓN DESTACADA */
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #333;
+  border-bottom: 2px solid var(--color-base, #73b7ad);
+  padding-bottom: 8px;
+}
+
+.side-card {
+  background-color: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.side-card-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* VIDEO THUMBNAIL CON OVERLAY */
+.video-thumbnail-container {
+  position: relative;
+  cursor: pointer;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.video-thumbnail {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.video-thumbnail-container:hover .video-thumbnail {
+  transform: scale(1.05);
+}
+
+.video-play-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.video-thumbnail-container:hover .video-play-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.video-play-overlay i {
+  font-size: 3rem;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease;
+}
+
+.video-thumbnail-container:hover .video-play-overlay i {
+  transform: scale(1.15);
+}
+
+/* VIDEO MODAL */
+.video-modal-content {
+  background: #000;
+  border-radius: 4px;
+  overflow: hidden;
 }
