@@ -10,11 +10,12 @@ import { PaginasService } from '../../../../services/paginas.service';
 import { Paginas } from '../../../../models/paginas.model';
 import { apis } from '../../../../models/apis.model';
 import { EnMantenimientoComponent } from "../../administracion/en-mantenimiento/en-mantenimiento.component";
+import { EnlacesInteresComponent } from "../../../shared/enlaces-interes/enlaces-interes.component";
 
 @Component({
   selector: 'app-paginas',
   standalone: true,
-  imports: [CommonModule, AccesibilidadComponent, CarruselComponent, DocumentosComponent, MainSectionComponent, ViewerRedesSocialesComponent, EnMantenimientoComponent],
+  imports: [CommonModule, AccesibilidadComponent, CarruselComponent, DocumentosComponent, MainSectionComponent, ViewerRedesSocialesComponent, EnMantenimientoComponent, EnlacesInteresComponent],
   templateUrl: './paginas.component.html',
   styleUrl: './paginas.component.css'
 })

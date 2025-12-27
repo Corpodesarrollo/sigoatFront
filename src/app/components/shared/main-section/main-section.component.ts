@@ -7,7 +7,7 @@ import { DialogModule } from 'primeng/dialog';
 import { environment } from '../../../../environments/environment';
 import { apis } from '../../../models/apis.model';
 import { ResponseModel } from '../../../models/response.model';
-import { AnexosService } from '../../../services/anexoss.service';
+import { AnexosService } from '../../../services/anexos.service';
 import { PaginasService } from '../../../services/paginas.service';
 import { NoticiasServices } from '../../../services/noticias.service';
 import { PaginaNoticia } from '../../../models/paginaNoticia.model';

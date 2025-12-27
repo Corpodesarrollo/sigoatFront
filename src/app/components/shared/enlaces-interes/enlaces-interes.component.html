@@ -1,0 +1,71 @@
+<section class="enlaces-section mb-3" *ngIf="enlaces && enlaces.length > 0">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="section-title"><i class="bi bi-link-45deg me-2"></i>Enlaces de Interés</h3>
+            <p>Explore nuestra selección de enlaces útiles y recursos relevantes organizados para su conveniencia.</p>
+        </div>
+        
+        <div class="col-12">
+            <!-- Contenedor desplazable horizontal -->
+            <div class="enlaces-container">
+                <div class="enlaces-scroll">
+                    <div class="enlace-card my-2" *ngFor="let enlace of enlaces" (click)="abrirEnlace(enlace)">
+                        <div class="card-header">
+                            <i class="bi bi-globe me-2" *ngIf="enlace.target === '_blank' || enlace.target === 'external'"></i>
+                            <i class="bi bi-house me-2" *ngIf="enlace.target !== '_blank' && enlace.target !== 'external'"></i>
+                            <h3 class="card-title">{{ enlace.titulo }}</h3>
+                        </div>
+                        <div class="card-body" *ngIf="enlace.descripcion">
+                            <p class="card-description">{{ enlace.descripcion }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <span class="link-indicator">
+                                <i class="bi bi-arrow-right"></i>
+                                <span *ngIf="enlace.target === '_blank' || enlace.target === 'external'">Abrir enlace externo</span>
+                                <span *ngIf="enlace.target !== '_blank' && enlace.target !== 'external'">Ir a la página</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Indicador de scroll -->
+            <div class="scroll-indicator" *ngIf="enlaces.length > 3">
+                <i class="bi bi-arrow-left-right"></i>
+                <span>Desliza para ver más enlaces</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sección alternativa en formato de tarjetas verticales -->
+<section class="enlaces-section-vertical mb-3" *ngIf="enlaces && enlaces.length > 0" style="display: none;">
+    <div class="row">
+        <div class="col-12 mb-4">
+            <h1 class="mb-3"><i class="bi bi-link-45deg me-2"></i>Enlaces de Interés</h1>
+            <p class="mb-4">Explore nuestra selección de enlaces útiles y recursos relevantes.</p>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-4 col-md-6 mb-3" *ngFor="let enlace of enlaces">
+            <div class="enlace-card-vertical" (click)="abrirEnlace(enlace)">
+                <div class="card-header">
+                    <i class="bi bi-globe me-2" *ngIf="enlace.target === '_blank' || enlace.target === 'external'"></i>
+                    <i class="bi bi-house me-2" *ngIf="enlace.target !== '_blank' && enlace.target !== 'external'"></i>
+                    <h3 class="card-title">{{ enlace.titulo }}</h3>
+                </div>
+                <div class="card-body" *ngIf="enlace.descripcion">
+                    <p class="card-description">{{ enlace.descripcion }}</p>
+                </div>
+                <div class="card-footer">
+                    <span class="link-indicator">
+                        <i class="bi bi-arrow-right"></i>
+                        <span *ngIf="enlace.target === '_blank' || enlace.target === 'external'">Abrir enlace externo</span>
+                        <span *ngIf="enlace.target !== '_blank' && enlace.target !== 'external'">Ir a la página</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

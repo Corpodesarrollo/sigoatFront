@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CardSectionComponent } from './card-section.component';
+import { EnlacesInteresComponent } from './enlaces-interes.component';
 
-describe('CardSectionComponent', () => {
-  let component: CardSectionComponent;
-  let fixture: ComponentFixture<CardSectionComponent>;
+describe('EnlacesInteresComponent', () => {
+  let component: EnlacesInteresComponent;
+  let fixture: ComponentFixture<EnlacesInteresComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CardSectionComponent]
+      imports: [EnlacesInteresComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CardSectionComponent);
+    fixture = TestBed.createComponent(EnlacesInteresComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,249 @@
+/* Estilos para Enlaces de Interés */
+.enlaces-section {
+  h1 {
+    font-weight: 700;
+    color: #4D4D4D;
+    font-size: 1.8rem;
+  }
+
+  p {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+}
+
+.section-title {
+  font-weight: 600;
+  border-bottom: 3px solid #0d6efd;
+  display: inline-block;
+  padding-bottom: 4px;
+}
+
+/* Contenedor principal desplazable horizontal */
+.enlaces-container {
+  position: relative;
+  overflow: hidden;
+  padding: 1rem 0;
+}
+
+.enlaces-scroll {
+  display: flex;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  gap: 1.5rem;
+  scroll-behavior: smooth;
+  
+  /* Estilos del scrollbar */
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+  }
+}
+
+/* Tarjeta de enlace horizontal */
+.enlace-card {
+  min-width: 320px;
+  max-width: 350px;
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: #007bff;
+  }
+  
+  .card-header {
+    margin-bottom: 1rem;
+    
+    i {
+      color: #007bff;
+      font-size: 1.2rem;
+    }
+    
+    .card-title {
+      color: #2c3e50;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0;
+      line-height: 1.3;
+      display: inline;
+    }
+  }
+  
+  .card-body {
+    margin-bottom: 1rem;
+    
+    .card-description {
+      color: #666;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+  
+  .card-footer {
+    .link-indicator {
+      display: flex;
+      align-items: center;
+      color: #007bff;
+      font-size: 0.85rem;
+      font-weight: 500;
+      
+      i {
+        margin-right: 0.5rem;
+        transition: transform 0.3s ease;
+      }
+    }
+  }
+  
+  &:hover .link-indicator i {
+    transform: translateX(4px);
+  }
+}
+
+/* Indicador de scroll */
+.scroll-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  color: #666;
+  font-size: 0.85rem;
+  
+  i {
+    margin-right: 0.5rem;
+    color: #007bff;
+  }
+}
+
+/* Estilos para la versión vertical */
+.enlaces-section-vertical {
+  .enlace-card-vertical {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border-color: #007bff;
+    }
+    
+    .card-header {
+      margin-bottom: 1rem;
+      
+      i {
+        color: #007bff;
+        font-size: 1.2rem;
+      }
+      
+      .card-title {
+        color: #2c3e50;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0;
+        line-height: 1.3;
+        display: inline;
+      }
+    }
+    
+    .card-body {
+      flex: 1;
+      margin-bottom: 1rem;
+      
+      .card-description {
+        color: #666;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        margin: 0;
+      }
+    }
+    
+    .card-footer {
+      margin-top: auto;
+      
+      .link-indicator {
+        display: flex;
+        align-items: center;
+        color: #007bff;
+        font-size: 0.85rem;
+        font-weight: 500;
+        
+        i {
+          margin-right: 0.5rem;
+          transition: transform 0.3s ease;
+        }
+      }
+    }
+    
+    &:hover .link-indicator i {
+      transform: translateX(4px);
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .enlace-card {
+    min-width: 280px;
+    max-width: 300px;
+    padding: 1.25rem;
+  }
+  
+  .enlaces-section h1 {
+    font-size: 1.5rem;
+  }
+  
+  .enlaces-scroll {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .enlace-card {
+    min-width: 260px;
+    max-width: 280px;
+    padding: 1rem;
+  }
+  
+  .enlaces-section h1 {
+    font-size: 1.3rem;
+  }
+  
+  .scroll-indicator {
+    font-size: 0.8rem;
+  }
+}

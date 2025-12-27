@@ -1,0 +1,85 @@
+<div class="p-5">
+    <div class="header-container mb-5 align-items-center">
+        <h1>Administración de Normatividad</h1>
+        <button (click)="agregar()" class="btn button-success btn-lg add-button" *ngIf="permisoCrear | async">
+            <i class="pi pi-plus"></i> Agregar
+        </button>
+    </div>
+  
+    <p-table 
+        [value]="pages" 
+        [paginator]="true" 
+        [rows]="rowsPerPage"
+        [totalRecords]="totalRecords"
+        [lazy]="true"
+        (onLazyLoad)="loadPages($event)"
+        [loading]="loading"
+        [rowsPerPageOptions]="[5,10,20,50]"
+        styleClass="custom-table">
+        
+    <ng-template pTemplate="header">
+      <tr class="custom-header">
+        <th>Título</th>
+        <th>URL</th>
+        <th class="text-center" style="width: 120px;">Destacado</th>
+        <th class="text-center" style="width: 150px;">Acciones</th>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="body" let-page>
+      <tr class="custom-row">
+        <td>{{page.titulo}}</td>
+        <td><a [href]="page.url" target="_blank">{{page.url}}</a></td>
+        <td class="text-center">
+          <i class="pi pi-star-fill" [ngStyle]="{'color': page.destacado ? '#FFD700' : '#ccc', 'font-size': '1.2rem'}"></i>
+        </td>
+        <td>
+          <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
+            <i 
+              class="pi pi-chevron-up action-icon text-warning fw-bold" 
+              (click)="cambiarOrden(page.id, 'up')" *ngIf="permisoEditar | async"
+              pTooltip="Subir" 
+              tooltipPosition="top"
+              [ngClass]="{'disabled-icon': pages[0].id === page.id}"
+              [style.pointerEvents]="pages[0].id === page.id ? 'none' : 'auto'"
+              [style.opacity]="pages[0].id === page.id ? 0.5 : 1"
+            ></i>
+            
+            <i 
+              class="pi pi-chevron-down action-icon text-warning fw-bold" 
+              (click)="cambiarOrden(page.id, 'down')" *ngIf="permisoEditar | async"
+              pTooltip="Bajar" 
+              tooltipPosition="top"
+              [ngClass]="{'disabled-icon': pages[pages.length - 1].id === page.id}"
+              [style.pointerEvents]="pages[pages.length - 1].id === page.id ? 'none' : 'auto'"
+              [style.opacity]="pages[pages.length - 1].id === page.id ? 0.5 : 1"
+            ></i>
+
+            <i class="pi pi-pencil action-icon edit-icon" 
+              (click)="edit(page)"  *ngIf="permisoEditar | async"
+              pTooltip="Editar" 
+              tooltipPosition="top"></i>
+            
+            <i class="pi pi-trash action-icon delete-icon" 
+              (click)="confirmDelete($event, page.id)" *ngIf="permisoEliminar | async"
+              pTooltip="Eliminar" 
+              tooltipPosition="top"></i>
+
+            <img id="icono-{{page.id}}" [src]="cargarIcono(page.estado)" style="width: 48px; cursor: pointer;" (click)="onToggleChange(page)" pTooltip="{{validarEstado(!page.estado)}}" tooltipPosition="top" />
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-menu #menu [popup]="true" [model]="items"></p-menu>
+<p-toast />
+
+<app-msg-box
+  [visible]="visible"
+  [msgTexto]="msg"
+  [msgTipo]="msgTipo"
+  [msgBotones]="msgBotones"
+  [width]="'25vw'"
+  (close)="onHide($event)">

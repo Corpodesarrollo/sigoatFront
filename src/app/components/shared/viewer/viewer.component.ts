@@ -6,13 +6,13 @@ import { Carrusel } from '../../../models/carrusel.model';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import { MainSectionComponent } from "../main-section/main-section.component";
-import { DocumentosComponent } from "../documentos/documentos.component";
+import { EnlacesInteresComponent } from "../enlaces-interes/enlaces-interes.component";
 import { CarruselComponent } from "../carrusel/carrusel.component";
 
 @Component({
   selector: 'app-viewer',
   standalone: true,
-  imports: [CommonModule, MainSectionComponent, DocumentosComponent, CarruselComponent],
+  imports: [CommonModule, MainSectionComponent, EnlacesInteresComponent, CarruselComponent],
   templateUrl: './viewer.component.html',
   styleUrl: './viewer.component.css'
 })

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { Anexos } from '../../../models/anexos.model';
-import { AnexosService } from '../../../services/anexoss.service';
+import { AnexosService } from '../../../services/anexos.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { apis } from '../../../models/apis.model';

@@ -50,6 +50,9 @@ export class NoticiasComponent {
   visible2: boolean = false;
   display: boolean = false;
   msg: string = '';
+  msgTipo: MsgTipo = MsgTipo.Question;
+  msgBotones: MsgBotones = MsgBotones.EliminarCancelar;
+  noticiaSeleccionada: Noticias | null = null;
   MsgTipo = MsgTipo;
   MsgBotones = MsgBotones;
   error: boolean = false;
@@ -217,25 +220,68 @@ export class NoticiasComponent {
 
   confirmDelete(event: Event, id: number) {
     this.visible = true;
+    this.msgTipo = MsgTipo.Question;
+    this.msgBotones = MsgBotones.EliminarCancelar;
     this.msg = '¿Desea eliminar este registro?';
     this.idEliminar = id;
   }
 
-  onHide(event: any): void {
+  onToggleChange(data: Noticias) {
+    this.noticiaSeleccionada = data;
+    this.msgTipo = MsgTipo.Question;
+    this.msgBotones = MsgBotones.AceptarCancelar;
+    this.msg = `¿Desea ${this.validarEstado(!data.estado)} este registro?`;
+    this.visible = true;
+    this.idEliminar = 0;
+  }
+
+  validarEstado(estado: boolean): string {
+    return estado ? 'Activar' : 'Inactivar';
+  }
+
+  cargarIcono(estado: boolean): string {
+    return estado ? 'iconos/enabled.png' : 'iconos/disabled.png';
+  }
+
+  async onHide(event: any): Promise<void> {
     console.log('Dialog closed', event);
     this.visible = false;
     if (event == true) {
-      this.ms.delete('noticias', this.idEliminar, apis.Administrador).then((response) => {
-        if (response) {
-          let result: ResponseModel = response;
+      if (this.idEliminar === 0 && this.noticiaSeleccionada) {
+        // Activar/Inactivar
+        let responseActivation = await this.ms.putActivateDeactivate('noticias', this.noticiaSeleccionada.id, apis.Administrador);
+        if (responseActivation) {
+          let result: ResponseModel = responseActivation;
           if (result.error) {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: result.dataError.message });
-          } else {
-            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado correctamente' });
-            this.ngOnInit();
+            return;
+          } else if (result.data) {
+            const icono = document.getElementById(`icono-${this.noticiaSeleccionada.id}`) as HTMLImageElement;
+            if (this.noticiaSeleccionada.estado) {
+              icono.src = 'iconos/disabled.png';
+              this.noticiaSeleccionada.estado = false;
+              this.messageService.add({ severity: 'warn', summary: 'Éxito', detail: 'Registro inactivado correctamente' });
+            } else {
+              icono.src = 'iconos/enabled.png';
+              this.noticiaSeleccionada.estado = true;
+              this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro activado correctamente' });
+            }
           }
         }
-      });
+      } else {
+        // Eliminar
+        this.ms.delete('noticias', this.idEliminar, apis.Administrador).then((response) => {
+          if (response) {
+            let result: ResponseModel = response;
+            if (result.error) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: result.dataError.message });
+            } else {
+              this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado correctamente' });
+              this.ngOnInit();
+            }
+          }
+        });
+      }
     }
   }
 

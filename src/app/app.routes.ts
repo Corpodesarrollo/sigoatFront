@@ -43,7 +43,14 @@ import { RedesSocialesConsultarComponent } from './components/modules/administra
 import { NotificacionesConsultarComponent } from './components/modules/administracion/notificaciones/notificaciones-consultar/notificaciones-consultar.component';
 import { UsersConsultarComponent } from './components/modules/seguridad/users/users-consultar/users-consultar.component';
 import { UsersCrearComponent } from './components/modules/seguridad/users/users-crear/users-crear.component';
-
+import { EnlacesInteresComponent } from './components/modules/administracion/enlaces-interes/enlaces-interes.component';
+import { FooterFaqConsultarComponent } from './components/modules/administracion/footerFaq/footerFaq-consultar/footerFaq-consultar.component';
+import { FooterFaqEditarComponent } from './components/modules/administracion/footerFaq/footerFaq-editar/footerFaq-editar.component';
+import { FooterFaqCrearComponent } from './components/modules/administracion/footerFaq/footerFaq-crear/footerFaq-crear.component';
+import { FooterInformacionInstitucionalConsultarComponent } from './components/modules/administracion/footerInformacionInstitucional/footerInformacionInstitucional-consultar/footerInformacionInstitucional-consultar.component';
+import { FooterNormatividadConsultarComponent } from './components/modules/administracion/footerNormatividad/footerNormatividad-consultar/footerNormatividad-consultar.component';
+import { FooterNormatividadEditarComponent } from './components/modules/administracion/footerNormatividad/footerNormatividad-editar/footerNormatividad-editar.component';
+import { FooterNormatividadCrearComponent } from './components/modules/administracion/footerNormatividad/footerNormatividad-crear/footerNormatividad-crear.component';
 export const routes: Routes = [
   {
     path: '',
@@ -56,6 +63,14 @@ export const routes: Routes = [
       { path: 'contactenos', component: ContactenosConsultarComponent },
       { path: 'detallesNoticias/:idNoticia/:idPagina', component: DetallesNoticiaComponent },
       { path: 'documentos/:id', component: DocumentosComponent },
+      { path: 'enlacesInteres/:id', component: EnlacesInteresComponent },
+      { path: 'footerFaq', component: FooterFaqConsultarComponent, canActivate: [ModuloGuard], data: { modulo: 'footerFaq', permiso: 'consultar' } },
+      { path: 'footerFaq-crear', component: FooterFaqCrearComponent, canActivate: [ModuloGuard], data: { modulo: 'footerFaq', permiso: 'crear' } },
+      { path: 'footerFaq-editar/:id', component: FooterFaqEditarComponent, canActivate: [ModuloGuard], data: { modulo: 'footerFaq', permiso: 'editar' } },
+      { path: 'footerInformacionInstitucional', component: FooterInformacionInstitucionalConsultarComponent },
+      { path: 'footerNormatividad', component: FooterNormatividadConsultarComponent, canActivate: [ModuloGuard], data: { modulo: 'footerNormatividad', permiso: 'consultar' } },
+      { path: 'footerNormatividad-crear', component: FooterNormatividadCrearComponent, canActivate: [ModuloGuard], data: { modulo: 'footerNormatividad', permiso: 'crear' } },
+      { path: 'footerNormatividad-editar/:id', component: FooterNormatividadEditarComponent, canActivate: [ModuloGuard], data: { modulo: 'footerNormatividad', permiso: 'editar' } },
       { path: 'health', component: HealthComponent },
       { path: 'home', component: HomeComponent, canActivate: [ModuloGuard], data: { modulo: 'home' } },
       { path: 'menus', component: MenusConsultarComponent, canActivate: [ModuloGuard], data: { modulo: 'menus', permiso: 'consultar' } },

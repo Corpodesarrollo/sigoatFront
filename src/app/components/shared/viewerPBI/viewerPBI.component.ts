@@ -5,9 +5,6 @@ import { ResponseModel } from '../../../models/response.model';
 import { Carrusel } from '../../../models/carrusel.model';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../environments/environment';
-import { MainSectionComponent } from "../main-section/main-section.component";
-import { DocumentosComponent } from "../documentos/documentos.component";
-import { CarruselComponent } from "../carrusel/carrusel.component";
 import { FormBuilder } from '@angular/forms';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,7 +17,7 @@ import { User } from '../../../services/user';
 @Component({
   selector: 'app-viewerPBI',
   standalone: true,
-  imports: [CommonModule, MainSectionComponent, DocumentosComponent, CarruselComponent],
+  imports: [CommonModule],
   templateUrl: './viewerPBI.component.html',
   styleUrl: './viewerPBI.component.css'
 })

@@ -1,0 +1,181 @@
+<div class="p-4">
+  <div class="container-fluid">
+
+      <!-- Dirección -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="direccion">Dirección</label>
+        </div>
+        <div class="col-md-9">
+          <input pInputText type="text" id="direccion" [(ngModel)]="formulario.direccion" class="w-100" />
+        </div>
+      </div>
+
+      <!-- Teléfonos -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="telefonos">Teléfonos</label>
+        </div>
+        <div class="col-md-9">
+          <input pInputText type="text" id="telefonos" [(ngModel)]="formulario.telefonos" class="w-100" />
+        </div>
+      </div>
+
+      <!-- Horarios -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="horarios">Horarios</label>
+        </div>
+        <div class="col-md-9">
+          <input pInputText type="text" id="horarios" [(ngModel)]="formulario.horarios" class="w-100" />
+        </div>
+      </div>
+
+      <!-- Correos -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="correos">Correos</label>
+        </div>
+        <div class="col-md-9">
+          <input pInputText type="text" id="correos" [(ngModel)]="formulario.correos" class="w-100" />
+        </div>
+      </div>
+
+      <!-- Enlace Twitter -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="enlaceTwitter">Enlace Twitter</label>
+        </div>
+        <div class="col-md-9">
+          <input pInputText type="text" id="enlaceTwitter" [(ngModel)]="formulario.enlaceTwitter" class="w-100" />
+        </div>
+      </div>
+
+      <!-- Enlace Facebook -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="enlaceFacebook">Enlace Facebook</label>
+        </div>
+        <div class="col-md-9">
+          <input pInputText type="text" id="enlaceFacebook" [(ngModel)]="formulario.enlaceFacebook" class="w-100" />
+        </div>
+      </div>
+
+      <!-- Enlace Instagram -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="enlaceInstagram">Enlace Instagram</label>
+        </div>
+        <div class="col-md-9">
+          <input pInputText type="text" id="enlaceInstagram" [(ngModel)]="formulario.enlaceInstagram" class="w-100" />
+        </div>
+      </div>
+
+      <!-- Enlace YouTube -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="enlaceYouTube">Enlace YouTube</label>
+        </div>
+        <div class="col-md-9">
+          <input pInputText type="text" id="enlaceYouTube" [(ngModel)]="formulario.enlaceYouTube" class="w-100" />
+        </div>
+      </div>
+
+      <!-- Enlace Contáctenos -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="enlaceContactenos">Enlace Contáctenos</label>
+        </div>
+        <div class="col-md-9">
+          <input pInputText type="text" id="enlaceContactenos" [(ngModel)]="formulario.enlaceContactenos" class="w-100" />
+        </div>
+      </div>
+
+      <!-- Logo Oficial -->
+      <div class="row mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="logoOficial">Logo Oficial</label>
+        </div>
+        <div class="col-md-9">
+          <p-fileUpload
+            name="logoOficial"
+            [auto]="true"
+            [maxFileSize]="4000000"
+            [accept]="'.png,.jpg,.jpeg'"
+            (onSelect)="onArchivoSeleccionado($event)"
+            [showUploadButton]="false"
+            [showCancelButton]="false"
+            [chooseLabel]="'Seleccionar Imagen'"
+            [style]="{'width': '100%'}"
+            [styleClass]="'w-100'">
+          </p-fileUpload>
+          <img *ngIf="formulario.idLogoOficial" [src]="cargarUrl(formulario.idLogoOficial)" alt="Logo Oficial" style="max-width: 150px; margin-top: 10px;" />
+        </div>
+      </div>
+
+      <!-- Color Primario -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="colorPrimario">Color Primario</label>
+        </div>
+        <div class="col-md-9">
+          <input type="color" id="colorPrimario" [(ngModel)]="formulario.colorPrimario" />
+        </div>
+      </div>
+
+      <!-- Color Secundario -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="colorSecundario">Color Secundario</label>
+        </div>
+        <div class="col-md-9">
+          <input type="color" id="colorSecundario" [(ngModel)]="formulario.colorSecundario" />
+        </div>
+      </div>
+
+      <!-- Tipografía -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="tipografia">Tipografía</label>
+        </div>
+        <div class="col-md-9">
+          <input pInputText type="text" id="tipografia" [(ngModel)]="formulario.tipografia" class="w-100" />
+        </div>
+      </div>
+
+      <!-- Color Fuente Primaria -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="colorFuentePrimaria">Color Fuente Primaria</label>
+        </div>
+        <div class="col-md-9">
+          <input type="color" id="colorFuentePrimaria" [(ngModel)]="formulario.colorFuentePrimaria" />
+        </div>
+      </div>
+
+      <!-- Color Fuente Secundaria -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="colorFuenteSecundaria">Color Fuente Secundaria</label>
+        </div>
+        <div class="col-md-9">
+          <input type="color" id="colorFuenteSecundaria" [(ngModel)]="formulario.colorFuenteSecundaria" />
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="row mt-5">
+        <div class="col-md-12 text-end">
+          <button type="button" (click)="onSubmit()" class="btn button-success btn-lg add-button">Guardar</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<app-msg-box
+  [visible]="visible"
+  [msgTexto]="msg"
+  [msgTipo]="MsgTipo.Success"
+  [error]="error"
+  [width]="'25vw'"
+  (close)="onHide($event)">

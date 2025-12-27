@@ -1,0 +1,174 @@
+<div class="p-3">
+  <div class="header-container mb-2 align-items-center">
+    <div class="col-auto">
+      <h1>Administración de Enlaces de Interés</h1>
+    </div>
+    <div class="col-auto">
+      <button (click)="agregar()" class="btn button-success btn-lg add-button" type="button" *ngIf="permisoCrear | async">
+          <i class="pi pi-plus"></i> Agregar
+      </button>
+    </div>
+  </div>
+
+  <div class="row mb-3 align-items-center">
+    <div class="col-auto">
+      Página:
+    </div>
+    <div class="col-auto d-flex align-items-center">
+      <h2 class="mb-0">{{ tituloPagina }}</h2>
+    </div>
+  </div>
+  
+  <p-table 
+      [value]="enlaces" 
+      [paginator]="true" 
+      [rows]="rowsPerPage"
+      [totalRecords]="totalRecords"
+      [loading]="loading"
+      [rowsPerPageOptions]="[5,10,20,50]"
+      styleClass="custom-table">
+      
+    <ng-template pTemplate="header">
+      <tr class="custom-header">
+        <th style="width: 250px;">Título</th>
+        <th>Descripción</th>
+        <th style="width: 200px;">URL</th>
+        <th class="text-center" style="width: 80px;">Target</th>
+        <th class="text-center" style="width: 200px;">Acciones</th>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="body" let-enlace>
+      <tr class="custom-row">
+        <td>{{ enlace.titulo }}</td>
+        <td class="text-truncate" style="max-width: 300px;">{{ enlace.descripcion }}</td>
+        <td class="text-truncate" style="max-width: 200px;">
+          <a [href]="enlace.url" [target]="enlace.target" class="text-primary">{{ enlace.url }}</a>
+        </td>
+        <td class="text-center">
+          <span 
+            class="target-indicator" 
+            [ngClass]="enlace.target === '_blank' ? 'bg-warning' : 'bg-success'"
+            [pTooltip]="enlace.target === '_blank' ? 'Abre en nueva pestaña' : 'Abre en SIGOATS'"
+            tooltipPosition="top">
+          </span>
+        </td>
+        <td>
+          <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
+            <i 
+              class="pi pi-chevron-up action-icon text-warning fw-bold" 
+              (click)="cambiarOrden(enlace.id, 'up')" *ngIf="permisoEditar | async"
+              pTooltip="Subir" 
+              tooltipPosition="top"
+              [ngClass]="{'disabled-icon': enlaces[0] && enlaces[0].id === enlace.id}"
+              [style.pointerEvents]="enlaces[0] && enlaces[0].id === enlace.id ? 'none' : 'auto'"
+              [style.opacity]="enlaces[0] && enlaces[0].id === enlace.id ? 0.5 : 1"
+            ></i>
+
+            <i 
+              class="pi pi-chevron-down action-icon text-warning fw-bold" 
+              (click)="cambiarOrden(enlace.id, 'down')" *ngIf="permisoEditar | async"
+              pTooltip="Bajar" 
+              tooltipPosition="top"
+              [ngClass]="{'disabled-icon': enlaces[enlaces.length - 1] && enlaces[enlaces.length - 1].id === enlace.id}"
+              [style.pointerEvents]="enlaces[enlaces.length - 1] && enlaces[enlaces.length - 1].id === enlace.id ? 'none' : 'auto'"
+              [style.opacity]="enlaces[enlaces.length - 1] && enlaces[enlaces.length - 1].id === enlace.id ? 0.5 : 1"
+            ></i>
+            
+            <i class="pi pi-pencil action-icon edit-icon" 
+                (click)="editar(enlace.id)" *ngIf="permisoEditar | async"
+                pTooltip="Editar" 
+                tooltipPosition="top"></i>
+            
+            <i class="pi pi-trash action-icon delete-icon" 
+                (click)="confirmDelete($event, enlace.id)" 
+                pTooltip="Eliminar" *ngIf="permisoEliminar | async"
+                tooltipPosition="top"></i>
+
+            <img id="icono-{{enlace.id}}" [src]="cargarIcono(enlace.estado)" style="width: 48px; cursor: pointer;" 
+                (click)="onToggleChange(enlace)" 
+                [pTooltip]="validarEstado(!enlace.estado)"
+                [pTooltip]="enlace.estado ? 'Desactivar' : 'Activar'" 
+                tooltipPosition="top"
+                *ngIf="permisoEditar | async" />
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<div class="row">
+    <div class="col-12 text-center">
+      <button (click)="anterior()" class="btn button-secondary btn-lg add-button text-white me-2" type="button">
+        <i class="pi pi-chevron-left"></i> Anterior
+      </button>
+    </div>
+</div>
+
+<p-dialog [(visible)]="displayModal" [modal]="true" [closable]="true" header="{{formulario.id === 0 ? 'Agregar' : 'Editar'}} Enlace de Interés" [style]="{ width: '800px' }">
+  <div class="row">
+    <div class="col-12">
+      <div class="row mb-3 align-items-center">
+        <div class="col-12 p-fluid">
+          <label class="form-label fw-bold mb-0" for="titulo">Título</label>
+          <input pInputText type="text" id="titulo" [(ngModel)]="formulario.titulo" name="titulo" class="w-100" />
+          <div *ngIf="submitted && (formulario.titulo === '')" class="text-danger">
+            Campo requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3 align-items-center">
+        <div class="col-12 p-fluid">
+          <label class="form-label fw-bold mb-0" for="descripcion">Descripción</label>
+          <textarea pInputTextarea id="descripcion" [(ngModel)]="formulario.descripcion" name="descripcion" 
+            class="w-100" rows="3"></textarea>
+        </div>
+      </div>
+
+      <div class="row mb-3 align-items-center">
+        <div class="col-12 p-fluid">
+          <label class="form-label fw-bold mb-0" for="url">URL</label>
+          <div class="d-flex gap-2">
+            <input pInputText type="text" id="url" [(ngModel)]="formulario.url" name="url" class="w-100" 
+              (blur)="validarUrl()" placeholder="https://..." />
+            <button type="button" class="btn btn-outline-secondary btn-sm" (click)="validarUrl()" [disabled]="validandoUrl">
+              <i class="pi" [ngClass]="validandoUrl ? 'pi-spin pi-spinner' : 'pi-link'"></i>
+            </button>
+          </div>
+          <div *ngIf="submitted && (formulario.url === '')" class="text-danger">
+            Campo requerido
+          </div>
+          <div *ngIf="urlError" class="text-danger">
+            {{ urlError }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-12 p-fluid d-flex align-items-center">
+          <p-checkbox [(ngModel)]="targetNewTab" inputId="targetNewTab" [binary]="true" class="me-2"></p-checkbox>
+          <label for="targetNewTab">Abrir enlace en una pestaña nueva</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="w-100 d-flex justify-content-end mt-3">
+    <button class="btn button-success btn-lg add-button" (click)="onSubmit()">
+      <i class="pi pi-plus"></i> Guardar
+    </button>
+  </div>
+</p-dialog>
+
+<p-toast />
+
+<app-msg-box
+  [visible]="visible"
+  [msgTexto]="msg"
+  [msgTipo]="msgTipo"
+  [msgBotones]="msgBotones"
+  [width]="'25vw'"
+  (close)="onHide($event)">
+</app-msg-box>

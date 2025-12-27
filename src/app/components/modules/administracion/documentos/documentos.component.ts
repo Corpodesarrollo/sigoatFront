@@ -21,7 +21,7 @@ import { ResponseModel } from '../../../../models/response.model';
 import { PaginasService } from '../../../../services/paginas.service';
 import { MsgBoxComponent } from '../../../shared/msg-box/msg-box.component';
 import { Anexos } from '../../../../models/anexos.model';
-import { AnexosService } from '../../../../services/anexoss.service';
+import { AnexosService } from '../../../../services/anexos.service';
 import { StepsComponent } from "../../../shared/steps/steps.component";
 import { environment } from '../../../../../environments/environment';
 import { permiso } from '../../../../models/permiso';

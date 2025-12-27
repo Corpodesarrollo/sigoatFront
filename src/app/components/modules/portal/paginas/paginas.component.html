@@ -3,7 +3,7 @@
   <app-carrusel [id]="id" *ngIf="!enMantenimiento"></app-carrusel>
   <div class="container mt-3" *ngIf="!enMantenimiento">
     <app-main-section [id]="id"></app-main-section>
-    <app-documentos [id]="id"></app-documentos>
+    <app-enlaces-interes [id]="id"></app-enlaces-interes>
   </div>
   <div class="container mt-3" style="display: var(--ver-redes);">
     <app-viewerRedesSociales />

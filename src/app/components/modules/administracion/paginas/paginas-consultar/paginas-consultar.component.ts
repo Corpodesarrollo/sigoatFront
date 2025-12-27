@@ -61,7 +61,7 @@ export class PaginasConsultarComponent {
 
     this.items = [
       { label: 'Carrusel', icon: 'pi pi-image', command: () => this.router.navigate(['/carrusel', this.idSeleccionado]) },
-      { label: 'Documentos', icon: 'pi pi-file', command: () => this.router.navigate(['/documentos', this.idSeleccionado]) },
+      { label: 'Enlaces de Interes', icon: 'pi pi-file', command: () => this.router.navigate(['/enlacesInteres', this.idSeleccionado]) },
       { label: 'Noticias', icon: 'pi pi-book', command: () => this.router.navigate(['/noticias', this.idSeleccionado]) },
     ];
   }

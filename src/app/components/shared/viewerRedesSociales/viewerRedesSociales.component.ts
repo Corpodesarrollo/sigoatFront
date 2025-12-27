@@ -1,8 +1,5 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MainSectionComponent } from "../main-section/main-section.component";
-import { DocumentosComponent } from "../documentos/documentos.component";
-import { CarruselComponent } from "../carrusel/carrusel.component";
 import { RedesSociales } from '../../../models/redes-sociales.model';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { RedesSocialesService } from '../../../services/redesSociales.service';
@@ -12,7 +9,7 @@ import { redesSociales } from '../../../models/redesSociales';
 @Component({
   selector: 'app-viewerRedesSociales',
   standalone: true,
-  imports: [CommonModule, MainSectionComponent, DocumentosComponent, CarruselComponent],
+  imports: [CommonModule],
   templateUrl: './viewerRedesSociales.component.html',
   styleUrl: './viewerRedesSociales.component.css'
 })

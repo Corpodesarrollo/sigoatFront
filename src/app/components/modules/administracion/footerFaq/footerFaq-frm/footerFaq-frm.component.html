@@ -1,0 +1,56 @@
+<div class="p-4">
+  <div class="container-fluid">
+
+      <!-- Pregunta -->
+      <div class="row align-items-center mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="pregunta">Pregunta</label>
+        </div>
+        <div class="col-md-9">
+          <input pInputText type="text" id="pregunta" [(ngModel)]="formulario.pregunta" class="w-100" />
+          <div *ngIf="submitted && (!formulario.pregunta || formulario.pregunta.trim() === '')" class="text-danger">
+              Campo requerido
+          </div>
+        </div>
+      </div>
+
+      <!-- Respuesta -->
+      <div class="row mb-3 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="respuesta">Respuesta</label>
+        </div>
+        <div class="col-md-9">
+          <p-editor id="respuesta" [(ngModel)]="formulario.respuesta" [style]="{'height':'200px'}" />
+          <div *ngIf="submitted && (!formulario.respuesta || formulario.respuesta.trim() === '')" class="text-danger">
+              Campo requerido
+          </div>
+        </div>
+      </div>
+
+      <!-- Destacado -->
+      <div class="row align-items-center mb-5 p-fluid">
+        <div class="col-md-3">
+          <label class="form-label fw-bold mb-0" for="destacado">Destacado</label>
+        </div>
+        <div class="col-md-9">
+          <p-inputSwitch [(ngModel)]="formulario.destacado" class="custom-switch" />
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="row mt-3">
+        <div class="col-md-12 text-end">
+          <button type="button" (click)="cancelar()" class="btn button-secondary btn-lg add-button me-2">Cancelar</button>
+          <button type="button" (click)="onSubmit()" class="btn button-success btn-lg add-button">Guardar</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<app-msg-box
+  [visible]="visible"
+  [msgTexto]="msg"
+  [msgTipo]="MsgTipo.Success"
+  [error]="error"
+  [width]="'25vw'"
+  (close)="onHide($event)">
